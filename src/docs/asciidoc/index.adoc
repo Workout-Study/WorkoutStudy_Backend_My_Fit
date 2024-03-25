@@ -23,4 +23,34 @@ endif::[]
 |===
 
 [[my-fit-Service-API]]
-== 1.
+== 1. fit-record
+
+=== Register Fit Group
+
+http-request
+
+include::{snippets}/register-fit-record/http-request.adoc[]
+
+request-fields
+
+include::{snippets}/register-fit-record/request-fields.adoc[]
+
+request-body
+
+include::{snippets}/register-fit-record/request-body.adoc[]
+
+curl-request
+
+include::{snippets}/register-fit-record/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/register-fit-record/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/register-fit-record/response-body.adoc[]
+
+http-response
+
+include::{snippets}/register-fit-record/http-response.adoc[]
