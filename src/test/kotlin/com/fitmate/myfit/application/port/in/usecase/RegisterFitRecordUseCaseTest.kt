@@ -2,8 +2,9 @@ package com.fitmate.myfit.application.port.`in`.usecase
 
 import com.fitmate.myfit.application.port.`in`.command.RegisterFitRecordCommand
 import com.fitmate.myfit.application.port.out.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.ReadRecordMultiMediaEndPointPort
 import com.fitmate.myfit.application.port.out.RegisterFitRecordPort
-import com.fitmate.myfit.application.port.out.RegisterRecordMultiMediaEndPoint
+import com.fitmate.myfit.application.port.out.RegisterRecordMultiMediaEndPointPort
 import com.fitmate.myfit.application.service.service.FitRecordService
 import com.fitmate.myfit.domain.FitRecord
 import org.junit.jupiter.api.Assertions
@@ -30,7 +31,10 @@ class RegisterFitRecordUseCaseTest {
     private lateinit var registerFitRecordPort: RegisterFitRecordPort
 
     @Mock
-    private lateinit var registerRecordMultiMediaEndPoint: RegisterRecordMultiMediaEndPoint
+    private lateinit var registerRecordMultiMediaEndPointPort: RegisterRecordMultiMediaEndPointPort
+
+    @Mock
+    private lateinit var readRecordMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
 
     private val requestUserId = "testUserId"
     private val recordStartDate = Instant.now()

@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode
 import java.time.Instant
 
 @Entity
+@Table(indexes = [Index(columnList = "recordEndDate")])
 @EqualsAndHashCode
 class FitRecordEntity(
     @Column(nullable = false) var userId: String,

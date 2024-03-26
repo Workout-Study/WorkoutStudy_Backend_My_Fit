@@ -2,6 +2,8 @@ package com.fitmate.myfit.application.service.adapter
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitRecordRepository
+import com.fitmate.myfit.application.port.`in`.command.FitRecordFilterCommand
+import com.fitmate.myfit.application.port.`in`.command.FitRecordSliceFilterCommand
 import com.fitmate.myfit.application.port.out.ReadFitRecordPort
 import com.fitmate.myfit.application.port.out.RegisterFitRecordPort
 import com.fitmate.myfit.domain.FitRecord
@@ -21,4 +23,12 @@ class FitRecordPersistenceAdapter(
 
         return FitRecord.entityToDomain(savedFitRecordEntity)
     }
+
+    @Transactional(readOnly = true)
+    override fun sliceFilterFitRecord(fitRecordSliceFilterCommand: FitRecordSliceFilterCommand): List<FitRecord> =
+        fitRecordRepository.sliceByCommand(fitRecordSliceFilterCommand).map(FitRecord::entityToDomain).toList()
+
+    @Transactional(readOnly = true)
+    override fun filterFitRecord(fitRecordFilterCommand: FitRecordFilterCommand): List<FitRecord> =
+        fitRecordRepository.filterByCommand(fitRecordFilterCommand).map(FitRecord::entityToDomain).toList()
 }
