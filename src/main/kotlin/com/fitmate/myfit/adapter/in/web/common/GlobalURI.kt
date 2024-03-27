@@ -8,5 +8,7 @@ class GlobalURI {
         const val FIT_RECORD_ROOT = "$ROOT_URI/records"
         const val FIT_RECORD_FILTER = "$FIT_RECORD_ROOT/filters"
         const val FIT_RECORD_SLICE_FILTER = "$FIT_RECORD_FILTER/slice"
+
+        const val FIT_CERTIFICATION_ROOT = "$ROOT_URI/certifications"
     }
 }

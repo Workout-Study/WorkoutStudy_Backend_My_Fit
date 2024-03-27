@@ -3,10 +3,10 @@ package com.fitmate.myfit.adapter.`in`.web.fit.record.api
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordSliceFilterRequest
-import com.fitmate.myfit.application.port.`in`.command.FitRecordFilterCommand
-import com.fitmate.myfit.application.port.`in`.command.FitRecordSliceFilterCommand
-import com.fitmate.myfit.application.port.`in`.response.FitRecordDetailResponseDto
-import com.fitmate.myfit.application.port.`in`.usecase.ReadFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.ReadFitRecordUseCase
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any

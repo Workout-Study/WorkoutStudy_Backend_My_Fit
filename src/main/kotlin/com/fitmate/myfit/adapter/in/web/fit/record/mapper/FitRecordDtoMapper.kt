@@ -5,11 +5,11 @@ import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordSliceFilte
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitRecordDetailResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.RegisterFitRecordResponse
-import com.fitmate.myfit.application.port.`in`.command.FitRecordFilterCommand
-import com.fitmate.myfit.application.port.`in`.command.FitRecordSliceFilterCommand
-import com.fitmate.myfit.application.port.`in`.command.RegisterFitRecordCommand
-import com.fitmate.myfit.application.port.`in`.response.FitRecordDetailResponseDto
-import com.fitmate.myfit.application.port.`in`.response.RegisterFitRecordResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 

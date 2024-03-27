@@ -1,7 +1,7 @@
 package com.fitmate.myfit.adapter.`in`.web.fit.record.api
 
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
-import com.fitmate.myfit.application.port.`in`.usecase.ReadFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.ReadFitRecordUseCase
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EmptySource

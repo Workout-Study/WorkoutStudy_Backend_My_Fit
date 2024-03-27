@@ -5,8 +5,8 @@ import com.fitmate.myfit.adapter.`in`.web.fit.record.mapper.FitRecordDtoMapper
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordSliceFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitRecordDetailResponse
-import com.fitmate.myfit.application.port.`in`.response.FitRecordDetailResponseDto
-import com.fitmate.myfit.application.port.`in`.usecase.ReadFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.ReadFitRecordUseCase
 import jakarta.validation.Valid
 import org.springframework.data.domain.Slice
 import org.springframework.http.ResponseEntity

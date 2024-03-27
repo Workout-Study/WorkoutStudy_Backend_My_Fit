@@ -4,7 +4,7 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.mapper.FitRecordDtoMapper
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.RegisterFitRecordResponse
-import com.fitmate.myfit.application.port.`in`.usecase.RegisterFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

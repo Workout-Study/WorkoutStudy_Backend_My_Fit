@@ -2,8 +2,8 @@ package com.fitmate.myfit.adapter.out.persistence.repository
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.QFitRecordEntity.fitRecordEntity
-import com.fitmate.myfit.application.port.`in`.command.FitRecordFilterCommand
-import com.fitmate.myfit.application.port.`in`.command.FitRecordSliceFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
 import com.fitmate.myfit.common.SliceUtil
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Predicate
