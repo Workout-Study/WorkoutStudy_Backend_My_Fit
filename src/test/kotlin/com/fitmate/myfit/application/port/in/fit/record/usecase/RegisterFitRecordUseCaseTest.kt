@@ -1,10 +1,10 @@
 package com.fitmate.myfit.application.port.`in`.fit.record.usecase
 
 import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
-import com.fitmate.myfit.application.port.out.certification.ReadFitRecordPort
-import com.fitmate.myfit.application.port.out.certification.ReadRecordMultiMediaEndPointPort
-import com.fitmate.myfit.application.port.out.certification.RegisterFitRecordPort
-import com.fitmate.myfit.application.port.out.certification.RegisterRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterRecordMultiMediaEndPointPort
 import com.fitmate.myfit.application.service.service.FitRecordService
 import com.fitmate.myfit.domain.FitRecord
 import org.junit.jupiter.api.Assertions

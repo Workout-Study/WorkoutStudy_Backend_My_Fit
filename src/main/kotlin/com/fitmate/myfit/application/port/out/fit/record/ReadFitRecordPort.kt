@@ -1,4 +1,4 @@
-package com.fitmate.myfit.application.port.out.certification
+package com.fitmate.myfit.application.port.out.fit.record
 
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand

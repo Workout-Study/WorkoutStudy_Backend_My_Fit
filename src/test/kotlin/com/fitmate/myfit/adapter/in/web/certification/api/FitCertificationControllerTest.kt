@@ -1,11 +1,15 @@
 package com.fitmate.myfit.adapter.`in`.web.certification.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fitmate.myfit.adapter.`in`.web.certification.request.DeleteFitCertificationRequest
 import com.fitmate.myfit.adapter.`in`.web.certification.request.RegisterFitCertificationRequest
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
+import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitCertificationResponseDto
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
@@ -19,6 +23,7 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.*
+import org.springframework.restdocs.request.RequestDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
@@ -35,6 +40,9 @@ class FitCertificationControllerTest {
 
     @MockBean
     private lateinit var registerFitCertificationUseCase: RegisterFitCertificationUseCase
+
+    @MockBean
+    private lateinit var deleteFitCertificationUseCase: DeleteFitCertificationUseCase
 
     private val requestUserId = "testUserId"
     private val fitRecordId = 137L
@@ -75,6 +83,46 @@ class FitCertificationControllerTest {
                     responseFields(
                         fieldWithPath("isRegisterSuccess").type(JsonFieldType.BOOLEAN)
                             .description("등록 성공 여부")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("[단위][Web Adapter] Fit certification 삭제 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `delete fit certification controller success test`() {
+        //given
+        val deleteFitCertificationRequest =
+            DeleteFitCertificationRequest(requestUserId)
+        val deleteFitCertificationResponseDto = DeleteFitCertificationResponseDto(true)
+
+        whenever(deleteFitCertificationUseCase.deleteFitCertification(any<DeleteFitCertificationCommand>()))
+            .thenReturn(deleteFitCertificationResponseDto)
+        //when
+        val resultActions = mockMvc.perform(
+            delete(GlobalURI.FIT_CERTIFICATION_ROOT + GlobalURI.PATH_VARIABLE_FIT_CERTIFICATION_ID_WITH_BRACE, 137L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(deleteFitCertificationRequest))
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+            .andDo(
+                document(
+                    "delete-fit-certification",
+                    pathParameters(
+                        parameterWithName(GlobalURI.PATH_VARIABLE_FIT_CERTIFICATION_ID)
+                            .description("삭제할 Fit certification id")
+                    ),
+                    requestFields(
+                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                            .description("Fit certification을 삭제 요청한 User id")
+                    ),
+                    responseFields(
+                        fieldWithPath("isDeleteSuccess").type(JsonFieldType.BOOLEAN)
+                            .description("삭제 성공 여부")
                     )
                 )
             )

@@ -4,8 +4,8 @@ import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitRecordRepository
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
-import com.fitmate.myfit.application.port.out.certification.ReadFitRecordPort
-import com.fitmate.myfit.application.port.out.certification.RegisterFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterFitRecordPort
 import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.domain.FitRecord
 import org.springframework.stereotype.Component

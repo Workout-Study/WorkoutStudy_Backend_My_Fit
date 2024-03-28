@@ -3,9 +3,10 @@ package com.fitmate.myfit.application.port.`in`.certification.usecase
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
-import com.fitmate.myfit.application.port.out.certification.ReadFitRecordPort
-import com.fitmate.myfit.application.port.out.fit.record.ReadFitCertificationPort
-import com.fitmate.myfit.application.port.out.fit.record.RegisterFitCertificationPort
+import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
+import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
+import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
 import com.fitmate.myfit.application.service.service.FitCertificationService
 import com.fitmate.myfit.common.exceptions.BadRequestException
 import com.fitmate.myfit.common.exceptions.ResourceAlreadyExistException
@@ -40,6 +41,9 @@ class RegisterFitCertificationUseCaseTest {
 
     @Mock
     private lateinit var registerFitCertificationPort: RegisterFitCertificationPort
+
+    @Mock
+    private lateinit var updateFitCertificationPort: UpdateFitCertificationPort
 
     private val requestUserId = "testUserId"
     private val fitGroupIds = listOf(13L, 7L, 2L)
@@ -86,11 +90,12 @@ class RegisterFitCertificationUseCaseTest {
             )
         ).thenReturn(Optional.empty())
         whenever(
-            readFitCertificationPort.findByFitRecordAndFitGroupId(
+            readFitCertificationPort.findByFitRecordAndFitGroupIdAndCertificationStatusNot(
                 any<FitRecord>(),
-                any<Long>()
+                any<Long>(),
+                any<CertificationStatus>()
             )
-        ).thenReturn(Optional.empty())
+        ).thenReturn(emptyList())
         //when then
         Assertions.assertDoesNotThrow {
             registerFitCertificationUseCase.registerFitCertification(
@@ -217,11 +222,12 @@ class RegisterFitCertificationUseCaseTest {
             )
         ).thenReturn(Optional.empty())
         whenever(
-            readFitCertificationPort.findByFitRecordAndFitGroupId(
+            readFitCertificationPort.findByFitRecordAndFitGroupIdAndCertificationStatusNot(
                 any<FitRecord>(),
-                any<Long>()
+                any<Long>(),
+                any<CertificationStatus>()
             )
-        ).thenReturn(Optional.of(fitCertification[0]))
+        ).thenReturn(fitCertification)
         //when then
         Assertions.assertThrows(BadRequestException::class.java) {
             registerFitCertificationUseCase.registerFitCertification(

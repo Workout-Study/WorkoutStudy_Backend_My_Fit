@@ -1,4 +1,4 @@
-package com.fitmate.myfit.application.port.out.fit.record
+package com.fitmate.myfit.application.port.out.certification
 
 import com.fitmate.myfit.domain.FitCertification
 

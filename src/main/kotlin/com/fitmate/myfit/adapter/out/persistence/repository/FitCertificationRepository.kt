@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Long> {
-    fun findByFitRecordEntityAndFitGroupIdAndState(
+    fun findByFitRecordEntityAndFitGroupIdAndCertificationStatusNotAndState(
         fitRecordEntity: FitRecordEntity,
         fitGroupId: Long,
+        certificationStatus: CertificationStatus,
         state: Boolean
-    ): Optional<FitCertificationEntity>
+    ): List<FitCertificationEntity>
 
     fun findByUserIdAndFitGroupIdAndCertificationStatusAndState(
         userId: String,

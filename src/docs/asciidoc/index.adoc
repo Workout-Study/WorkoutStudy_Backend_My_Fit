@@ -130,3 +130,37 @@ include::{snippets}/register-fit-certification/response-body.adoc[]
 http-response
 
 include::{snippets}/register-fit-certification/http-response.adoc[]
+
+=== Delete Fit Certification
+
+path-parameters
+
+include::{snippets}/delete-fit-certification/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/delete-fit-certification/http-request.adoc[]
+
+request-fields
+
+include::{snippets}/delete-fit-certification/request-fields.adoc[]
+
+request-body
+
+include::{snippets}/delete-fit-certification/request-body.adoc[]
+
+curl-request
+
+include::{snippets}/delete-fit-certification/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/delete-fit-certification/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/delete-fit-certification/response-body.adoc[]
+
+http-response
+
+include::{snippets}/delete-fit-certification/http-response.adoc[]

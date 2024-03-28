@@ -10,5 +10,8 @@ class GlobalURI {
         const val FIT_RECORD_SLICE_FILTER = "$FIT_RECORD_FILTER/slice"
 
         const val FIT_CERTIFICATION_ROOT = "$ROOT_URI/certifications"
+
+        const val PATH_VARIABLE_FIT_CERTIFICATION_ID = "fit-certification-id"
+        const val PATH_VARIABLE_FIT_CERTIFICATION_ID_WITH_BRACE = "/{$PATH_VARIABLE_FIT_CERTIFICATION_ID}"
     }
 }

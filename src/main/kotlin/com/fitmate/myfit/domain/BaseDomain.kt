@@ -20,7 +20,7 @@ open class BaseDomain(
         this.state = entity.state
     }
 
-    fun delete() {
+    fun delete(requestUserId: String = this.createUser) {
         this.state = GlobalStatus.PERSISTENCE_DELETED
         this.updatedAt = Instant.now()
         this.updateUser = this.createUser

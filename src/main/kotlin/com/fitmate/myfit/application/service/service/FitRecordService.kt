@@ -7,10 +7,10 @@ import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDeta
 import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.ReadFitRecordUseCase
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
-import com.fitmate.myfit.application.port.out.certification.ReadFitRecordPort
-import com.fitmate.myfit.application.port.out.certification.ReadRecordMultiMediaEndPointPort
-import com.fitmate.myfit.application.port.out.certification.RegisterFitRecordPort
-import com.fitmate.myfit.application.port.out.certification.RegisterRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterRecordMultiMediaEndPointPort
 import com.fitmate.myfit.application.service.converter.FitRecordUseCaseConverter
 import com.fitmate.myfit.domain.FitRecord
 import com.fitmate.myfit.domain.FitRecordMultiMediaEndPoint
