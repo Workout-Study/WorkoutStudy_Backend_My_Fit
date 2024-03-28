@@ -2,13 +2,15 @@ package com.fitmate.myfit.application.service.adapter
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitRecordRepository
-import com.fitmate.myfit.application.port.`in`.command.FitRecordFilterCommand
-import com.fitmate.myfit.application.port.`in`.command.FitRecordSliceFilterCommand
-import com.fitmate.myfit.application.port.out.ReadFitRecordPort
-import com.fitmate.myfit.application.port.out.RegisterFitRecordPort
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
+import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterFitRecordPort
+import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.domain.FitRecord
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Component
 class FitRecordPersistenceAdapter(
@@ -31,4 +33,15 @@ class FitRecordPersistenceAdapter(
     @Transactional(readOnly = true)
     override fun filterFitRecord(fitRecordFilterCommand: FitRecordFilterCommand): List<FitRecord> =
         fitRecordRepository.filterByCommand(fitRecordFilterCommand).map(FitRecord::entityToDomain).toList()
+
+    @Transactional(readOnly = true)
+    override fun findById(fitRecordId: Long): Optional<FitRecord> {
+        val fitRecordEntityOpt = fitRecordRepository.findByIdAndState(fitRecordId, GlobalStatus.PERSISTENCE_NOT_DELETED)
+
+        return if (fitRecordEntityOpt.isPresent) {
+            Optional.of(
+                FitRecord.entityToDomain(fitRecordEntityOpt.get())
+            )
+        } else Optional.empty()
+    }
 }

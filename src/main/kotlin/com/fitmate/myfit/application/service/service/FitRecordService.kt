@@ -1,17 +1,17 @@
 package com.fitmate.myfit.application.service.service
 
-import com.fitmate.myfit.application.port.`in`.command.FitRecordFilterCommand
-import com.fitmate.myfit.application.port.`in`.command.FitRecordSliceFilterCommand
-import com.fitmate.myfit.application.port.`in`.command.RegisterFitRecordCommand
-import com.fitmate.myfit.application.port.`in`.response.FitRecordDetailResponseDto
-import com.fitmate.myfit.application.port.`in`.response.RegisterFitRecordResponseDto
-import com.fitmate.myfit.application.port.`in`.usecase.ReadFitRecordUseCase
-import com.fitmate.myfit.application.port.`in`.usecase.RegisterFitRecordUseCase
-import com.fitmate.myfit.application.port.out.ReadFitRecordPort
-import com.fitmate.myfit.application.port.out.ReadRecordMultiMediaEndPointPort
-import com.fitmate.myfit.application.port.out.RegisterFitRecordPort
-import com.fitmate.myfit.application.port.out.RegisterRecordMultiMediaEndPointPort
-import com.fitmate.myfit.application.service.converter.FollowUseCaseConverter
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.ReadFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
+import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.service.converter.FitRecordUseCaseConverter
 import com.fitmate.myfit.domain.FitRecord
 import com.fitmate.myfit.domain.FitRecordMultiMediaEndPoint
 import org.springframework.data.domain.Slice
@@ -48,7 +48,7 @@ class FitRecordService(
             registerRecordMultiMediaEndPointPort.saveAll(fitRecordMultiMediaEndPoints)
         }
 
-        return FollowUseCaseConverter.fitRecordToRegisterResponseDto(savedFitRecord)
+        return FitRecordUseCaseConverter.fitRecordToRegisterResponseDto(savedFitRecord)
     }
 
     /**

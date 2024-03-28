@@ -1,7 +1,7 @@
 package com.fitmate.myfit.domain
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
-import com.fitmate.myfit.application.port.`in`.command.RegisterFitRecordCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
 import com.fitmate.myfit.common.GlobalStatus
 import lombok.EqualsAndHashCode
 import java.time.Instant

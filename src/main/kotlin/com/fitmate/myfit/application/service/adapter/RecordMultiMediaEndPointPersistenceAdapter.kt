@@ -3,8 +3,8 @@ package com.fitmate.myfit.application.service.adapter
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordMultiMediaEndPointEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitRecordMultiMediaEndPointRepository
-import com.fitmate.myfit.application.port.out.ReadRecordMultiMediaEndPointPort
-import com.fitmate.myfit.application.port.out.RegisterRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.fit.record.RegisterRecordMultiMediaEndPointPort
 import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.domain.FitRecord
 import com.fitmate.myfit.domain.FitRecordMultiMediaEndPoint

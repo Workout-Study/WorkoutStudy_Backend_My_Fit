@@ -3,9 +3,9 @@ package com.fitmate.myfit.adapter.`in`.web.fit.record.api
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
-import com.fitmate.myfit.application.port.`in`.command.RegisterFitRecordCommand
-import com.fitmate.myfit.application.port.`in`.response.RegisterFitRecordResponseDto
-import com.fitmate.myfit.application.port.`in`.usecase.RegisterFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
