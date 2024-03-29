@@ -20,4 +20,10 @@ interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Lon
         certificationStatus: CertificationStatus,
         state: Boolean
     ): Optional<FitCertificationEntity>
+
+    fun findByFitRecordEntityAndCertificationStatusNotAndState(
+        fitRecordEntity: FitRecordEntity,
+        certificationStatus: CertificationStatus,
+        state: Boolean
+    ): List<FitCertificationEntity>
 }

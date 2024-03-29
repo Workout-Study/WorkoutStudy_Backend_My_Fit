@@ -101,6 +101,10 @@ class RegisterFitCertificationUseCaseTest {
             registerFitCertificationUseCase.registerFitCertification(
                 registerFitCertificationCommand
             )
+        }.also {
+            Assertions.assertTrue(
+                registerFitCertificationUseCase.registerFitCertification(registerFitCertificationCommand).isRegisterSuccess
+            )
         }
     }
 

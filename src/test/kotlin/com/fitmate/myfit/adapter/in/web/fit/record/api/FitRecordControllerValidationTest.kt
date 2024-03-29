@@ -4,14 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.DeleteFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
-import com.fitmate.myfit.application.port.`in`.fit.record.command.DeleteFitRecordCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
-import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.DeleteFitRecordUseCase
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EmptySource
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +20,6 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
-import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.restdocs.request.RequestDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
@@ -31,7 +29,7 @@ import java.time.Instant
 
 @WebMvcTest(FitRecordController::class)
 @AutoConfigureRestDocs
-class FitRecordControllerTest {
+class FitRecordControllerValidationTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -50,13 +48,14 @@ class FitRecordControllerTest {
     private val recordEndDate = recordStartDate.plusSeconds(100000)
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
 
-    @Test
-    @DisplayName("[단위][Web Adapter] Fit record 등록 - 성공 테스트")
+    @ParameterizedTest
+    @EmptySource
+    @DisplayName("[단위][Web Adapter] Fit record 등록 validation - 실패 테스트")
     @Throws(Exception::class)
-    fun `register fit record controller success test`() {
+    fun `register fit record controller user id validation fail test`(testUserId: String) {
         //given
         val registerFitRecordRequest =
-            RegisterFitRecordRequest(requestUserId, recordStartDate, recordEndDate, multiMediaEndPoint)
+            RegisterFitRecordRequest(testUserId, recordStartDate, recordEndDate, multiMediaEndPoint)
         val registerFitRecordResponseDto = RegisterFitRecordResponseDto(true)
 
         whenever(registerFitRecordUseCase.registerFitRecord(any<RegisterFitRecordCommand>()))
@@ -69,39 +68,18 @@ class FitRecordControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
         )
         //then
-        resultActions.andExpect(status().isCreated())
+        resultActions.andExpect(status().isBadRequest())
             .andDo(print())
-            .andDo(
-                document(
-                    "register-fit-record",
-                    requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
-                            .description("Fit record를 등록하는 User id"),
-                        fieldWithPath("recordStartDate").type(JsonFieldType.STRING)
-                            .description("기록 시작 시간"),
-                        fieldWithPath("recordEndDate").type(JsonFieldType.STRING)
-                            .description("기록 종료 시간"),
-                        fieldWithPath("multiMediaEndPoints").type(JsonFieldType.ARRAY)
-                            .description("멀티 미디어 end point list ( 주어진 index 순으로 return )")
-                    ),
-                    responseFields(
-                        fieldWithPath("isRegisterSuccess").type(JsonFieldType.BOOLEAN)
-                            .description("등록 성공 여부")
-                    )
-                )
-            )
     }
 
-    @Test
-    @DisplayName("[단위][Web Adapter] Fit record 삭제 - 성공 테스트")
+    @ParameterizedTest
+    @EmptySource
+    @DisplayName("[단위][Web Adapter] Fit record 삭제 user id validation - 실패 테스트")
     @Throws(Exception::class)
-    fun `delete fit record controller success test`() {
+    fun `delete fit record controller user id validation fail test`(testUserId: String) {
         //given
-        val deleteFitRecordRequest = DeleteFitRecordRequest(requestUserId)
-        val deleteFitRecordResponseDto = DeleteFitRecordResponseDto(true)
+        val deleteFitRecordRequest = DeleteFitRecordRequest(testUserId)
 
-        whenever(deleteFitRecordUseCase.deleteFitRecord(any<DeleteFitRecordCommand>()))
-            .thenReturn(deleteFitRecordResponseDto)
         //when
         val resultActions = mockMvc.perform(
             delete(
@@ -111,24 +89,7 @@ class FitRecordControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
         )
         //then
-        resultActions.andExpect(status().isOk())
+        resultActions.andExpect(status().isBadRequest())
             .andDo(print())
-            .andDo(
-                document(
-                    "delete-fit-record",
-                    pathParameters(
-                        parameterWithName(GlobalURI.PATH_VARIABLE_FIT_RECORD_ID)
-                            .description("삭제할 Fit record id")
-                    ),
-                    requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
-                            .description("Fit record를 삭제 요청한 User id")
-                    ),
-                    responseFields(
-                        fieldWithPath("isDeleteSuccess").type(JsonFieldType.BOOLEAN)
-                            .description("등록 성공 여부")
-                    )
-                )
-            )
     }
 }

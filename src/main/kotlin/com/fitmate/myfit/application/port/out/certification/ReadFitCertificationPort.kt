@@ -19,4 +19,9 @@ interface ReadFitCertificationPort {
     ): Optional<FitCertification>
 
     fun findById(fitCertificationId: Long): Optional<FitCertification>
+
+    fun findByFitRecordAndCertificationStatusNot(
+        fitRecord: FitRecord,
+        certificationStatus: CertificationStatus
+    ): List<FitCertification>
 }

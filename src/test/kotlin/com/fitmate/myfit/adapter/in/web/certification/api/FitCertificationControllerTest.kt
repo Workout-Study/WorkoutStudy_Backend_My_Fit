@@ -6,10 +6,10 @@ import com.fitmate.myfit.adapter.`in`.web.certification.request.RegisterFitCerti
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
+import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
-import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitCertificationResponseDto
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any

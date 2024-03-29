@@ -64,11 +64,9 @@ class RegisterFitCertificationUseCaseBootTest {
         )
 
         //when then
-        Assertions.assertDoesNotThrow {
-            registerFitCertificationUseCase.registerFitCertification(
-                registerFitCertificationCommand
-            )
-        }
+        Assertions.assertTrue(
+            registerFitCertificationUseCase.registerFitCertification(registerFitCertificationCommand).isRegisterSuccess
+        )
     }
 
     @Test

@@ -1,10 +1,9 @@
 package com.fitmate.myfit.application.port.`in`.fit.record.usecase
 
+import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
-import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
-import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
-import com.fitmate.myfit.application.port.out.fit.record.RegisterFitRecordPort
-import com.fitmate.myfit.application.port.out.fit.record.RegisterRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
+import com.fitmate.myfit.application.port.out.fit.record.*
 import com.fitmate.myfit.application.service.service.FitRecordService
 import com.fitmate.myfit.domain.FitRecord
 import org.junit.jupiter.api.Assertions
@@ -36,6 +35,12 @@ class RegisterFitRecordUseCaseTest {
     @Mock
     private lateinit var readRecordMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
 
+    @Mock
+    private lateinit var readFitCertificationPort: ReadFitCertificationPort
+
+    @Mock
+    private lateinit var updateFitRecordPort: UpdateFitRecordPort
+
     private val requestUserId = "testUserId"
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
@@ -52,11 +57,23 @@ class RegisterFitRecordUseCaseTest {
             multiMediaEndPoint
         )
 
-        val fitRecord = FitRecord.createByCommand(registerFitRecordCommand)
+        val fitRecordEntity = FitRecordEntity(
+            requestUserId,
+            recordStartDate,
+            recordEndDate
+        )
+        fitRecordEntity.id = 1225611L
+
+        val fitRecord = FitRecord.entityToDomain(fitRecordEntity)
 
         whenever(registerFitRecordPort.registerFitRecord(any<FitRecord>())).thenReturn(fitRecord)
         //when then
-        Assertions.assertDoesNotThrow { registerFitRecordUseCase.registerFitRecord(registerFitRecordCommand) }
+        var result = false
+
+        Assertions.assertDoesNotThrow {
+            result = registerFitRecordUseCase.registerFitRecord(registerFitRecordCommand).isRegisterSuccess
+        }
+            .also { Assertions.assertTrue(result) }
     }
 
     @Test
@@ -70,10 +87,22 @@ class RegisterFitRecordUseCaseTest {
             null
         )
 
-        val fitRecord = FitRecord.createByCommand(registerFitRecordCommand)
+        val fitRecordEntity = FitRecordEntity(
+            requestUserId,
+            recordStartDate,
+            recordEndDate
+        )
+        fitRecordEntity.id = 122561L
+
+        val fitRecord = FitRecord.entityToDomain(fitRecordEntity)
 
         whenever(registerFitRecordPort.registerFitRecord(any<FitRecord>())).thenReturn(fitRecord)
         //when then
-        Assertions.assertDoesNotThrow { registerFitRecordUseCase.registerFitRecord(registerFitRecordCommand) }
+        var result = false
+
+        Assertions.assertDoesNotThrow {
+            result = registerFitRecordUseCase.registerFitRecord(registerFitRecordCommand).isRegisterSuccess
+        }
+            .also { Assertions.assertTrue(result) }
     }
 }

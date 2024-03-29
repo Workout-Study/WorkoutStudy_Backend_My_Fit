@@ -55,6 +55,40 @@ http-response
 
 include::{snippets}/register-fit-record/http-response.adoc[]
 
+=== Delete Fit Group
+
+path-parameters
+
+include::{snippets}/delete-fit-record/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/delete-fit-record/http-request.adoc[]
+
+request-fields
+
+include::{snippets}/delete-fit-record/request-fields.adoc[]
+
+request-body
+
+include::{snippets}/delete-fit-record/request-body.adoc[]
+
+curl-request
+
+include::{snippets}/delete-fit-record/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/delete-fit-record/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/delete-fit-record/response-body.adoc[]
+
+http-response
+
+include::{snippets}/delete-fit-record/http-response.adoc[]
+
 === Fit Record Filter ( 사용자의 기록 기간으로 filtering )
 
 http-request

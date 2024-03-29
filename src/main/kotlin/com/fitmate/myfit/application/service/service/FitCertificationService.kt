@@ -2,10 +2,10 @@ package com.fitmate.myfit.application.service.service
 
 import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
+import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
-import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitCertificationResponseDto
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort

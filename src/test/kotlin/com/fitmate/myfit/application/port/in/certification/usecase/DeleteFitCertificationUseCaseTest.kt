@@ -92,11 +92,11 @@ class DeleteFitCertificationUseCaseTest {
             )
         )
         //when then
-        Assertions.assertDoesNotThrow {
+        Assertions.assertTrue(
             deleteFitCertificationUseCase.deleteFitCertification(
                 deleteFitCertificationCommand
-            )
-        }
+            ).isDeleteSuccess
+        )
     }
 
     @Test

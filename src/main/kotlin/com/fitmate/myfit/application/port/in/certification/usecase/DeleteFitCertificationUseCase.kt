@@ -1,7 +1,7 @@
 package com.fitmate.myfit.application.port.`in`.certification.usecase
 
 import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
-import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitCertificationResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
 
 interface DeleteFitCertificationUseCase {
 

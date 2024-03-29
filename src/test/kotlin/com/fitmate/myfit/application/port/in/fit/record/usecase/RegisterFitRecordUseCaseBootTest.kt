@@ -33,7 +33,7 @@ class RegisterFitRecordUseCaseBootTest {
         )
 
         //when then
-        Assertions.assertDoesNotThrow { registerFitRecordUseCase.registerFitRecord(registerFitRecordCommand) }
+        Assertions.assertTrue(registerFitRecordUseCase.registerFitRecord(registerFitRecordCommand).isRegisterSuccess)
     }
 
     @Test
@@ -48,6 +48,6 @@ class RegisterFitRecordUseCaseBootTest {
         )
 
         //when then
-        Assertions.assertDoesNotThrow { registerFitRecordUseCase.registerFitRecord(registerFitRecordCommand) }
+        Assertions.assertTrue(registerFitRecordUseCase.registerFitRecord(registerFitRecordCommand).isRegisterSuccess)
     }
 }

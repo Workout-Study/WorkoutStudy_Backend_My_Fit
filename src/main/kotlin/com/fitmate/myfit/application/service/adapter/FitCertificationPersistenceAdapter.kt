@@ -79,6 +79,25 @@ class FitCertificationPersistenceAdapter(
         else Optional.empty()
     }
 
+    @Transactional(readOnly = true)
+    override fun findByFitRecordAndCertificationStatusNot(
+        fitRecord: FitRecord,
+        certificationStatus: CertificationStatus
+    ): List<FitCertification> {
+        val fitRecordEntity = FitRecordEntity.domainToEntity(fitRecord)
+
+        val fitCertificationEntityList =
+            fitCertificationRepository.findByFitRecordEntityAndCertificationStatusNotAndState(
+                fitRecordEntity,
+                certificationStatus,
+                GlobalStatus.PERSISTENCE_NOT_DELETED
+            )
+
+        return if (fitCertificationEntityList.isEmpty()) {
+            emptyList()
+        } else fitCertificationEntityList.map { FitCertification.entityToDomain(it) }
+    }
+
     @Transactional
     override fun updateFitCertification(fitCertification: FitCertification) {
         val fitCertificationEntity = FitCertificationEntity.domainToEntity(fitCertification)
