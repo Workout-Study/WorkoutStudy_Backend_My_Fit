@@ -3,10 +3,8 @@ package com.fitmate.myfit.application.port.`in`.fit.record.usecase
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
-import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
-import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
-import com.fitmate.myfit.application.port.out.fit.record.RegisterFitRecordPort
-import com.fitmate.myfit.application.port.out.fit.record.RegisterRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
+import com.fitmate.myfit.application.port.out.fit.record.*
 import com.fitmate.myfit.application.service.service.FitRecordService
 import com.fitmate.myfit.domain.FitRecord
 import org.junit.jupiter.api.Assertions
@@ -38,6 +36,12 @@ class ReadFitRecordUseCaseTest {
 
     @Mock
     private lateinit var readRecordMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
+
+    @Mock
+    private lateinit var readFitCertificationPort: ReadFitCertificationPort
+
+    @Mock
+    private lateinit var updateFitRecordPort: UpdateFitRecordPort
 
     private val userId = "testUserId"
     private val recordStartDate = Instant.now()

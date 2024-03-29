@@ -6,8 +6,8 @@ import com.fitmate.myfit.adapter.`in`.web.certification.response.DeleteFitCertif
 import com.fitmate.myfit.adapter.`in`.web.certification.response.RegisterFitCertificationResponse
 import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
+import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
-import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitCertificationResponseDto
 
 class FitCertificationDtoMapper {
 

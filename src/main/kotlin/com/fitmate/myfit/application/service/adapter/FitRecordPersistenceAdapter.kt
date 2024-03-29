@@ -6,6 +6,7 @@ import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilte
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
 import com.fitmate.myfit.application.port.out.fit.record.RegisterFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.UpdateFitRecordPort
 import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.domain.FitRecord
 import org.springframework.stereotype.Component
@@ -15,7 +16,7 @@ import java.util.*
 @Component
 class FitRecordPersistenceAdapter(
     private val fitRecordRepository: FitRecordRepository
-) : ReadFitRecordPort, RegisterFitRecordPort {
+) : ReadFitRecordPort, RegisterFitRecordPort, UpdateFitRecordPort {
 
     @Transactional
     override fun registerFitRecord(fitRecord: FitRecord): FitRecord {
@@ -43,5 +44,11 @@ class FitRecordPersistenceAdapter(
                 FitRecord.entityToDomain(fitRecordEntityOpt.get())
             )
         } else Optional.empty()
+    }
+
+    @Transactional
+    override fun updateFitRecord(fitRecord: FitRecord) {
+        val fitRecordEntity = FitRecordEntity.domainToEntity(fitRecord)
+        fitRecordRepository.save(fitRecordEntity)
     }
 }

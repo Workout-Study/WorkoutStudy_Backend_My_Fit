@@ -1,7 +1,7 @@
 package com.fitmate.myfit.application.service.converter
 
+import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
-import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitCertificationResponseDto
 
 class FitCertificationUseCaseConverter private constructor() {
 

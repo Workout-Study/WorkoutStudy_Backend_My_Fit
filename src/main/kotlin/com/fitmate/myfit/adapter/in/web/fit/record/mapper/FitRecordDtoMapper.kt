@@ -1,13 +1,17 @@
 package com.fitmate.myfit.adapter.`in`.web.fit.record.mapper
 
+import com.fitmate.myfit.adapter.`in`.web.fit.record.request.DeleteFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordSliceFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
+import com.fitmate.myfit.adapter.`in`.web.fit.record.response.DeleteFitRecordResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitRecordDetailResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.RegisterFitRecordResponse
+import com.fitmate.myfit.application.port.`in`.fit.record.command.DeleteFitRecordCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
 import org.springframework.data.domain.PageRequest
@@ -54,5 +58,14 @@ class FitRecordDtoMapper private constructor() {
 
         fun dtoToFilteredRecordResponse(filterRecordResponseDtoList: List<FitRecordDetailResponseDto>): FitRecordDetailResponse =
             FitRecordDetailResponse(filterRecordResponseDtoList)
+
+        fun deleteRequestToCommand(
+            fitRecordId: Long,
+            request: DeleteFitRecordRequest
+        ): DeleteFitRecordCommand =
+            DeleteFitRecordCommand(fitRecordId, request.requestUserId)
+
+        fun dtoToDeleteResponse(dto: DeleteFitRecordResponseDto): DeleteFitRecordResponse =
+            DeleteFitRecordResponse(dto.isDeleteSuccess)
     }
 }
