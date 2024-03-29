@@ -8,7 +8,7 @@ data class FitRecordFilterCommand(
     @field:NotEmpty val userId: String,
     val recordEndStartDate: Instant,
     val recordEndEndDate: Instant
-) : SelfValidating<FitRecordSliceFilterCommand>() {
+) : SelfValidating<FitRecordFilterCommand>() {
 
     init {
         this.validateSelf()
