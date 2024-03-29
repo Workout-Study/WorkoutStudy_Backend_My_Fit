@@ -164,3 +164,35 @@ include::{snippets}/delete-fit-certification/response-body.adoc[]
 http-response
 
 include::{snippets}/delete-fit-certification/http-response.adoc[]
+
+== 3. vote
+
+=== Register vote
+
+http-request
+
+include::{snippets}/register-vote/http-request.adoc[]
+
+request-fields
+
+include::{snippets}/register-vote/request-fields.adoc[]
+
+request-body
+
+include::{snippets}/register-vote/request-body.adoc[]
+
+curl-request
+
+include::{snippets}/register-vote/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/register-vote/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/register-vote/response-body.adoc[]
+
+http-response
+
+include::{snippets}/register-vote/http-response.adoc[]
