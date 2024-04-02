@@ -2,8 +2,12 @@ package com.fitmate.myfit.adapter.`in`.web.vote.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
+import com.fitmate.myfit.adapter.`in`.web.vote.request.DeleteVoteRequest
 import com.fitmate.myfit.adapter.`in`.web.vote.request.RegisterVoteRequest
+import com.fitmate.myfit.adapter.`in`.web.vote.request.UpdateVoteRequest
+import com.fitmate.myfit.application.port.`in`.vote.usecase.DeleteVoteUseCase
 import com.fitmate.myfit.application.port.`in`.vote.usecase.RegisterVoteUseCase
+import com.fitmate.myfit.application.port.`in`.vote.usecase.UpdateVoteUseCase
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EmptySource
@@ -30,6 +34,12 @@ class VoteControllerValidationTest {
     @MockBean
     private lateinit var registerVoteUseCase: RegisterVoteUseCase
 
+    @MockBean
+    private lateinit var deleteVoteUseCase: DeleteVoteUseCase
+
+    @MockBean
+    private lateinit var updateVoteUseCase: UpdateVoteUseCase
+
     private val requestUserId = "testUserId"
     private val agree = true
     private val targetCategory = 1
@@ -37,9 +47,9 @@ class VoteControllerValidationTest {
 
     @ParameterizedTest
     @EmptySource
-    @DisplayName("[단위][Web Adapter] Vote 등록 - 성공 테스트")
+    @DisplayName("[단위][Web Adapter] Vote 등록 user id validation - 실패 테스트")
     @Throws(Exception::class)
-    fun `register vote controller success test`(testUserId: String) {
+    fun `register vote controller user id validation fail test`(testUserId: String) {
         //given
         val registerVoteRequest =
             RegisterVoteRequest(testUserId, agree, targetCategory, targetId)
@@ -49,6 +59,48 @@ class VoteControllerValidationTest {
             post(GlobalURI.VOTE_ROOT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(registerVoteRequest))
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isBadRequest())
+            .andDo(print())
+    }
+
+    @ParameterizedTest
+    @EmptySource
+    @DisplayName("[단위][Web Adapter] Vote 삭제 user id validation - 실패 테스트")
+    @Throws(Exception::class)
+    fun `delete vote controller user id validation fail test`(testUserId: String) {
+        //given
+        val deleteVoteRequest =
+            DeleteVoteRequest(testUserId, targetCategory, targetId)
+
+        //when
+        val resultActions = mockMvc.perform(
+            delete(GlobalURI.VOTE_ROOT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(deleteVoteRequest))
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isBadRequest())
+            .andDo(print())
+    }
+
+    @ParameterizedTest
+    @EmptySource
+    @DisplayName("[단위][Web Adapter] Vote 수정 user id validation - 실패 테스트")
+    @Throws(Exception::class)
+    fun `update vote controller user id validation fail test`(testUserId: String) {
+        //given
+        val updateVoteRequest =
+            UpdateVoteRequest(testUserId, agree, targetCategory, targetId)
+
+        //when
+        val resultActions = mockMvc.perform(
+            put(GlobalURI.VOTE_ROOT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateVoteRequest))
                 .accept(MediaType.APPLICATION_JSON)
         )
         //then
