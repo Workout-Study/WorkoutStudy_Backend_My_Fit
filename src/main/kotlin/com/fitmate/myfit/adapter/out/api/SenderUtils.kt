@@ -23,6 +23,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.netty.http.client.HttpClient
 import reactor.netty.transport.logging.AdvancedByteBufFormat
+import java.io.StringReader
 import java.time.Duration
 import java.util.function.Consumer
 
@@ -86,7 +87,19 @@ class SenderUtils(
                 objectMapper.writeValueAsString(jsonData)
             )
 
-            val responseEntity: ResponseEntity<T>? = request.retrieve().toEntity(responseClass).block()
+            val responseEntity: ResponseEntity<T>? = request
+                .retrieve()
+                .bodyToMono(String::class.java)
+                .map { body ->
+                    logger?.info("WebClient Response body: {}", body)
+
+                    val jsonParser = objectMapper.factory.createParser(StringReader(body))
+
+                    val transformedBody: T =
+                        objectMapper.readValue(jsonParser, objectMapper.constructType(responseClass.type))
+                    ResponseEntity.ok().body(transformedBody)
+                }
+                .block()
 
             afterTime = System.currentTimeMillis()
             theSec = (afterTime - beforeTime) / 1000
