@@ -45,4 +45,10 @@ class GlobalExceptionHandler {
         logger?.info("ResourceAlreadyExistException", resourceAlreadyExistException)
         return ResponseEntity.badRequest().body(resourceAlreadyExistException.message)
     }
+
+    @ExceptionHandler(NotExpectResultException::class)
+    fun notExpectResultException(notExpectResultException: NotExpectResultException): ResponseEntity<String> {
+        logger?.info("NotExpectResultException", notExpectResultException)
+        return ResponseEntity.badRequest().body(notExpectResultException.message)
+    }
 }

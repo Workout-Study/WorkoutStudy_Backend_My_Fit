@@ -1,6 +1,5 @@
 package com.fitmate.myfit.adapter.`in`.event.consumer
 
-import com.fitmate.myfit.adapter.`in`.event.dto.FitGroupDto
 import com.fitmate.myfit.adapter.`in`.event.mapper.FitGroupForReadMapper
 import com.fitmate.myfit.application.port.`in`.fit.group.usecase.RegisterFitGroupUseCase
 import com.fitmate.myfit.common.GlobalStatus
@@ -22,13 +21,9 @@ class FitGroupEventConsumer(private val registerFitGroupUseCase: RegisterFitGrou
      * @param fitGroupDto data about fit group
      */
     @KafkaListener(topics = [GlobalStatus.KAFKA_TOPIC_FIT_GROUP], groupId = GlobalStatus.KAFKA_GROUP_ID)
-    fun fitGroupListener(fitGroupDto: FitGroupDto) {
-        logger?.info(
-            "KafkaListener FitGroupEvent with fitGroupListener start - fit group id = {}, data = {}",
-            fitGroupDto.fitGroupId,
-            fitGroupDto
-        )
-        val saveFitGroupForReadCommand = FitGroupForReadMapper.saveDtoToCommand(fitGroupDto, "kafka")
+    fun fitGroupListener(fitGroupId: String) {
+        logger?.info("KafkaListener FitGroupEvent with fitGroupListener start - fit group id = {}", fitGroupId)
+        val saveFitGroupForReadCommand = FitGroupForReadMapper.saveFitGroupRequestToCommand(fitGroupId, "kafka")
         registerFitGroupUseCase.saveFitGroupForRead(saveFitGroupForReadCommand)
     }
 }

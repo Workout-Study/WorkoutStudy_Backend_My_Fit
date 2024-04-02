@@ -2,6 +2,7 @@ package com.fitmate.myfit.domain
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitGroupForReadEntity
 import com.fitmate.myfit.application.port.`in`.fit.group.command.SaveFitGroupForReadCommand
+import com.fitmate.myfit.application.service.dto.FitGroupResponseDto
 import java.time.Instant
 
 class FitGroupForRead private constructor(
@@ -14,27 +15,16 @@ class FitGroupForRead private constructor(
     createUser: String
 ) : BaseDomain(state, createdAt = Instant.now(), createUser) {
 
-    fun updateByCommand(command: SaveFitGroupForReadCommand) {
-        this.fitGroupName = command.fitGroupName
-        this.cycle = command.cycle
-        this.frequency = command.frequency
-        this.state = command.state
+    fun updateByFitGroupDetail(dto: FitGroupResponseDto, command: SaveFitGroupForReadCommand) {
+        this.fitGroupName = dto.fitGroupName
+        this.cycle = dto.cycle
+        this.frequency = dto.frequency
+        this.state = dto.state
         this.updatedAt = Instant.now()
         this.updateUser = command.eventPublisher
     }
 
     companion object {
-
-        fun createByCommand(command: SaveFitGroupForReadCommand): FitGroupForRead =
-            FitGroupForRead(
-                null,
-                command.fitGroupId,
-                command.fitGroupName,
-                command.cycle,
-                command.frequency,
-                command.state,
-                command.eventPublisher
-            )
 
         fun entityToDomain(entity: FitGroupForReadEntity): FitGroupForRead {
             val fitGroupForRead = FitGroupForRead(
@@ -51,5 +41,19 @@ class FitGroupForRead private constructor(
 
             return fitGroupForRead
         }
+
+        fun createByFitGroupDetail(
+            fitGroupDetail: FitGroupResponseDto,
+            command: SaveFitGroupForReadCommand
+        ): FitGroupForRead =
+            FitGroupForRead(
+                null,
+                fitGroupDetail.fitGroupId,
+                fitGroupDetail.fitGroupName,
+                fitGroupDetail.cycle,
+                fitGroupDetail.frequency,
+                fitGroupDetail.state,
+                command.eventPublisher
+            )
     }
 }

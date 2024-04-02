@@ -5,11 +5,7 @@ import jakarta.validation.constraints.NotEmpty
 
 data class SaveFitGroupForReadCommand(
     val fitGroupId: Long,
-    @field:NotEmpty val fitGroupName: String,
-    val cycle: Int,
-    val frequency: Int,
-    val state: Boolean,
-    val eventPublisher: String
+    @field:NotEmpty val eventPublisher: String
 ) : SelfValidating<SaveFitGroupForReadCommand>() {
 
     init {

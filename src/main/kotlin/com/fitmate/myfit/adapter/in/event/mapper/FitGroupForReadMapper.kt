@@ -1,18 +1,22 @@
 package com.fitmate.myfit.adapter.`in`.event.mapper
 
-import com.fitmate.myfit.adapter.`in`.event.dto.FitGroupDto
 import com.fitmate.myfit.application.port.`in`.fit.group.command.SaveFitGroupForReadCommand
+import com.fitmate.myfit.common.exceptions.BadRequestException
 
 class FitGroupForReadMapper {
 
     companion object {
-        fun saveDtoToCommand(dto: FitGroupDto, eventPublisher: String): SaveFitGroupForReadCommand {
+        fun saveFitGroupRequestToCommand(fitGroupId: String, eventPublisher: String): SaveFitGroupForReadCommand {
+            val fitGroupIdLong: Long
+
+            try {
+                fitGroupIdLong = fitGroupId.toLong()
+            } catch (exception: Exception) {
+                throw BadRequestException("fit group must be long")
+            }
+
             return SaveFitGroupForReadCommand(
-                dto.fitGroupId,
-                dto.fitGroupName,
-                dto.cycle,
-                dto.frequency,
-                dto.state,
+                fitGroupIdLong,
                 eventPublisher
             )
         }

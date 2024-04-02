@@ -1,6 +1,6 @@
-package com.fitmate.myfit.adapter.`in`.event.dto
+package com.fitmate.myfit.application.service.dto
 
-data class FitGroupDto(
+data class FitGroupResponseDto(
     val fitGroupId: Long,
     val fitGroupName: String,
     val cycle: Int,
