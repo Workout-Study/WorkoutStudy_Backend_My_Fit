@@ -3,7 +3,7 @@ package com.fitmate.myfit.application.port.`in`.fit.group.usecase
 import com.fitmate.myfit.application.port.`in`.fit.group.command.SaveFitGroupForReadCommand
 import com.fitmate.myfit.application.port.`in`.fit.group.response.SaveFitGroupForReadResponseDto
 
-interface RegisterFitGroupUseCase {
+interface SaveFitGroupUseCase {
 
     /**
      * register fit group data if not exist.
