@@ -290,3 +290,27 @@ include::{snippets}/update-vote/response-body.adoc[]
 http-response
 
 include::{snippets}/update-vote/http-response.adoc[]
+
+== 4. my fit
+
+=== Fit Certification Progress
+
+http-request
+
+include::{snippets}/fit-certification-progress/http-request.adoc[]
+
+curl-request
+
+include::{snippets}/fit-certification-progress/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/fit-certification-progress/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/fit-certification-progress/response-body.adoc[]
+
+http-response
+
+include::{snippets}/fit-certification-progress/http-response.adoc[]

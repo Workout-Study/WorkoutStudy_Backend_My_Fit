@@ -4,4 +4,5 @@ import com.fitmate.myfit.domain.FitMateForRead
 
 interface ReadFitMateForReadPort {
     fun findByFitGroupId(fitGroupId: Long): List<FitMateForRead>
+    fun findByFitMateUserId(userId: String): List<FitMateForRead>
 }

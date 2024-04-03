@@ -32,4 +32,17 @@ class FitMateForReadPersistenceAdapter(
         val fitMateForReadEntity = FitMateForReadEntity.domainToEntity(fitMateForRead)
         fitMateForReadRepository.save(fitMateForReadEntity)
     }
+
+    @Transactional(readOnly = true)
+    override fun findByFitMateUserId(userId: String): List<FitMateForRead> {
+        val fitMateForReadEntityList =
+            fitMateForReadRepository.findByFitMateUserIdAndState(
+                userId,
+                GlobalStatus.PERSISTENCE_NOT_DELETED
+            )
+
+        return if (fitMateForReadEntityList.isEmpty()) {
+            emptyList()
+        } else fitMateForReadEntityList.map { FitMateForRead.entityToDomain(it) }
+    }
 }

@@ -12,6 +12,7 @@ import com.fitmate.myfit.domain.FitCertification
 import com.fitmate.myfit.domain.FitRecord
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 import java.util.*
 
 @Component
@@ -103,4 +104,19 @@ class FitCertificationPersistenceAdapter(
         val fitCertificationEntity = FitCertificationEntity.domainToEntity(fitCertification)
         fitCertificationRepository.save(fitCertificationEntity)
     }
+
+    @Transactional(readOnly = true)
+    override fun countByUserIdAndFitGroupIdAndCertificationStatusAndDateGreaterThanEqual(
+        userId: String,
+        fitGroupId: Long,
+        certified: CertificationStatus,
+        instant: Instant
+    ): Int =
+        fitCertificationRepository
+            .countByUserIdAndFitGroupIdAndCertificationStatusAndCreatedAtGreaterThanEqual(
+                userId,
+                fitGroupId,
+                certified,
+                instant
+            )
 }
