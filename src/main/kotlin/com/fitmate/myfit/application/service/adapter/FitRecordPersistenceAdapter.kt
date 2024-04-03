@@ -21,9 +21,7 @@ class FitRecordPersistenceAdapter(
     @Transactional
     override fun registerFitRecord(fitRecord: FitRecord): FitRecord {
         val fitRecordEntity = FitRecordEntity.domainToEntity(fitRecord)
-
         val savedFitRecordEntity: FitRecordEntity = fitRecordRepository.save(fitRecordEntity)
-
         return FitRecord.entityToDomain(savedFitRecordEntity)
     }
 
