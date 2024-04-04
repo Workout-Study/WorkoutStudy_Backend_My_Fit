@@ -293,7 +293,7 @@ include::{snippets}/update-vote/http-response.adoc[]
 
 == 4. my fit
 
-=== Fit Certification Progress
+=== Fit Certification Progress ( 인증 진척도 )
 
 http-request
 
@@ -314,3 +314,25 @@ include::{snippets}/fit-certification-progress/response-body.adoc[]
 http-response
 
 include::{snippets}/fit-certification-progress/http-response.adoc[]
+
+=== Need Vote Fit Certification List ( 투표 필요 인증 목록 )
+
+http-request
+
+include::{snippets}/need-vote-certification/http-request.adoc[]
+
+curl-request
+
+include::{snippets}/need-vote-certification/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/need-vote-certification/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/need-vote-certification/response-body.adoc[]
+
+http-response
+
+include::{snippets}/need-vote-certification/http-response.adoc[]

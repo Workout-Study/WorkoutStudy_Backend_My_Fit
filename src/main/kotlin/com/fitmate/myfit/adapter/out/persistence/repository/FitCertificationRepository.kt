@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.time.Instant
 import java.util.*
 
-interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Long> {
+interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Long>, QFitCertificationRepository {
     fun findByFitRecordEntityAndFitGroupIdAndCertificationStatusNotAndState(
         fitRecordEntity: FitRecordEntity,
         fitGroupId: Long,

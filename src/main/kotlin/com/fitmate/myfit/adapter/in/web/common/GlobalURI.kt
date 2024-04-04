@@ -22,5 +22,7 @@ class GlobalURI {
         const val MY_FIT_ROOT = "$ROOT_URI/my-fits"
         const val MY_FIT_CERTIFICATION = "$MY_FIT_ROOT/certifications"
         const val MY_FIT_CERTIFICATION_PROGRESS = "$MY_FIT_CERTIFICATION/progresses"
+
+        const val MY_FIT_NEED_VOTE_CERTIFICATION = "$MY_FIT_CERTIFICATION/need-votes"
     }
 }

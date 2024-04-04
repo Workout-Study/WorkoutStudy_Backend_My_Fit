@@ -2,6 +2,7 @@ package com.fitmate.myfit.adapter.`in`.web.my.fit.api
 
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.FitCertificationProgressFilterRequest
+import com.fitmate.myfit.adapter.`in`.web.my.fit.request.NeedVoteCertificationFilterRequest
 import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitGroupForReadEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitMateForReadEntity
@@ -128,6 +129,21 @@ class MyFitControllerBootTest {
                 it.certificationStatus = CertificationStatus.CERTIFIED
                 fitCertificationRepository.save(FitCertificationEntity.domainToEntity(it))
             }
+
+            val otherFitCertificationCommand = RegisterFitCertificationCommand(
+                "otherUserId$i",
+                fitRecord.id!!,
+                fitGroupIds
+            )
+
+            val otherFitCertificationList = FitCertification.createFitCertificationsByCommand(
+                FitRecord.entityToDomain(fitRecord),
+                otherFitCertificationCommand
+            )
+            otherFitCertificationList.forEach {
+                it.certificationStatus = CertificationStatus.CERTIFIED
+                fitCertificationRepository.save(FitCertificationEntity.domainToEntity(it))
+            }
         }
     }
 
@@ -147,6 +163,30 @@ class MyFitControllerBootTest {
         //when
         val resultActions = mockMvc.perform(
             get(GlobalURI.MY_FIT_CERTIFICATION_PROGRESS + queryString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+    }
+
+    @Test
+    @DisplayName("[단위][Web Adapter] Need vote certification list 조회 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `get need vote certification list controller success test`() {
+        //given
+        val request = NeedVoteCertificationFilterRequest(requestUserId)
+
+        val queryString = UriComponentsBuilder.newInstance()
+            .queryParam("requestUserId", request.requestUserId)
+            .build()
+            .encode()
+            .toUriString()
+
+        //when
+        val resultActions = mockMvc.perform(
+            get(GlobalURI.MY_FIT_NEED_VOTE_CERTIFICATION + queryString)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
         )
