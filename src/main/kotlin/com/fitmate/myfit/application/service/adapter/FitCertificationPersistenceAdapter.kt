@@ -3,6 +3,7 @@ package com.fitmate.myfit.application.service.adapter
 import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitCertificationRepository
+import com.fitmate.myfit.application.port.`in`.my.fit.response.NeedVoteCertificationResponseDto
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
@@ -12,6 +13,8 @@ import com.fitmate.myfit.domain.FitCertification
 import com.fitmate.myfit.domain.FitRecord
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 @Component
@@ -103,4 +106,35 @@ class FitCertificationPersistenceAdapter(
         val fitCertificationEntity = FitCertificationEntity.domainToEntity(fitCertification)
         fitCertificationRepository.save(fitCertificationEntity)
     }
+
+    @Transactional(readOnly = true)
+    override fun countByUserIdAndFitGroupIdAndCertificationStatusAndDateGreaterThanEqual(
+        userId: String,
+        fitGroupId: Long,
+        certified: CertificationStatus,
+        instant: Instant
+    ): Int =
+        fitCertificationRepository
+            .countByUserIdAndFitGroupIdAndCertificationStatusAndCreatedAtGreaterThanEqual(
+                userId,
+                fitGroupId,
+                certified,
+                instant
+            )
+
+    @Transactional(readOnly = true)
+    override fun findNeedToVoteCertificationByFitGroupIdAndUserId(
+        fitGroupId: Long,
+        userId: String
+    ): List<NeedVoteCertificationResponseDto> =
+        fitCertificationRepository.findNeedToVoteCertificationByFitGroupIdAndUserId(fitGroupId, userId)
+            .map {
+                NeedVoteCertificationResponseDto(
+                    it.certificationId,
+                    it.agreeCount.toInt(),
+                    it.disagreeCount.toInt(),
+                    it.maxAgreeCount.toInt(),
+                    it.createdAt.plus(12, ChronoUnit.HOURS)
+                )
+            }
 }

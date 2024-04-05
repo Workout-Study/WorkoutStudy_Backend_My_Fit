@@ -4,9 +4,10 @@ import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.domain.CertificationStatus
 import org.springframework.data.jpa.repository.JpaRepository
+import java.time.Instant
 import java.util.*
 
-interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Long> {
+interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Long>, QFitCertificationRepository {
     fun findByFitRecordEntityAndFitGroupIdAndCertificationStatusNotAndState(
         fitRecordEntity: FitRecordEntity,
         fitGroupId: Long,
@@ -26,4 +27,11 @@ interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Lon
         certificationStatus: CertificationStatus,
         state: Boolean
     ): List<FitCertificationEntity>
+
+    fun countByUserIdAndFitGroupIdAndCertificationStatusAndCreatedAtGreaterThanEqual(
+        userId: String,
+        fitGroupId: Long,
+        certified: CertificationStatus,
+        instant: Instant
+    ): Int
 }

@@ -42,8 +42,6 @@ class VoteService(
             registerVoteCommand.targetId
         ).ifPresent { throw ResourceAlreadyExistException("vote already exist") }
 
-        // TODO - Need to check fit mate
-
         val vote = Vote.createByCommand(registerVoteCommand)
 
         val savedVote = registerVotePort.registerVote(vote)
