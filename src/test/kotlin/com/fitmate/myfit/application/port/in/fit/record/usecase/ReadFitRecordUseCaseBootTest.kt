@@ -13,11 +13,13 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.Pageable
+import org.springframework.test.context.TestPropertySource
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 
 @SpringBootTest
 @Transactional
+@TestPropertySource(locations = ["classpath:application-test.yml"])
 class ReadFitRecordUseCaseBootTest {
 
     @Autowired

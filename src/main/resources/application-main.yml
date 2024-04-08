@@ -5,25 +5,26 @@ server:
 spring:
   application:
     name: my-fit-service
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
-      path: /h2-console
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.17.0.1:3306/myFit?validationQuery="select 1"
+    username: myFit
+    password: myFit
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    generate-ddl: true
+    database: mysql
+    open-in-view: false
 
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 172.17.0.1:9092
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 172.17.0.1:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
@@ -31,7 +32,7 @@ eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: false
+    fetch-registry: false
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
