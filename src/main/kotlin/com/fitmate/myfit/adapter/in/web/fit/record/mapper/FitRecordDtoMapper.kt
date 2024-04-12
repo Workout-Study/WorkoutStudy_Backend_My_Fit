@@ -30,7 +30,10 @@ class FitRecordDtoMapper private constructor() {
         }
 
         fun dtoToRegisterResponse(registerFitRecordResponseDto: RegisterFitRecordResponseDto): RegisterFitRecordResponse {
-            return RegisterFitRecordResponse(registerFitRecordResponseDto.isRegisterSuccess)
+            return RegisterFitRecordResponse(
+                registerFitRecordResponseDto.isRegisterSuccess,
+                registerFitRecordResponseDto.fitRecordId
+            )
         }
 
         fun sliceFilterRequestToCommand(fitRecordSliceFilterRequest: FitRecordSliceFilterRequest): FitRecordSliceFilterCommand {

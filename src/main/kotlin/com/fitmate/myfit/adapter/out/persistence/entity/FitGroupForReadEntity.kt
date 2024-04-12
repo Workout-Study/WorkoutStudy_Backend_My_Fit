@@ -12,6 +12,7 @@ class FitGroupForReadEntity private constructor(
     val fitGroupName: String,
     val cycle: Int,
     val frequency: Int,
+    @Column(nullable = true) val thumbnailEndPoint: String?,
     state: Boolean,
     createUser: String
 ) : BaseEntity(state, createdAt = Instant.now(), createUser) {
@@ -28,6 +29,7 @@ class FitGroupForReadEntity private constructor(
                 domain.fitGroupName,
                 domain.cycle,
                 domain.frequency,
+                domain.thumbnailEndPoint,
                 domain.state,
                 domain.createUser
             )

@@ -11,6 +11,7 @@ class FitGroupForRead private constructor(
     var fitGroupName: String,
     var cycle: Int,
     var frequency: Int,
+    var thumbnailEndPoint: String?,
     state: Boolean,
     createUser: String
 ) : BaseDomain(state, createdAt = Instant.now(), createUser) {
@@ -22,6 +23,10 @@ class FitGroupForRead private constructor(
         this.state = dto.state
         this.updatedAt = Instant.now()
         this.updateUser = command.eventPublisher
+
+        if (dto.multiMediaEndPoints.isNotEmpty()) {
+            this.thumbnailEndPoint = dto.multiMediaEndPoints[0]
+        }
     }
 
     companion object {
@@ -33,6 +38,7 @@ class FitGroupForRead private constructor(
                 entity.fitGroupName,
                 entity.cycle,
                 entity.frequency,
+                entity.thumbnailEndPoint,
                 entity.state,
                 entity.createUser
             )
@@ -45,15 +51,22 @@ class FitGroupForRead private constructor(
         fun createByFitGroupDetail(
             fitGroupDetail: FitGroupResponseDto,
             command: SaveFitGroupForReadCommand
-        ): FitGroupForRead =
-            FitGroupForRead(
+        ): FitGroupForRead {
+            var thumbnailEndPoint: String? = null
+            if (fitGroupDetail.multiMediaEndPoints.isNotEmpty()) {
+                thumbnailEndPoint = fitGroupDetail.multiMediaEndPoints[0]
+            }
+
+            return FitGroupForRead(
                 null,
                 fitGroupDetail.fitGroupId,
                 fitGroupDetail.fitGroupName,
                 fitGroupDetail.cycle,
                 fitGroupDetail.frequency,
+                thumbnailEndPoint,
                 fitGroupDetail.state,
                 command.eventPublisher
             )
+        }
     }
 }

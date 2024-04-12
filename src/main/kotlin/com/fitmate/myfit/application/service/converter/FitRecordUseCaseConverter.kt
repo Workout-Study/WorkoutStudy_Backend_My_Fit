@@ -8,7 +8,7 @@ class FitRecordUseCaseConverter private constructor() {
 
     companion object {
         fun fitRecordToRegisterResponseDto(fitRecord: FitRecord): RegisterFitRecordResponseDto =
-            RegisterFitRecordResponseDto(fitRecord.id != null)
+            RegisterFitRecordResponseDto(fitRecord.id != null, fitRecord.id)
 
 
         fun resultToDeleteResponseDto(result: Boolean): DeleteFitRecordResponseDto =

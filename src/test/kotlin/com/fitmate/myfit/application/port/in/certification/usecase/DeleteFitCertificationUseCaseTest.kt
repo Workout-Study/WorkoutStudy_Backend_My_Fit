@@ -7,6 +7,8 @@ import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFit
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
+import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
+import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
 import com.fitmate.myfit.application.service.service.FitCertificationService
 import com.fitmate.myfit.common.exceptions.BadRequestException
@@ -44,6 +46,12 @@ class DeleteFitCertificationUseCaseTest {
 
     @Mock
     private lateinit var updateFitCertificationPort: UpdateFitCertificationPort
+
+    @Mock
+    private lateinit var readFitGroupForReadPort: ReadFitGroupForReadPort
+
+    @Mock
+    private lateinit var readFitMateForReadPort: ReadFitMateForReadPort
 
     private val requestUserId = "testUserId"
     private val recordStartDate = Instant.now()
