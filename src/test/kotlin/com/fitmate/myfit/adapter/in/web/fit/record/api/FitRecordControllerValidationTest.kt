@@ -56,7 +56,7 @@ class FitRecordControllerValidationTest {
         //given
         val registerFitRecordRequest =
             RegisterFitRecordRequest(testUserId, recordStartDate, recordEndDate, multiMediaEndPoint)
-        val registerFitRecordResponseDto = RegisterFitRecordResponseDto(true)
+        val registerFitRecordResponseDto = RegisterFitRecordResponseDto(true, 1L)
 
         whenever(registerFitRecordUseCase.registerFitRecord(any<RegisterFitRecordCommand>()))
             .thenReturn(registerFitRecordResponseDto)
