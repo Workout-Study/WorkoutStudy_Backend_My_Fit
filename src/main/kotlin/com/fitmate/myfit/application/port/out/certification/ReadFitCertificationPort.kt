@@ -1,7 +1,6 @@
 package com.fitmate.myfit.application.port.out.certification
 
 import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
-import com.fitmate.myfit.application.port.`in`.my.fit.response.NeedVoteCertificationResponseDto
 import com.fitmate.myfit.domain.CertificationStatus
 import com.fitmate.myfit.domain.FitCertification
 import com.fitmate.myfit.domain.FitRecord
@@ -38,5 +37,5 @@ interface ReadFitCertificationPort {
     fun findNeedToVoteCertificationByFitGroupIdAndUserId(
         fitGroupId: Long,
         userId: String
-    ): List<NeedVoteCertificationResponseDto>
+    ): List<FitCertificationWithVoteDto>
 }

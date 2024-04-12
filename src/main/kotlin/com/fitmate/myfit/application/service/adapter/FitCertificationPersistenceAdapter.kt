@@ -1,9 +1,9 @@
 package com.fitmate.myfit.application.service.adapter
 
+import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
 import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitCertificationRepository
-import com.fitmate.myfit.application.port.`in`.my.fit.response.NeedVoteCertificationResponseDto
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
@@ -14,7 +14,6 @@ import com.fitmate.myfit.domain.FitRecord
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
-import java.time.temporal.ChronoUnit
 import java.util.*
 
 @Component
@@ -126,15 +125,6 @@ class FitCertificationPersistenceAdapter(
     override fun findNeedToVoteCertificationByFitGroupIdAndUserId(
         fitGroupId: Long,
         userId: String
-    ): List<NeedVoteCertificationResponseDto> =
+    ): List<FitCertificationWithVoteDto> =
         fitCertificationRepository.findNeedToVoteCertificationByFitGroupIdAndUserId(fitGroupId, userId)
-            .map {
-                NeedVoteCertificationResponseDto(
-                    it.certificationId,
-                    it.agreeCount.toInt(),
-                    it.disagreeCount.toInt(),
-                    it.maxAgreeCount.toInt(),
-                    it.createdAt.plus(12, ChronoUnit.HOURS)
-                )
-            }
 }
