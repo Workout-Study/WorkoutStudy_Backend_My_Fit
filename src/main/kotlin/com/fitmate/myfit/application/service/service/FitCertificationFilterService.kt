@@ -77,6 +77,7 @@ class FitCertificationFilterService(
             val responseItem = FilterCertificationProgressResponseDto(
                 fitGroupForRead.fitGroupId,
                 fitGroupForRead.fitGroupName,
+                fitGroupForRead.thumbnailEndPoint,
                 fitGroupForRead.cycle,
                 fitGroupForRead.frequency,
                 certificationCount
