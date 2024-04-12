@@ -1,6 +1,7 @@
 package com.fitmate.myfit.application.port.out.certification
 
 import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
+import com.fitmate.myfit.application.port.`in`.my.fit.response.FitCertificationDetailResponseDto
 import com.fitmate.myfit.domain.CertificationStatus
 import com.fitmate.myfit.domain.FitCertification
 import com.fitmate.myfit.domain.FitRecord
@@ -38,4 +39,9 @@ interface ReadFitCertificationPort {
         fitGroupId: Long,
         userId: String
     ): List<FitCertificationWithVoteDto>
+
+    fun findFitCertificationProgressDetailsByGroupId(
+        fitGroupId: Long,
+        requestUserId: String
+    ): List<FitCertificationDetailResponseDto>
 }

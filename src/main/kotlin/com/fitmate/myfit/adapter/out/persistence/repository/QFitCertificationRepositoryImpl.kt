@@ -1,9 +1,11 @@
 package com.fitmate.myfit.adapter.out.persistence.repository
 
+import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationDetailDto
 import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
 import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.QFitCertificationEntity.fitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.QFitMateForReadEntity.fitMateForReadEntity
+import com.fitmate.myfit.adapter.out.persistence.entity.QFitRecordEntity.fitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.QVoteEntity.voteEntity
 import com.fitmate.myfit.common.GlobalStatus
 import com.querydsl.core.types.ExpressionUtils
@@ -58,12 +60,11 @@ class QFitCertificationRepositoryImpl(jpaQueryFactory: JPAQueryFactory) :
                 ),
                 ExpressionUtils.`as`(
                     JPAExpressions
-                        .select(fitMateForReadEntity.count())
+                        .select(fitMateForReadEntity.count().subtract(1))
                         .from(fitMateForReadEntity)
                         .where(
                             fitMateForReadEntity.fitGroupId.eq(fitGroupId),
-                            fitMateForReadEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED),
-                            fitMateForReadEntity.fitMateUserId.ne(userId)
+                            fitMateForReadEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED)
                         ), "maxAgreeCount"
                 ),
                 fitCertificationEntity.createdAt
@@ -81,6 +82,83 @@ class QFitCertificationRepositoryImpl(jpaQueryFactory: JPAQueryFactory) :
                 fitCertificationEntity.userId.ne(userId),
                 fitCertificationEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED),
                 voteEntity.isNull
+            )
+            .fetch()
+
+    @Transactional(readOnly = true)
+    override fun findFitCertificationProgressDetailsByGroupId(
+        fitGroupId: Long,
+        requestUserId: String
+    ): List<FitCertificationDetailDto> =
+        factory.select(
+            Projections.constructor(
+                FitCertificationDetailDto::class.java,
+                fitCertificationEntity.id,
+                fitCertificationEntity.fitRecordEntity.id,
+                fitCertificationEntity.userId,
+                ExpressionUtils.`as`(
+                    JPAExpressions
+                        .select(voteEntity.isNotNull)
+                        .from(voteEntity)
+                        .where(
+                            voteEntity.targetCategory.eq(GlobalStatus.VOTE_TARGET_CATEGORY_CERTIFICATION),
+                            voteEntity.targetId.eq(fitCertificationEntity.id),
+                            voteEntity.userId.eq(requestUserId),
+                            voteEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED)
+                        ), "isUserVoteDone"
+                ),
+                ExpressionUtils.`as`(
+                    JPAExpressions
+                        .select(voteEntity.isNotNull.and(voteEntity.agree.eq(GlobalStatus.VOTE_AGREE)))
+                        .from(voteEntity)
+                        .where(
+                            voteEntity.targetCategory.eq(GlobalStatus.VOTE_TARGET_CATEGORY_CERTIFICATION),
+                            voteEntity.targetId.eq(fitCertificationEntity.id),
+                            voteEntity.userId.eq(requestUserId),
+                            voteEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED)
+                        ), "isUserAgree"
+                ),
+                ExpressionUtils.`as`(
+                    JPAExpressions
+                        .select(voteEntity.count())
+                        .from(voteEntity)
+                        .where(
+                            voteEntity.targetCategory.eq(GlobalStatus.VOTE_TARGET_CATEGORY_CERTIFICATION),
+                            voteEntity.targetId.eq(fitCertificationEntity.id),
+                            voteEntity.agree.eq(GlobalStatus.VOTE_AGREE),
+                            voteEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED)
+                        ), "agreeCount"
+                ),
+                ExpressionUtils.`as`(
+                    JPAExpressions
+                        .select(voteEntity.count())
+                        .from(voteEntity)
+                        .where(
+                            voteEntity.targetCategory.eq(GlobalStatus.VOTE_TARGET_CATEGORY_CERTIFICATION),
+                            voteEntity.targetId.eq(fitCertificationEntity.id),
+                            voteEntity.agree.eq(GlobalStatus.VOTE_DISAGREE),
+                            voteEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED)
+                        ), "disagreeCount"
+                ),
+                ExpressionUtils.`as`(
+                    JPAExpressions
+                        .select(fitMateForReadEntity.count().subtract(1))
+                        .from(fitMateForReadEntity)
+                        .where(
+                            fitMateForReadEntity.fitGroupId.eq(fitGroupId),
+                            fitMateForReadEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED)
+                        ), "maxAgreeCount"
+                ),
+                fitRecordEntity.recordStartDate,
+                fitRecordEntity.recordEndDate,
+                fitCertificationEntity.createdAt
+            )
+        ).from(fitCertificationEntity)
+            .leftJoin(fitRecordEntity)
+            .on(fitCertificationEntity.fitRecordEntity.eq(fitRecordEntity))
+            .where(
+                fitCertificationEntity.fitGroupId.eq(fitGroupId),
+                fitCertificationEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED)
             )
             .fetch()
 }

@@ -5,7 +5,10 @@ import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFit
 import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
+import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
+import com.fitmate.myfit.application.port.`in`.my.fit.command.FitCertificationFilterByGroupCommand
+import com.fitmate.myfit.application.port.`in`.my.fit.response.FitCertificationDetailResponseDto
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
@@ -25,7 +28,7 @@ class FitCertificationService(
     private val readFitCertificationPort: ReadFitCertificationPort,
     private val registerFitCertificationPort: RegisterFitCertificationPort,
     private val updateFitCertificationPort: UpdateFitCertificationPort
-) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase {
+) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase, ReadFitCertificationUseCase {
 
     /**
      * Register fit certification use case,
@@ -96,5 +99,16 @@ class FitCertificationService(
         updateFitCertificationPort.updateFitCertification(fitCertification)
 
         return FitCertificationUseCaseConverter.resultToDeleteResponseDto(fitCertification.isDeleted)
+    }
+
+    @Transactional(readOnly = true)
+    override fun getFitCertificationByGroupId(command: FitCertificationFilterByGroupCommand): List<FitCertificationDetailResponseDto> {
+        val fitCertificationDetailList =
+            readFitCertificationPort.findFitCertificationProgressDetailsByGroupId(
+                command.fitGroupId,
+                command.requestUserId
+            )
+
+        return fitCertificationDetailList
     }
 }
