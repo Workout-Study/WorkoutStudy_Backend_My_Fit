@@ -9,7 +9,7 @@ import com.fitmate.myfit.application.port.`in`.my.fit.command.NeedVoteCertificat
 import com.fitmate.myfit.application.port.`in`.my.fit.response.FilterCertificationProgressResponseDto
 import com.fitmate.myfit.application.port.`in`.my.fit.response.NeedVoteCertificationFitGroupResponseDto
 
-class FitCertificationProgressDtoMapper private constructor() {
+class MyFitDtoMapper private constructor() {
 
     companion object {
         fun filterRequestToCommand(request: FitCertificationProgressFilterRequest): FitCertificationProgressFilterCommand =

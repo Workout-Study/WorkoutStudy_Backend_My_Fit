@@ -49,6 +49,7 @@ class MyFitControllerTest {
     private val cycle = 1
     private val frequency = 7
     private val certificationCount = frequency - 3
+    private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
 
     @Test
     @DisplayName("[단위][Web Adapter] Fit certification progress list 조회 - 성공 테스트")
@@ -64,6 +65,7 @@ class MyFitControllerTest {
                 FilterCertificationProgressResponseDto(
                     i.toLong(),
                     fitGroupName + i,
+                    multiMediaEndPoint[0],
                     cycle,
                     frequency + i,
                     certificationCount + i
@@ -102,6 +104,8 @@ class MyFitControllerTest {
                             .description("fit group id"),
                         fieldWithPath("fitCertificationProgresses[].fitGroupName").type(JsonFieldType.STRING)
                             .description("fit group 이름"),
+                        fieldWithPath("fitCertificationProgresses[].thumbnailEndPoint").type(JsonFieldType.STRING)
+                            .description("fit group의 썸네일 사진 end point"),
                         fieldWithPath("fitCertificationProgresses[].cycle").type(JsonFieldType.NUMBER)
                             .description("인증 주기 ( 1: 일주일, 2: 한달, 3: 일년 ) - 현재는 일주일만 구현 "),
                         fieldWithPath("fitCertificationProgresses[].frequency").type(JsonFieldType.NUMBER)
@@ -126,20 +130,27 @@ class MyFitControllerTest {
             needVoteCertificationFitGroupResponseDtoList.add(
                 NeedVoteCertificationFitGroupResponseDto(
                     i.toLong(),
+                    fitGroupName,
                     listOf(
                         NeedVoteCertificationResponseDto(
                             i.toLong(),
+                            i.toLong() + 1L,
+                            requestUserId,
                             i + 3,
                             i + 1,
                             i + 9,
-                            Instant.now()
+                            Instant.now(),
+                            multiMediaEndPoint
                         ),
                         NeedVoteCertificationResponseDto(
                             i.toLong() + 3L,
+                            i.toLong() + 1L,
+                            requestUserId,
                             i + 1,
                             i + 0,
                             i + 6,
-                            Instant.now()
+                            Instant.now(),
+                            multiMediaEndPoint
                         ),
                     )
                 )
@@ -175,12 +186,20 @@ class MyFitControllerTest {
                             .description("유저가 투표해야할 인증 목록"),
                         fieldWithPath("needVoteCertificationFitGroupList[].fitGroupId").type(JsonFieldType.NUMBER)
                             .description("투표해야할 인증이 있는 fit group id"),
+                        fieldWithPath("needVoteCertificationFitGroupList[].fitGroupName").type(JsonFieldType.STRING)
+                            .description("투표해야할 인증이 있는 fit group의 이름"),
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[]").type(
                             JsonFieldType.ARRAY
                         ).description("fit group 내의 투표해야할 인증 목록"),
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].certificationId").type(
                             JsonFieldType.NUMBER
                         ).description("투표해야할 인증의 id ( fit certification id )"),
+                        fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].recordId").type(
+                            JsonFieldType.NUMBER
+                        ).description("투표해야할 인증의 recordId ( fit record id )"),
+                        fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].certificationRequestUserId").type(
+                            JsonFieldType.STRING
+                        ).description("투표해야할 인증을 요청한 유저 id"),
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].agreeCount").type(
                             JsonFieldType.NUMBER
                         ).description("찬성 수"),
@@ -192,7 +211,10 @@ class MyFitControllerTest {
                         ).description("최대 투표 수"),
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].voteEndDate").type(
                             JsonFieldType.STRING
-                        ).description("투표 종료 일자")
+                        ).description("투표 종료 일자"),
+                        fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].recordMultiMediaEndPoints[]").type(
+                            JsonFieldType.ARRAY
+                        ).description("인증을 요청한 기록의 multi media end points")
                     )
                 )
             )

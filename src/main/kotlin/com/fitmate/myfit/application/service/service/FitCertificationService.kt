@@ -1,14 +1,22 @@
 package com.fitmate.myfit.application.service.service
 
+import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationProgressesResponse
 import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
+import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationProgressByGroupIdCommand
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationProgressesResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
+import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
+import com.fitmate.myfit.application.port.`in`.my.fit.command.FitCertificationFilterByGroupCommand
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
+import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
+import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
 import com.fitmate.myfit.application.service.converter.FitCertificationUseCaseConverter
 import com.fitmate.myfit.common.exceptions.BadRequestException
@@ -18,14 +26,20 @@ import com.fitmate.myfit.domain.CertificationStatus
 import com.fitmate.myfit.domain.FitCertification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.DayOfWeek
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 @Service
 class FitCertificationService(
     private val readFitRecordPort: ReadFitRecordPort,
     private val readFitCertificationPort: ReadFitCertificationPort,
     private val registerFitCertificationPort: RegisterFitCertificationPort,
-    private val updateFitCertificationPort: UpdateFitCertificationPort
-) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase {
+    private val updateFitCertificationPort: UpdateFitCertificationPort,
+    private val readFitGroupForReadPort: ReadFitGroupForReadPort,
+    private val readFitMateForReadPort: ReadFitMateForReadPort
+) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase, ReadFitCertificationUseCase {
 
     /**
      * Register fit certification use case,
@@ -96,5 +110,56 @@ class FitCertificationService(
         updateFitCertificationPort.updateFitCertification(fitCertification)
 
         return FitCertificationUseCaseConverter.resultToDeleteResponseDto(fitCertification.isDeleted)
+    }
+
+    @Transactional(readOnly = true)
+    override fun getFitCertificationByGroupId(command: FitCertificationFilterByGroupCommand): List<FitCertificationDetailResponseDto> {
+        val fitCertificationDetailList =
+            readFitCertificationPort.findFitCertificationProgressDetailsByGroupId(
+                command.fitGroupId,
+                command.requestUserId
+            )
+
+        return fitCertificationDetailList
+    }
+
+    @Transactional(readOnly = true)
+    override fun getFitCertificationProgressByGroupId(command: FitCertificationProgressByGroupIdCommand): FitCertificationProgressesResponse {
+        val fitGroupForRead = readFitGroupForReadPort.findByFitGroupId(command.fitGroupId)
+            .orElseThrow { ResourceNotFoundException("fit group id does not exist") }
+
+        val fitCertificationProgresses = mutableListOf<FitCertificationProgressesResponseDto>()
+        val fitMateForReadList = readFitMateForReadPort.findByFitGroupId(fitGroupForRead.fitGroupId)
+
+        val mondayInstant = getStartOfCurrentWeek()
+        fitMateForReadList.forEach {
+            val responseDto = FitCertificationProgressesResponseDto(
+                it.fitMateUserId,
+                readFitCertificationPort.countByUserIdAndFitGroupIdAndCertificationStatusAndDateGreaterThanEqual(
+                    it.fitMateUserId,
+                    it.fitGroupId,
+                    CertificationStatus.CERTIFIED,
+                    mondayInstant
+                )
+            )
+
+            fitCertificationProgresses.add(responseDto)
+        }
+
+
+        return FitCertificationProgressesResponse(
+            fitGroupForRead.fitGroupId,
+            fitGroupForRead.fitGroupName,
+            fitGroupForRead.cycle,
+            fitGroupForRead.frequency,
+            fitCertificationProgresses
+        )
+    }
+
+    fun getStartOfCurrentWeek(): Instant {
+        val now = Instant.now()
+        val zoneId = ZoneId.systemDefault()
+        val zonedDateTime = ZonedDateTime.ofInstant(now, zoneId)
+        return zonedDateTime.with(DayOfWeek.MONDAY).toInstant()
     }
 }

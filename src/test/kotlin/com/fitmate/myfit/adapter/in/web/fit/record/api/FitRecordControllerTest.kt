@@ -57,7 +57,7 @@ class FitRecordControllerTest {
         //given
         val registerFitRecordRequest =
             RegisterFitRecordRequest(requestUserId, recordStartDate, recordEndDate, multiMediaEndPoint)
-        val registerFitRecordResponseDto = RegisterFitRecordResponseDto(true)
+        val registerFitRecordResponseDto = RegisterFitRecordResponseDto(true, 1L)
 
         whenever(registerFitRecordUseCase.registerFitRecord(any<RegisterFitRecordCommand>()))
             .thenReturn(registerFitRecordResponseDto)
@@ -86,7 +86,9 @@ class FitRecordControllerTest {
                     ),
                     responseFields(
                         fieldWithPath("isRegisterSuccess").type(JsonFieldType.BOOLEAN)
-                            .description("등록 성공 여부")
+                            .description("등록 성공 여부"),
+                        fieldWithPath("fitRecordId").type(JsonFieldType.NUMBER)
+                            .description("등록 시 fit record id ( 실패시 null )")
                     )
                 )
             )

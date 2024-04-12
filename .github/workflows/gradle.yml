@@ -55,4 +55,4 @@ jobs:
             docker stop my-fit
             docker rm my-fit
             docker pull ${{secrets.DOCKER_USERNAME}}/my-fit:latest
-            docker run --name my-fit -d -p 8081:8081 -v /etc/localtime:/etc/localtime:ro -e TZ=Asia/Seoul ${{secrets.DOCKER_USERNAME}}/my-fit:latest --network fit
+            docker run --name my-fit -d -p 8081:8081 --network fit -v /etc/localtime:/etc/localtime:ro -e TZ=Asia/Seoul ${{secrets.DOCKER_USERNAME}}/my-fit:latest

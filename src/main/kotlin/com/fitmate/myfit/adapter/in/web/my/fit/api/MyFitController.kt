@@ -1,7 +1,7 @@
 package com.fitmate.myfit.adapter.`in`.web.my.fit.api
 
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
-import com.fitmate.myfit.adapter.`in`.web.my.fit.mapper.FitCertificationProgressDtoMapper
+import com.fitmate.myfit.adapter.`in`.web.my.fit.mapper.MyFitDtoMapper
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.FitCertificationProgressFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.NeedVoteCertificationFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.my.fit.response.FitCertificationProgressResponse
@@ -31,11 +31,11 @@ class MyFitController(
         @ModelAttribute @Valid fitCertificationProgressFilterRequest: FitCertificationProgressFilterRequest
     ): ResponseEntity<FitCertificationProgressResponse> {
         val fitCertificationProgressFilterCommand =
-            FitCertificationProgressDtoMapper.filterRequestToCommand(fitCertificationProgressFilterRequest)
+            MyFitDtoMapper.filterRequestToCommand(fitCertificationProgressFilterRequest)
         val filterCertificationProgressResponseDtoList =
             readFitCertificationProgressUseCase.filterFitCertificationProgress(fitCertificationProgressFilterCommand)
         return ResponseEntity.ok().body(
-            FitCertificationProgressDtoMapper.dtoToFilteredCertificationProgressResponse(
+            MyFitDtoMapper.dtoToFilteredCertificationProgressResponse(
                 filterCertificationProgressResponseDtoList
             )
         )
@@ -52,11 +52,11 @@ class MyFitController(
         @ModelAttribute @Valid needVoteCertificationFilterRequest: NeedVoteCertificationFilterRequest
     ): ResponseEntity<NeedVoteCertificationFilterResponse> {
         val needVoteCertificationFilterCommand =
-            FitCertificationProgressDtoMapper.needVoteCertificationRequestToCommand(needVoteCertificationFilterRequest)
+            MyFitDtoMapper.needVoteCertificationRequestToCommand(needVoteCertificationFilterRequest)
         val filterCertificationProgressResponseDtoList =
             readNeedVoteCertificationUseCase.filterNeedVoteCertification(needVoteCertificationFilterCommand)
         return ResponseEntity.ok().body(
-            FitCertificationProgressDtoMapper.dtoToFilteredNeedVoteCertificationResponse(
+            MyFitDtoMapper.dtoToFilteredNeedVoteCertificationResponse(
                 filterCertificationProgressResponseDtoList
             )
         )
