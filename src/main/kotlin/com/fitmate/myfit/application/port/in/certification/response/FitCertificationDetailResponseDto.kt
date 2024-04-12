@@ -1,4 +1,4 @@
-package com.fitmate.myfit.application.port.`in`.my.fit.response
+package com.fitmate.myfit.application.port.`in`.certification.response
 
 import java.time.Instant
 

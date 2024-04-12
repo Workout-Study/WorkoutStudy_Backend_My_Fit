@@ -2,6 +2,7 @@ package com.fitmate.myfit.adapter.`in`.web.certification.api
 
 import com.fitmate.myfit.adapter.`in`.web.certification.mapper.FitCertificationFilterDtoMapper
 import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationDetailsResponse
+import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationProgressesResponse
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import org.springframework.http.ResponseEntity
@@ -22,7 +23,7 @@ class FitCertificationFilterController(private val readFitCertificationUseCase: 
         @PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) requestUserId: String
     ): ResponseEntity<FitCertificationDetailsResponse> {
         val fitCertificationFilterByGroupIdCommand =
-            FitCertificationFilterDtoMapper.filterByGroupIdRequestToCommand(fitGroupId, requestUserId)
+            FitCertificationFilterDtoMapper.filterByGroupIdAndUserIdRequestToCommand(fitGroupId, requestUserId)
         val fitCertificationDetailResponseDtoList =
             readFitCertificationUseCase.getFitCertificationByGroupId(fitCertificationFilterByGroupIdCommand)
         return ResponseEntity.ok()
@@ -31,5 +32,19 @@ class FitCertificationFilterController(private val readFitCertificationUseCase: 
                     fitCertificationDetailResponseDtoList
                 )
             )
+    }
+
+    @GetMapping(
+        GlobalURI.MY_FIT_CERTIFICATION_PROGRESS
+                + GlobalURI.PATH_VARIABLE_FIT_GROUP_ID_WITH_BRACE
+    )
+    fun getFitCertificationProgressByGroupId(
+        @PathVariable(GlobalURI.PATH_VARIABLE_FIT_GROUP_ID) fitGroupId: Long,
+    ): ResponseEntity<FitCertificationProgressesResponse> {
+        val fitCertificationProgressByGroupIdCommand =
+            FitCertificationFilterDtoMapper.filterByGroupIdRequestToCommand(fitGroupId)
+        val fitCertificationProgressResponseDtoList =
+            readFitCertificationUseCase.getFitCertificationProgressByGroupId(fitCertificationProgressByGroupIdCommand)
+        return ResponseEntity.ok().body(fitCertificationProgressResponseDtoList)
     }
 }

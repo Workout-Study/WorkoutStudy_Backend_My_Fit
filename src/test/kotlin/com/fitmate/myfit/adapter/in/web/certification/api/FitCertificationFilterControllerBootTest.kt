@@ -87,4 +87,22 @@ class FitCertificationFilterControllerBootTest {
         resultActions.andExpect(status().isOk())
             .andDo(print())
     }
+
+    @Test
+    @DisplayName("[통합][Web Adapter] Fit certification progress by fit group 조회 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `get fit certification progress by fit group controller success test`() {
+        //given
+        //when
+        val resultActions = mockMvc.perform(
+            get(
+                GlobalURI.MY_FIT_CERTIFICATION_PROGRESS
+                        + GlobalURI.PATH_VARIABLE_FIT_GROUP_ID_WITH_BRACE, fitGroupId
+            ).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+    }
 }

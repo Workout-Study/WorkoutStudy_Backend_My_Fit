@@ -4,7 +4,7 @@ import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
 import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitCertificationRepository
-import com.fitmate.myfit.application.port.`in`.my.fit.response.FitCertificationDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailResponseDto
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort

@@ -236,6 +236,36 @@ http-response
 
 include::{snippets}/fit-certification-list-by-fit-group/http-response.adoc[]
 
+=== Fit Certification Progress List By fit group id
+
+path-parameters
+
+include::{snippets}/fit-certification-progress-by-fit-group/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/fit-certification-progress-by-fit-group/http-request.adoc[]
+
+request-body
+
+include::{snippets}/fit-certification-progress-by-fit-group/request-body.adoc[]
+
+curl-request
+
+include::{snippets}/fit-certification-progress-by-fit-group/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/fit-certification-progress-by-fit-group/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/fit-certification-progress-by-fit-group/response-body.adoc[]
+
+http-response
+
+include::{snippets}/fit-certification-progress-by-fit-group/http-response.adoc[]
+
 == 3. vote
 
 === Register vote
