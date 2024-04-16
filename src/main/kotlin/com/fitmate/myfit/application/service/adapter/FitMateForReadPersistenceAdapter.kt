@@ -45,4 +45,8 @@ class FitMateForReadPersistenceAdapter(
             emptyList()
         } else fitMateForReadEntityList.map { FitMateForRead.entityToDomain(it) }
     }
+
+    @Transactional(readOnly = true)
+    override fun countByFitGroup(fitGroupId: Long): Int =
+        fitMateForReadRepository.countByFitGroupIdAndState(fitGroupId, GlobalStatus.PERSISTENCE_NOT_DELETED)
 }

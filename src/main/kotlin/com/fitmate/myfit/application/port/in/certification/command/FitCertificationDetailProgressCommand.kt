@@ -2,7 +2,7 @@ package com.fitmate.myfit.application.port.`in`.certification.command
 
 import com.fitmate.myfit.common.SelfValidating
 
-data class FitCertificationDetailCommand(
+data class FitCertificationDetailProgressCommand(
     val fitCertificationId: Long
 ) : SelfValidating<DeleteFitCertificationCommand>() {
 

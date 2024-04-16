@@ -1,14 +1,17 @@
 package com.fitmate.myfit.application.port.`in`.certification.usecase
 
+import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
+import com.fitmate.myfit.application.port.out.certification.FitCertificationEventPublishPort
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
 import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.vote.ReadVotePort
 import com.fitmate.myfit.application.service.service.FitCertificationService
 import com.fitmate.myfit.common.exceptions.BadRequestException
 import com.fitmate.myfit.common.exceptions.ResourceAlreadyExistException
@@ -53,6 +56,12 @@ class RegisterFitCertificationUseCaseTest {
     @Mock
     private lateinit var readFitMateForReadPort: ReadFitMateForReadPort
 
+    @Mock
+    private lateinit var fitCertificationEventPublishPort: FitCertificationEventPublishPort
+
+    @Mock
+    private lateinit var readVotePort: ReadVotePort
+
     private val requestUserId = "testUserId"
     private val fitGroupIds = listOf(13L, 7L, 2L)
 
@@ -89,6 +98,14 @@ class RegisterFitCertificationUseCaseTest {
 
         val fitRecord = FitRecord.createByCommand(registerFitRecordCommand)
 
+        val fitCertificationList = FitCertification.createFitCertificationsByCommand(
+            fitRecord,
+            registerFitCertificationCommand
+        )
+
+        val fitCertificationEntity = FitCertificationEntity.domainToEntity(fitCertificationList[0])
+        fitCertificationEntity.id = 13
+
         whenever(readFitRecordPort.findById(any<Long>())).thenReturn(Optional.of(fitRecord))
         whenever(
             readFitCertificationPort.findByUserIdAndFitGroupIdAndCertificationStatus(
@@ -104,16 +121,15 @@ class RegisterFitCertificationUseCaseTest {
                 any<CertificationStatus>()
             )
         ).thenReturn(emptyList())
+        whenever(
+            registerFitCertificationPort.registerFitCertification(
+                any<FitCertification>()
+            )
+        ).thenReturn(FitCertification.entityToDomain(fitCertificationEntity))
         //when then
-        Assertions.assertDoesNotThrow {
-            registerFitCertificationUseCase.registerFitCertification(
-                registerFitCertificationCommand
-            )
-        }.also {
-            Assertions.assertTrue(
-                registerFitCertificationUseCase.registerFitCertification(registerFitCertificationCommand).isRegisterSuccess
-            )
-        }
+        Assertions.assertTrue(
+            registerFitCertificationUseCase.registerFitCertification(registerFitCertificationCommand).isRegisterSuccess
+        )
     }
 
     @Test

@@ -1,10 +1,7 @@
 package com.fitmate.myfit.application.service.service
 
 import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationProgressesResponse
-import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
-import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationDetailCommand
-import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationProgressByGroupIdCommand
-import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
+import com.fitmate.myfit.application.port.`in`.certification.command.*
 import com.fitmate.myfit.application.port.`in`.certification.response.*
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
@@ -17,7 +14,9 @@ import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificati
 import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.vote.ReadVotePort
 import com.fitmate.myfit.application.service.converter.FitCertificationUseCaseConverter
+import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.common.exceptions.BadRequestException
 import com.fitmate.myfit.common.exceptions.ResourceAlreadyExistException
 import com.fitmate.myfit.common.exceptions.ResourceNotFoundException
@@ -38,7 +37,8 @@ class FitCertificationService(
     private val updateFitCertificationPort: UpdateFitCertificationPort,
     private val readFitGroupForReadPort: ReadFitGroupForReadPort,
     private val readFitMateForReadPort: ReadFitMateForReadPort,
-    private val fitCertificationEventPublishPort: FitCertificationEventPublishPort
+    private val fitCertificationEventPublishPort: FitCertificationEventPublishPort,
+    private val readVotePort: ReadVotePort
 ) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase, ReadFitCertificationUseCase {
 
     /**
@@ -165,6 +165,33 @@ class FitCertificationService(
             .orElseThrow { ResourceNotFoundException("fit certification does not exist") }
 
         return FitCertificationUseCaseConverter.fitCertificationToDetailResponseDto(fitCertification)
+    }
+
+    @Transactional(readOnly = true)
+    override fun getFitCertificationDetailProgress(command: FitCertificationDetailProgressCommand): FitCertificationDetailProgressResponseDto {
+        val fitCertification = readFitCertificationPort.findById(command.fitCertificationId)
+            .orElseThrow { ResourceNotFoundException("fit certification does not exist") }
+
+        val agreeCount = readVotePort.countByAgreeAndTargetCategoryAndTargetId(
+            GlobalStatus.VOTE_AGREE,
+            GlobalStatus.VOTE_TARGET_CATEGORY_CERTIFICATION,
+            command.fitCertificationId
+        )
+
+        val disAgreeCount = readVotePort.countByAgreeAndTargetCategoryAndTargetId(
+            GlobalStatus.VOTE_DISAGREE,
+            GlobalStatus.VOTE_TARGET_CATEGORY_CERTIFICATION,
+            command.fitCertificationId
+        )
+
+        val maxAgreeCount = readFitMateForReadPort.countByFitGroup(fitCertification.fitGroupId)
+
+        return FitCertificationUseCaseConverter.resultToDetailProgressResponseDto(
+            fitCertification,
+            agreeCount,
+            disAgreeCount,
+            maxAgreeCount
+        )
     }
 
     fun getStartOfCurrentWeek(): Instant {

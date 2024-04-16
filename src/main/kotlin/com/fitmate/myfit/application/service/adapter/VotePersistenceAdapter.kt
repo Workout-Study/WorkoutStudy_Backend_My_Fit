@@ -34,6 +34,15 @@ class VotePersistenceAdapter(private val voteRepository: VoteRepository) : Regis
         } else Optional.empty()
     }
 
+    @Transactional(readOnly = true)
+    override fun countByAgreeAndTargetCategoryAndTargetId(agree: Boolean, targetCategory: Int, targetId: Long): Int =
+        voteRepository.countByAgreeAndTargetCategoryAndTargetIdAndState(
+            agree,
+            targetCategory,
+            targetId,
+            GlobalStatus.PERSISTENCE_NOT_DELETED
+        )
+
     @Transactional
     override fun registerVote(vote: Vote): Vote {
         val voteEntity = VoteEntity.domainToEntity(vote)

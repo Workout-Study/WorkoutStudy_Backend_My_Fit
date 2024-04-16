@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface FitMateForReadRepository : JpaRepository<FitMateForReadEntity, Long> {
     fun findByFitGroupIdAndState(fitGroupId: Long, state: Boolean): List<FitMateForReadEntity>
     fun findByFitMateUserIdAndState(userId: String, state: Boolean): List<FitMateForReadEntity>
+    fun countByFitGroupIdAndState(fitGroupId: Long, state: Boolean): Int
 }

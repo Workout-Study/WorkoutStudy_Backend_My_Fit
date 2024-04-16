@@ -11,4 +11,11 @@ interface VoteRepository : JpaRepository<VoteEntity, Long> {
         targetId: Long,
         state: Boolean
     ): Optional<VoteEntity>
+
+    fun countByAgreeAndTargetCategoryAndTargetIdAndState(
+        agree: Boolean,
+        targetCategory: Int,
+        targetId: Long,
+        state: Boolean
+    ): Int
 }
