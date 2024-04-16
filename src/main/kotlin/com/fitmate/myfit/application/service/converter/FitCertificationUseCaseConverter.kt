@@ -1,7 +1,10 @@
 package com.fitmate.myfit.application.service.converter
 
 import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
+import com.fitmate.myfit.domain.FitCertification
+import java.time.temporal.ChronoUnit
 
 class FitCertificationUseCaseConverter private constructor() {
 
@@ -13,5 +16,14 @@ class FitCertificationUseCaseConverter private constructor() {
         fun resultToDeleteResponseDto(result: Boolean): DeleteFitCertificationResponseDto {
             return DeleteFitCertificationResponseDto(result)
         }
+
+        fun fitCertificationToDetailResponseDto(fitCertification: FitCertification): FitCertificationDetailResponseDto =
+            FitCertificationDetailResponseDto(
+                fitCertification.id!!,
+                fitCertification.certificationStatus,
+                fitCertification.state,
+                fitCertification.createdAt,
+                fitCertification.createdAt.plus(12, ChronoUnit.HOURS)
+            )
     }
 }

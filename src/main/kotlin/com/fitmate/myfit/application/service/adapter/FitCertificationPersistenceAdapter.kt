@@ -4,7 +4,7 @@ import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
 import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitCertificationRepository
-import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailWithVoteResponseDto
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
@@ -134,10 +134,10 @@ class FitCertificationPersistenceAdapter(
     override fun findFitCertificationProgressDetailsByGroupId(
         fitGroupId: Long,
         requestUserId: String
-    ): List<FitCertificationDetailResponseDto> =
+    ): List<FitCertificationDetailWithVoteResponseDto> =
         fitCertificationRepository.findFitCertificationProgressDetailsByGroupId(fitGroupId, requestUserId)
             .map {
-                FitCertificationDetailResponseDto(
+                FitCertificationDetailWithVoteResponseDto(
                     it.certificationId,
                     it.recordId,
                     it.certificationRequestUserId,

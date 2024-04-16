@@ -3,7 +3,7 @@ package com.fitmate.myfit.adapter.`in`.web.certification.api
 import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationProgressesResponse
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationProgressByGroupIdCommand
-import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailWithVoteResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationProgressesResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.my.fit.command.FitCertificationFilterByGroupCommand
@@ -47,11 +47,11 @@ class FitCertificationFilterControllerTest {
     @Throws(Exception::class)
     fun `get fit certification list by fit group controller success test`() {
         //given
-        val fitCertificationDetails = mutableListOf<FitCertificationDetailResponseDto>()
+        val fitCertificationDetails = mutableListOf<FitCertificationDetailWithVoteResponseDto>()
 
         for (i in 0..3) {
             fitCertificationDetails.add(
-                FitCertificationDetailResponseDto(
+                FitCertificationDetailWithVoteResponseDto(
                     i.toLong(),
                     i.toLong(),
                     userId + i,

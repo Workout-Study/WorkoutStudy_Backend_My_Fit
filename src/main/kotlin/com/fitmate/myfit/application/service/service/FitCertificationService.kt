@@ -2,16 +2,15 @@ package com.fitmate.myfit.application.service.service
 
 import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationProgressesResponse
 import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
+import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationDetailCommand
 import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationProgressByGroupIdCommand
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
-import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
-import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailResponseDto
-import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationProgressesResponseDto
-import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.*
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.my.fit.command.FitCertificationFilterByGroupCommand
+import com.fitmate.myfit.application.port.out.certification.FitCertificationEventPublishPort
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
@@ -38,7 +37,8 @@ class FitCertificationService(
     private val registerFitCertificationPort: RegisterFitCertificationPort,
     private val updateFitCertificationPort: UpdateFitCertificationPort,
     private val readFitGroupForReadPort: ReadFitGroupForReadPort,
-    private val readFitMateForReadPort: ReadFitMateForReadPort
+    private val readFitMateForReadPort: ReadFitMateForReadPort,
+    private val fitCertificationEventPublishPort: FitCertificationEventPublishPort
 ) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase, ReadFitCertificationUseCase {
 
     /**
@@ -57,7 +57,7 @@ class FitCertificationService(
 
         if (registerFitCertificationCommand.fitGroupIds.isEmpty()) throw BadRequestException("fit group ids need at least one")
 
-        registerFitCertificationCommand.fitGroupIds.parallelStream().forEach { fitGroupId ->
+        registerFitCertificationCommand.fitGroupIds.forEach { fitGroupId ->
             readFitCertificationPort.findByUserIdAndFitGroupIdAndCertificationStatus(
                 registerFitCertificationCommand.requestUserId,
                 fitGroupId,
@@ -79,7 +79,8 @@ class FitCertificationService(
             FitCertification.createFitCertificationsByCommand(fitRecord, registerFitCertificationCommand)
 
         fitCertifications.forEach {
-            registerFitCertificationPort.registerFitCertification(it)
+            val savedFitCertification = registerFitCertificationPort.registerFitCertification(it)
+            fitCertificationEventPublishPort.publishFitCertificationRegisterEvent(savedFitCertification.id!!)
         }
 
         return FitCertificationUseCaseConverter.resultToRegisterResponseDto(true)
@@ -109,11 +110,13 @@ class FitCertificationService(
         fitCertification.delete(deleteFitCertificationCommand.requestUserId)
         updateFitCertificationPort.updateFitCertification(fitCertification)
 
+        fitCertificationEventPublishPort.publishFitCertificationDeleteEvent(fitCertification.id!!)
+
         return FitCertificationUseCaseConverter.resultToDeleteResponseDto(fitCertification.isDeleted)
     }
 
     @Transactional(readOnly = true)
-    override fun getFitCertificationByGroupId(command: FitCertificationFilterByGroupCommand): List<FitCertificationDetailResponseDto> {
+    override fun getFitCertificationByGroupId(command: FitCertificationFilterByGroupCommand): List<FitCertificationDetailWithVoteResponseDto> {
         val fitCertificationDetailList =
             readFitCertificationPort.findFitCertificationProgressDetailsByGroupId(
                 command.fitGroupId,
@@ -154,6 +157,14 @@ class FitCertificationService(
             fitGroupForRead.frequency,
             fitCertificationProgresses
         )
+    }
+
+    @Transactional(readOnly = true)
+    override fun getFitCertificationDetail(command: FitCertificationDetailCommand): FitCertificationDetailResponseDto {
+        val fitCertification = readFitCertificationPort.findById(command.fitCertificationId)
+            .orElseThrow { ResourceNotFoundException("fit certification does not exist") }
+
+        return FitCertificationUseCaseConverter.fitCertificationToDetailResponseDto(fitCertification)
     }
 
     fun getStartOfCurrentWeek(): Instant {
