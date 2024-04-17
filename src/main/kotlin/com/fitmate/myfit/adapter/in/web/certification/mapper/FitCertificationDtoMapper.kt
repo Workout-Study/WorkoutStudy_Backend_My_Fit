@@ -6,14 +6,12 @@ import com.fitmate.myfit.adapter.`in`.web.certification.response.DeleteFitCertif
 import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationDetailProgressResponse
 import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationDetailResponse
 import com.fitmate.myfit.adapter.`in`.web.certification.response.RegisterFitCertificationResponse
-import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
-import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationDetailCommand
-import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationDetailProgressCommand
-import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
+import com.fitmate.myfit.application.port.`in`.certification.command.*
 import com.fitmate.myfit.application.port.`in`.certification.response.DeleteFitCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailProgressResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.RegisterFitCertificationResponseDto
+import com.fitmate.myfit.common.exceptions.BadRequestException
 
 class FitCertificationDtoMapper {
 
@@ -65,5 +63,20 @@ class FitCertificationDtoMapper {
                 dto.disagreeCount,
                 dto.maxAgreeCount
             )
+
+        fun fitCertificationResultRequestToCommand(
+            fitCertificationId: String,
+            eventPublisher: String
+        ): UpdateFitCertificationResultCommand {
+            val fitCertificationIdLong: Long
+
+            try {
+                fitCertificationIdLong = fitCertificationId.toLong()
+            } catch (exception: Exception) {
+                throw BadRequestException("fit group must be long")
+            }
+
+            return UpdateFitCertificationResultCommand(fitCertificationIdLong, eventPublisher)
+        }
     }
 }

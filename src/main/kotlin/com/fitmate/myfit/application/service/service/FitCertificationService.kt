@@ -6,11 +6,9 @@ import com.fitmate.myfit.application.port.`in`.certification.response.*
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
+import com.fitmate.myfit.application.port.`in`.certification.usecase.UpdateFitCertificationResultUseCase
 import com.fitmate.myfit.application.port.`in`.my.fit.command.FitCertificationFilterByGroupCommand
-import com.fitmate.myfit.application.port.out.certification.FitCertificationEventPublishPort
-import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
-import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
-import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
+import com.fitmate.myfit.application.port.out.certification.*
 import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
@@ -38,8 +36,10 @@ class FitCertificationService(
     private val readFitGroupForReadPort: ReadFitGroupForReadPort,
     private val readFitMateForReadPort: ReadFitMateForReadPort,
     private val fitCertificationEventPublishPort: FitCertificationEventPublishPort,
-    private val readVotePort: ReadVotePort
-) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase, ReadFitCertificationUseCase {
+    private val readVotePort: ReadVotePort,
+    private val readFitCertificationResultPort: ReadFitCertificationResultPort
+) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase, ReadFitCertificationUseCase,
+    UpdateFitCertificationResultUseCase {
 
     /**
      * Register fit certification use case,
@@ -199,5 +199,18 @@ class FitCertificationService(
         val zoneId = ZoneId.systemDefault()
         val zonedDateTime = ZonedDateTime.ofInstant(now, zoneId)
         return zonedDateTime.with(DayOfWeek.MONDAY).toInstant()
+    }
+
+    @Transactional
+    override fun updateFitCertificationResult(command: UpdateFitCertificationResultCommand): UpdateFitCertificationResultResponseDto {
+        val fitCertification = readFitCertificationPort.findById(command.fitCertificationId)
+            .orElseThrow { ResourceNotFoundException("fit certification result update. fit certification does not exist") }
+
+        val fitCertificationResult = readFitCertificationResultPort.findByFitCertificationId(command.fitCertificationId)
+
+        fitCertification.updateResult(fitCertificationResult)
+        updateFitCertificationPort.updateFitCertification(fitCertification)
+
+        return UpdateFitCertificationResultResponseDto(true)
     }
 }
