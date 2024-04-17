@@ -12,6 +12,7 @@ import com.fitmate.myfit.application.port.out.certification.*
 import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
 import com.fitmate.myfit.application.port.out.vote.ReadVotePort
 import com.fitmate.myfit.application.service.converter.FitCertificationUseCaseConverter
 import com.fitmate.myfit.common.GlobalStatus
@@ -26,6 +27,7 @@ import java.time.DayOfWeek
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
 @Service
 class FitCertificationService(
@@ -37,7 +39,8 @@ class FitCertificationService(
     private val readFitMateForReadPort: ReadFitMateForReadPort,
     private val fitCertificationEventPublishPort: FitCertificationEventPublishPort,
     private val readVotePort: ReadVotePort,
-    private val readFitCertificationResultPort: ReadFitCertificationResultPort
+    private val readFitCertificationResultPort: ReadFitCertificationResultPort,
+    private val readRecordMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
 ) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase, ReadFitCertificationUseCase,
     UpdateFitCertificationResultUseCase {
 
@@ -123,7 +126,34 @@ class FitCertificationService(
                 command.requestUserId
             )
 
-        return fitCertificationDetailList
+        val fitCertificationDetailDtoList = fitCertificationDetailList.map {
+            FitCertificationDetailWithVoteResponseDto(
+                it.certificationId,
+                it.recordId,
+                it.certificationRequestUserId,
+                it.isUserVoteDone,
+                it.isUserAgree,
+                it.agreeCount.toInt(),
+                it.disagreeCount.toInt(),
+                it.maxAgreeCount.toInt(),
+                it.fitRecordStartDate,
+                it.fitRecordEndDate,
+                getRecordThumbnailEndPoint(it.recordId),
+                it.createdAt.plus(12, ChronoUnit.HOURS)
+            )
+        }.toList()
+
+        return fitCertificationDetailDtoList
+    }
+
+    private fun getRecordThumbnailEndPoint(recordId: Long): String? {
+        val fitRecord = readFitRecordPort.findById(recordId)
+            .orElseThrow { ResourceNotFoundException("fit record does not exist") }
+
+        val multiMediaEndpoints = readRecordMultiMediaEndPointPort.findByFitRecordAndOrderByIdAsc(fitRecord)
+
+        return if (multiMediaEndpoints.isNotEmpty()) multiMediaEndpoints[0].endPoint
+        else null
     }
 
     @Transactional(readOnly = true)

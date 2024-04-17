@@ -62,6 +62,7 @@ class FitCertificationFilterControllerTest {
                     i + 13,
                     Instant.now(),
                     Instant.now().plusSeconds(10000),
+                    "https://avatars.githubusercontent.com/u/105261146?v=4",
                     Instant.now().plusSeconds(1000000)
                 )
             )
@@ -111,6 +112,8 @@ class FitCertificationFilterControllerTest {
                             .description("반대 수"),
                         fieldWithPath("fitCertificationDetails[].maxAgreeCount").type(JsonFieldType.NUMBER)
                             .description("최대 투표 수"),
+                        fieldWithPath("fitCertificationDetails[].thumbnailEndPoint").type(JsonFieldType.STRING)
+                            .description("기록 썸네일 사진"),
                         fieldWithPath("fitCertificationDetails[].fitRecordStartDate").type(JsonFieldType.STRING)
                             .description("기록 시작 일자"),
                         fieldWithPath("fitCertificationDetails[].fitRecordEndDate").type(JsonFieldType.STRING)

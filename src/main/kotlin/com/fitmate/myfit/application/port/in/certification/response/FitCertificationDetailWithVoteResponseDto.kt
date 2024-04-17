@@ -13,5 +13,6 @@ data class FitCertificationDetailWithVoteResponseDto(
     val maxAgreeCount: Int,
     val fitRecordStartDate: Instant,
     val fitRecordEndDate: Instant,
+    val thumbnailEndPoint: String?,
     val voteEndDate: Instant
 )
