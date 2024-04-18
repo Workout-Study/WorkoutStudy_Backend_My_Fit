@@ -46,6 +46,7 @@ class FitCertificationDtoMapper {
 
         fun dtoToDetailResponse(dto: FitCertificationDetailResponseDto): FitCertificationDetailResponse =
             FitCertificationDetailResponse(
+                dto.fitGroupId,
                 dto.fitCertificationId,
                 dto.certificationStatus,
                 dto.state,

@@ -44,4 +44,6 @@ interface ReadFitCertificationPort {
         fitGroupId: Long,
         requestUserId: String
     ): List<FitCertificationDetailDto>
+
+    fun findByFitRecord(fitRecord: FitRecord): List<FitCertification>
 }

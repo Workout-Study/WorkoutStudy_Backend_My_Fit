@@ -135,4 +135,14 @@ class FitCertificationPersistenceAdapter(
         requestUserId: String
     ): List<FitCertificationDetailDto> =
         fitCertificationRepository.findFitCertificationProgressDetailsByGroupId(fitGroupId, requestUserId)
+
+    @Transactional(readOnly = true)
+    override fun findByFitRecord(fitRecord: FitRecord): List<FitCertification> {
+        val fitRecordEntity = FitRecordEntity.domainToEntity(fitRecord)
+        val fitCertificationEntities = fitCertificationRepository.findByFitRecordEntityAndState(
+            fitRecordEntity,
+            GlobalStatus.PERSISTENCE_NOT_DELETED
+        )
+        return fitCertificationEntities.map { FitCertification.entityToDomain(it) }
+    }
 }

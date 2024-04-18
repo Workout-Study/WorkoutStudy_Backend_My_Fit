@@ -20,6 +20,7 @@ class FitCertificationUseCaseConverter private constructor() {
 
         fun fitCertificationToDetailResponseDto(fitCertification: FitCertification): FitCertificationDetailResponseDto =
             FitCertificationDetailResponseDto(
+                fitCertification.fitGroupId,
                 fitCertification.id!!,
                 fitCertification.certificationStatus,
                 fitCertification.state,

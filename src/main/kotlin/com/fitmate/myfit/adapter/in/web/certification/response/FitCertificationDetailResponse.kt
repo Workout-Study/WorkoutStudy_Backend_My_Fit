@@ -4,6 +4,7 @@ import com.fitmate.myfit.domain.CertificationStatus
 import java.time.Instant
 
 data class FitCertificationDetailResponse(
+    val fitGroupId: Long,
     val fitCertificationId: Long,
     val certificationStatus: CertificationStatus,
     val state: Boolean,
