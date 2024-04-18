@@ -3,7 +3,7 @@ package com.fitmate.myfit.adapter.`in`.web.certification.api
 import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationProgressesResponse
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationProgressByGroupIdCommand
-import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailResponseDto
+import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailWithVoteResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationProgressesResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.my.fit.command.FitCertificationFilterByGroupCommand
@@ -47,11 +47,11 @@ class FitCertificationFilterControllerTest {
     @Throws(Exception::class)
     fun `get fit certification list by fit group controller success test`() {
         //given
-        val fitCertificationDetails = mutableListOf<FitCertificationDetailResponseDto>()
+        val fitCertificationDetails = mutableListOf<FitCertificationDetailWithVoteResponseDto>()
 
         for (i in 0..3) {
             fitCertificationDetails.add(
-                FitCertificationDetailResponseDto(
+                FitCertificationDetailWithVoteResponseDto(
                     i.toLong(),
                     i.toLong(),
                     userId + i,
@@ -62,6 +62,7 @@ class FitCertificationFilterControllerTest {
                     i + 13,
                     Instant.now(),
                     Instant.now().plusSeconds(10000),
+                    "https://avatars.githubusercontent.com/u/105261146?v=4",
                     Instant.now().plusSeconds(1000000)
                 )
             )
@@ -111,6 +112,8 @@ class FitCertificationFilterControllerTest {
                             .description("반대 수"),
                         fieldWithPath("fitCertificationDetails[].maxAgreeCount").type(JsonFieldType.NUMBER)
                             .description("최대 투표 수"),
+                        fieldWithPath("fitCertificationDetails[].thumbnailEndPoint").type(JsonFieldType.STRING)
+                            .description("기록 썸네일 사진"),
                         fieldWithPath("fitCertificationDetails[].fitRecordStartDate").type(JsonFieldType.STRING)
                             .description("기록 시작 일자"),
                         fieldWithPath("fitCertificationDetails[].fitRecordEndDate").type(JsonFieldType.STRING)

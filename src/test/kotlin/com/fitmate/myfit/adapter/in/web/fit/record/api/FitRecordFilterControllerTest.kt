@@ -3,10 +3,12 @@ package com.fitmate.myfit.adapter.`in`.web.fit.record.api
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordSliceFilterRequest
+import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitCertificationResponse
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.ReadFitRecordUseCase
+import com.fitmate.myfit.domain.CertificationStatus
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
@@ -30,6 +32,7 @@ import org.springframework.web.util.UriComponentsBuilder
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
+import java.time.temporal.ChronoUnit
 
 @WebMvcTest(FitRecordFilterController::class)
 @AutoConfigureRestDocs
@@ -53,6 +56,25 @@ class FitRecordFilterControllerTest {
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
+    private val fitCertifications: List<FitCertificationResponse> =
+        listOf(
+            FitCertificationResponse(
+                5L,
+                "헬짱짱",
+                23L,
+                CertificationStatus.REQUESTED,
+                Instant.now(),
+                Instant.now().plus(12, ChronoUnit.HOURS)
+            ),
+            FitCertificationResponse(
+                767L,
+                "정일헬짱짱 모임",
+                28L,
+                CertificationStatus.CERTIFIED,
+                Instant.now(),
+                Instant.now().plus(12, ChronoUnit.HOURS)
+            )
+        )
 
     @Test
     @DisplayName("[단위][Web Adapter] Fit record filter - 성공 테스트")
@@ -70,7 +92,8 @@ class FitRecordFilterControllerTest {
                     recordStartDate,
                     recordEndDate,
                     Instant.now(),
-                    multiMediaEndPoint
+                    multiMediaEndPoint,
+                    fitCertifications
                 )
             )
         }
@@ -117,7 +140,35 @@ class FitRecordFilterControllerTest {
                         fieldWithPath("fitRecordDetailResponseDtoList[].createdAt").type(JsonFieldType.STRING)
                             .description("fit record의 생성일"),
                         fieldWithPath("fitRecordDetailResponseDtoList[].multiMediaEndPoints").type(JsonFieldType.ARRAY)
-                            .description("fit record의 멀티 미디어 end point list")
+                            .description("fit record의 멀티 미디어 end point list"),
+                        fieldWithPath("fitRecordDetailResponseDtoList[].registeredFitCertifications[]").type(
+                            JsonFieldType.ARRAY
+                        )
+                            .description("fit record가 등록돼있는 fit certification 목록 ( fit group 포함 )"),
+                        fieldWithPath("fitRecordDetailResponseDtoList[].registeredFitCertifications[].fitGroupId").type(
+                            JsonFieldType.NUMBER
+                        )
+                            .description("인증이 등록돼있는 fit group id"),
+                        fieldWithPath("fitRecordDetailResponseDtoList[].registeredFitCertifications[].fitGroupName").type(
+                            JsonFieldType.STRING
+                        )
+                            .description("인증이 등록돼있는 fit group의 이름"),
+                        fieldWithPath("fitRecordDetailResponseDtoList[].registeredFitCertifications[].fitCertificationId").type(
+                            JsonFieldType.NUMBER
+                        )
+                            .description("fit record가 인증으로 등록 돼 있는 fit certification id"),
+                        fieldWithPath("fitRecordDetailResponseDtoList[].registeredFitCertifications[].certificationStatus").type(
+                            JsonFieldType.STRING
+                        )
+                            .description("인증 상태 (REQUESTED, CERTIFIED, REJECTED)"),
+                        fieldWithPath("fitRecordDetailResponseDtoList[].registeredFitCertifications[].createdAt").type(
+                            JsonFieldType.STRING
+                        )
+                            .description("인증 등록 일시"),
+                        fieldWithPath("fitRecordDetailResponseDtoList[].registeredFitCertifications[].voteEndDate").type(
+                            JsonFieldType.STRING
+                        )
+                            .description("인증 종료 일시"),
                     )
                 )
             )
@@ -137,7 +188,8 @@ class FitRecordFilterControllerTest {
                     recordStartDate,
                     recordEndDate,
                     Instant.now(),
-                    multiMediaEndPoint
+                    multiMediaEndPoint,
+                    fitCertifications
                 )
             )
         }
@@ -178,7 +230,8 @@ class FitRecordFilterControllerTest {
                     recordStartDate,
                     recordEndDate,
                     Instant.now(),
-                    multiMediaEndPoint
+                    multiMediaEndPoint,
+                    fitCertifications
                 )
             )
         }
@@ -233,6 +286,20 @@ class FitRecordFilterControllerTest {
                             .description("fit record의 생성일"),
                         fieldWithPath("content[].multiMediaEndPoints").type(JsonFieldType.ARRAY)
                             .description("fit record의 멀티 미디어 end point list"),
+                        fieldWithPath("content[].registeredFitCertifications[]").type(JsonFieldType.ARRAY)
+                            .description("fit record가 등록돼있는 fit certification 목록 ( fit group 포함 )"),
+                        fieldWithPath("content[].registeredFitCertifications[].fitGroupId").type(JsonFieldType.NUMBER)
+                            .description("인증이 등록돼있는 fit group id"),
+                        fieldWithPath("content[].registeredFitCertifications[].fitGroupName").type(JsonFieldType.STRING)
+                            .description("인증이 등록돼있는 fit group의 이름"),
+                        fieldWithPath("content[].registeredFitCertifications[].fitCertificationId").type(JsonFieldType.NUMBER)
+                            .description("fit record가 인증으로 등록 돼 있는 fit certification id"),
+                        fieldWithPath("content[].registeredFitCertifications[].certificationStatus").type(JsonFieldType.STRING)
+                            .description("인증 상태 (REQUESTED, CERTIFIED, REJECTED)"),
+                        fieldWithPath("content[].registeredFitCertifications[].createdAt").type(JsonFieldType.STRING)
+                            .description("인증 등록 일시"),
+                        fieldWithPath("content[].registeredFitCertifications[].voteEndDate").type(JsonFieldType.STRING)
+                            .description("인증 종료 일시"),
                         fieldWithPath("pageable").type(JsonFieldType.OBJECT).description("pageable object"),
                         fieldWithPath("pageable.pageNumber").type(JsonFieldType.NUMBER).description("조회 페이지 번호"),
                         fieldWithPath("pageable.pageSize").type(JsonFieldType.NUMBER).description("조회 한 size"),
@@ -275,7 +342,8 @@ class FitRecordFilterControllerTest {
                     recordStartDate,
                     recordEndDate,
                     Instant.now(),
-                    multiMediaEndPoint
+                    multiMediaEndPoint,
+                    fitCertifications
                 )
             )
         }

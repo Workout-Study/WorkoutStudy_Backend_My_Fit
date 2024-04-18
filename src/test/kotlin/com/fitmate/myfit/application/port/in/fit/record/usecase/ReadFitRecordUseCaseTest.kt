@@ -4,6 +4,7 @@ import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
+import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.*
 import com.fitmate.myfit.application.service.service.FitRecordService
 import com.fitmate.myfit.domain.FitRecord
@@ -42,6 +43,9 @@ class ReadFitRecordUseCaseTest {
 
     @Mock
     private lateinit var updateFitRecordPort: UpdateFitRecordPort
+
+    @Mock
+    private lateinit var readFitGroupForReadPort: ReadFitGroupForReadPort
 
     private val userId = "testUserId"
     private val recordStartDate = Instant.now()
