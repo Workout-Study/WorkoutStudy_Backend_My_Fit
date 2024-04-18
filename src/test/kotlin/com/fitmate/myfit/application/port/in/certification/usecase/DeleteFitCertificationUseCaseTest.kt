@@ -4,12 +4,12 @@ import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.application.port.`in`.certification.command.DeleteFitCertificationCommand
 import com.fitmate.myfit.application.port.`in`.certification.command.RegisterFitCertificationCommand
-import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
-import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
-import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
+import com.fitmate.myfit.application.port.out.certification.*
 import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
+import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.vote.ReadVotePort
 import com.fitmate.myfit.application.service.service.FitCertificationService
 import com.fitmate.myfit.common.exceptions.BadRequestException
 import com.fitmate.myfit.common.exceptions.ResourceNotFoundException
@@ -52,6 +52,18 @@ class DeleteFitCertificationUseCaseTest {
 
     @Mock
     private lateinit var readFitMateForReadPort: ReadFitMateForReadPort
+
+    @Mock
+    private lateinit var fitCertificationEventPublishPort: FitCertificationEventPublishPort
+
+    @Mock
+    private lateinit var readVotePort: ReadVotePort
+
+    @Mock
+    private lateinit var readFitCertificationResultPort: ReadFitCertificationResultPort
+
+    @Mock
+    private lateinit var readVoteMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
 
     private val requestUserId = "testUserId"
     private val recordStartDate = Instant.now()

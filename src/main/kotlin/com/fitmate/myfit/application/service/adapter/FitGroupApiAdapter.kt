@@ -1,7 +1,7 @@
 package com.fitmate.myfit.application.service.adapter
 
 import com.fitmate.myfit.adapter.out.api.SenderUtils
-import com.fitmate.myfit.adapter.out.api.uris.FitGroupUri
+import com.fitmate.myfit.adapter.out.api.uris.FitGroupURI
 import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupPort
 import com.fitmate.myfit.application.service.dto.FitGroupResponseDto
 import com.fitmate.myfit.common.exceptions.NotExpectResultException
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 class FitGroupApiAdapter(private val senderUtils: SenderUtils) : ReadFitGroupPort {
 
     override fun findByFitGroupId(fitGroupId: Long): FitGroupResponseDto {
-        val uriEndPoint = "${FitGroupUri.GROUP_ROOT}/${fitGroupId}"
+        val uriEndPoint = "${FitGroupURI.GROUP_ROOT}/${fitGroupId}"
 
         val response: ResponseEntity<FitGroupResponseDto> =
             senderUtils.send(

@@ -1,6 +1,6 @@
 package com.fitmate.myfit.adapter.out.api.uris
 
-class FitGroupUri {
+class FitGroupURI {
 
     companion object {
         const val FIT_GROUP_ROOT_URI = "http://fit-group:8080/fit-group-service"

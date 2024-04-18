@@ -1,5 +1,6 @@
 package com.fitmate.myfit.application.service.service
 
+import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitCertificationResponse
 import com.fitmate.myfit.application.port.`in`.fit.record.command.DeleteFitRecordCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
@@ -11,6 +12,7 @@ import com.fitmate.myfit.application.port.`in`.fit.record.usecase.DeleteFitRecor
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.ReadFitRecordUseCase
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
+import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.*
 import com.fitmate.myfit.application.service.converter.FitRecordUseCaseConverter
 import com.fitmate.myfit.common.exceptions.BadRequestException
@@ -22,6 +24,7 @@ import org.springframework.data.domain.Slice
 import org.springframework.data.domain.SliceImpl
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.temporal.ChronoUnit
 
 @Service
 class FitRecordService(
@@ -30,7 +33,8 @@ class FitRecordService(
     private val registerRecordMultiMediaEndPointPort: RegisterRecordMultiMediaEndPointPort,
     private val readRecordMultiMediaEndPoint: ReadRecordMultiMediaEndPointPort,
     private val readFitCertificationPort: ReadFitCertificationPort,
-    private val updateFitRecordPort: UpdateFitRecordPort
+    private val updateFitRecordPort: UpdateFitRecordPort,
+    private val readFitGroupForReadPort: ReadFitGroupForReadPort
 ) : RegisterFitRecordUseCase, ReadFitRecordUseCase, DeleteFitRecordUseCase {
 
     /**
@@ -100,7 +104,8 @@ class FitRecordService(
                 it.recordStartDate,
                 it.recordEndDate,
                 it.createdAt,
-                findMultiMediaEndPointsAndGet(it)
+                findMultiMediaEndPointsAndGet(it),
+                findFitCertifications(it)
             )
         }.toList()
     }
@@ -126,11 +131,34 @@ class FitRecordService(
                 it.recordStartDate,
                 it.recordEndDate,
                 it.createdAt,
-                findMultiMediaEndPointsAndGet(it)
+                findMultiMediaEndPointsAndGet(it),
+                findFitCertifications(it)
             )
         }.toList()
 
         return SliceImpl(resultList, fitRecordSliceFilterCommand.pageable, hasNext)
+    }
+
+    private fun findFitCertifications(fitRecord: FitRecord): List<FitCertificationResponse> {
+        val fitCertifications = readFitCertificationPort.findByFitRecord(fitRecord)
+        return fitCertifications.map {
+
+            var fitGroupName = ""
+
+            readFitGroupForReadPort.findByFitGroupId(it.fitGroupId)
+                .ifPresentOrElse({ fitGroup ->
+                    fitGroupName = fitGroup.fitGroupName
+                }, { fitGroupName = "" })
+
+            FitCertificationResponse(
+                it.fitGroupId,
+                fitGroupName,
+                it.id!!,
+                it.certificationStatus,
+                it.createdAt,
+                it.createdAt.plus(12, ChronoUnit.HOURS)
+            )
+        }
     }
 
     private fun findMultiMediaEndPointsAndGet(fitRecord: FitRecord): List<String> =

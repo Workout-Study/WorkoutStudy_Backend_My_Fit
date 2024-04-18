@@ -59,7 +59,7 @@ class FitCertificationControllerBootTest {
         )
 
         val registerFitCertificationCommand =
-            RegisterFitCertificationCommand(requestUserId, fitRecord.id!!, fitGroupIds)
+            RegisterFitCertificationCommand(requestUserId, fitRecord.id!!, listOf(1))
 
         fitCertification = fitCertificationRepository.save(
             FitCertificationEntity.domainToEntity(

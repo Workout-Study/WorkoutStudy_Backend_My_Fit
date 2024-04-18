@@ -34,4 +34,6 @@ interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Lon
         certified: CertificationStatus,
         instant: Instant
     ): Int
+
+    fun findByFitRecordEntityAndState(fitRecordEntity: FitRecordEntity, state: Boolean): List<FitCertificationEntity>
 }

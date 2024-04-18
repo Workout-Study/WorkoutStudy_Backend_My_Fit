@@ -1,13 +1,13 @@
-package com.fitmate.myfit.application.port.`in`.certification.response
+package com.fitmate.myfit.adapter.`in`.web.fit.record.response
 
 import com.fitmate.myfit.domain.CertificationStatus
 import java.time.Instant
 
-data class FitCertificationDetailResponseDto(
+data class FitCertificationResponse(
     val fitGroupId: Long,
+    val fitGroupName: String,
     val fitCertificationId: Long,
     val certificationStatus: CertificationStatus,
-    val state: Boolean,
     val createdAt: Instant,
     val voteEndDate: Instant
 )

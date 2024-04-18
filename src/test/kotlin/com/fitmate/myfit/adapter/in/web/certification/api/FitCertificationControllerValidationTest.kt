@@ -5,6 +5,7 @@ import com.fitmate.myfit.adapter.`in`.web.certification.request.DeleteFitCertifi
 import com.fitmate.myfit.adapter.`in`.web.certification.request.RegisterFitCertificationRequest
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
+import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -35,6 +36,9 @@ class FitCertificationControllerValidationTest {
 
     @MockBean
     private lateinit var deleteFitCertificationUseCase: DeleteFitCertificationUseCase
+
+    @MockBean
+    private lateinit var readFitCertificationUseCase: ReadFitCertificationUseCase
 
     private val requestUserId = "testUserId"
     private val fitRecordId = 137L
