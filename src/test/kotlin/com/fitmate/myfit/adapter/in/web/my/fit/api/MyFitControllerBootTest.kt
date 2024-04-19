@@ -78,6 +78,7 @@ class MyFitControllerBootTest {
                         FitGroupResponseDto(
                             i.toLong(),
                             fitGroupName + i,
+                            "fitLeader$i",
                             cycle,
                             frequency + i,
                             multiMediaEndPoint,
