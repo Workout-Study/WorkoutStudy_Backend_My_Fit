@@ -6,6 +6,7 @@ import java.time.Instant
 data class FitCertificationDetailResponseDto(
     val fitGroupId: Long,
     val fitCertificationId: Long,
+    val userId: String,
     val certificationStatus: CertificationStatus,
     val state: Boolean,
     val createdAt: Instant,
