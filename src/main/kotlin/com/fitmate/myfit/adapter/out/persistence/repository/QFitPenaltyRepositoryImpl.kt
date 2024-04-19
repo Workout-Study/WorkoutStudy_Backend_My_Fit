@@ -2,6 +2,7 @@ package com.fitmate.myfit.adapter.out.persistence.repository
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitPenaltyEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.QFitPenaltyEntity.fitPenaltyEntity
+import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByFitGroupCommand
 import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByUserCommand
 import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.common.SliceUtil
@@ -54,7 +55,7 @@ class QFitPenaltyRepositoryImpl(
             .limit(SliceUtil.getSliceLimit(pageable.pageSize))
             .fetch()
 
-    private fun eqUserId(userId: String): BooleanExpression? =
+    private fun eqUserId(userId: String?): BooleanExpression? =
         if (StringUtils.hasText(userId)) fitPenaltyEntity.userId.eq(userId)
         else null
 
@@ -79,4 +80,35 @@ class QFitPenaltyRepositoryImpl(
 
         return null
     }
+
+    @Transactional(readOnly = true)
+    override fun sumAmountByFitGroupIdAndCondition(command: FitPenaltyFilterByFitGroupCommand): Int =
+        factory.select(fitPenaltyEntity.amount.sum())
+            .from(fitPenaltyEntity)
+            .where(
+                fitPenaltyEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED),
+                eqUserId(command.fitMateUserId),
+                fitGroupCondition(command.fitGroupId),
+                dateCondition(command.startDate, command.endDate),
+                paidCondition(command.onlyPaid, command.onlyNotPaid)
+            )
+            .fetchOne() ?: 0
+
+    @Transactional(readOnly = true)
+    override fun findByFitGroupIdAndCondition(
+        command: FitPenaltyFilterByFitGroupCommand,
+        pageable: Pageable
+    ): List<FitPenaltyEntity> =
+        factory.select(fitPenaltyEntity)
+            .from(fitPenaltyEntity)
+            .where(
+                fitPenaltyEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED),
+                eqUserId(command.fitMateUserId),
+                fitGroupCondition(command.fitGroupId),
+                dateCondition(command.startDate, command.endDate),
+                paidCondition(command.onlyPaid, command.onlyNotPaid)
+            )
+            .offset(pageable.offset)
+            .limit(SliceUtil.getSliceLimit(pageable.pageSize))
+            .fetch()
 }

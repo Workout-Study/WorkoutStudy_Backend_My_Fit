@@ -1,6 +1,7 @@
 package com.fitmate.myfit.application.service.service
 
 import com.fitmate.myfit.adapter.`in`.web.penalty.response.FitPenaltyFilteredResponse
+import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByFitGroupCommand
 import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByUserCommand
 import com.fitmate.myfit.application.port.`in`.fit.penalty.command.RegisterFitPenaltyCommand
 import com.fitmate.myfit.application.port.`in`.fit.penalty.response.FitPenaltyFilteredResponseDto
@@ -41,12 +42,31 @@ class FitPenaltyService(
         val totalAmount = readFitPenaltyPersistencePort.sumAmountByUserIdAndCondition(command)
 
         val pageable = PageRequest.of(command.pageNumber, command.pageSize)
-        var fitPenalties = readFitPenaltyPersistencePort.findByUserIdAndCondition(command, pageable)
+        val fitPenalties = readFitPenaltyPersistencePort.findByUserIdAndCondition(command, pageable)
 
-        val hasNext: Boolean = fitPenalties.size > pageable.pageSize
-        if (hasNext) fitPenalties = fitPenalties.dropLast(1)
+        return getFitPenaltyFilteredResponseByFitPenalties(fitPenalties, pageable, totalAmount)
+    }
 
-        val fitPenaltyFilteredResponseDtoList = fitPenalties.map {
+    @Transactional(readOnly = true)
+    override fun fitPenaltyFilterByFitGroupId(command: FitPenaltyFilterByFitGroupCommand): FitPenaltyFilteredResponse {
+        val totalAmount = readFitPenaltyPersistencePort.sumAmountByFitGroupIdAndCondition(command)
+
+        val pageable = PageRequest.of(command.pageNumber, command.pageSize)
+        val fitPenalties = readFitPenaltyPersistencePort.findByFitGroupIdAndCondition(command, pageable)
+
+        return getFitPenaltyFilteredResponseByFitPenalties(fitPenalties, pageable, totalAmount)
+    }
+
+    private fun getFitPenaltyFilteredResponseByFitPenalties(
+        fitPenalties: List<FitPenalty>,
+        pageable: PageRequest,
+        totalAmount: Int
+    ): FitPenaltyFilteredResponse {
+        var fitPenaltiesList = fitPenalties
+        val hasNext: Boolean = fitPenaltiesList.size > pageable.pageSize
+        if (hasNext) fitPenaltiesList = fitPenaltiesList.dropLast(1)
+
+        val fitPenaltyFilteredResponseDtoList = fitPenaltiesList.map {
             FitPenaltyFilteredResponseDto(
                 it.fitPenaltyId,
                 it.fitGroupId,

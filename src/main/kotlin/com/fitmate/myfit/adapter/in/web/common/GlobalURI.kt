@@ -36,5 +36,6 @@ class GlobalURI {
         const val FIT_PENALTY_ROOT = "$ROOT_URI/penalties"
         const val FIT_PENALTY_FILTER = "$FIT_PENALTY_ROOT/filters"
         const val FIT_PENALTY_FILTER_BY_USER = "$FIT_PENALTY_FILTER/by-users"
+        const val FIT_PENALTY_FILTER_BY_FIT_GROUP = "$FIT_PENALTY_FILTER/by-fit-group"
     }
 }

@@ -2,6 +2,7 @@ package com.fitmate.myfit.application.service.adapter
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitPenaltyEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitPenaltyRepository
+import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByFitGroupCommand
 import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByUserCommand
 import com.fitmate.myfit.application.port.out.fit.penalty.ReadFitPenaltyPersistencePort
 import com.fitmate.myfit.application.port.out.fit.penalty.SaveFitPenaltyPort
@@ -40,11 +41,22 @@ class FitPenaltyPersistenceAdapter(
         fitPenaltyRepository.sumAmountByUserIdAndCondition(command)
 
     @Transactional(readOnly = true)
+    override fun sumAmountByFitGroupIdAndCondition(command: FitPenaltyFilterByFitGroupCommand): Int =
+        fitPenaltyRepository.sumAmountByFitGroupIdAndCondition(command)
+
+    @Transactional(readOnly = true)
+    override fun findByFitGroupIdAndCondition(
+        command: FitPenaltyFilterByFitGroupCommand,
+        pageable: Pageable
+    ): List<FitPenalty> =
+        fitPenaltyRepository.findByFitGroupIdAndCondition(command, pageable).map(FitPenalty::entityToDomain).toList()
+
+    @Transactional(readOnly = true)
     override fun findByUserIdAndCondition(
         command: FitPenaltyFilterByUserCommand,
         pageable: Pageable
-    ): List<FitPenalty> {
-        return fitPenaltyRepository.findByUserIdAndCondition(command, pageable).map(FitPenalty::entityToDomain).toList()
-    }
+    ): List<FitPenalty> =
+        fitPenaltyRepository.findByUserIdAndCondition(command, pageable).map(FitPenalty::entityToDomain).toList()
+
 
 }

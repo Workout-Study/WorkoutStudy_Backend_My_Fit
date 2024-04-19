@@ -431,3 +431,29 @@ include::{snippets}/fit-penalty-filter-by-user/response-body.adoc[]
 http-response
 
 include::{snippets}/fit-penalty-filter-by-user/http-response.adoc[]
+
+=== Fit Penalty Filter By Fit group ( fit group 기준으로 벌금 조회 Slice )
+
+path-parameters
+
+include::{snippets}/fit-penalty-filter-by-fit-group/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/fit-penalty-filter-by-fit-group/http-request.adoc[]
+
+curl-request
+
+include::{snippets}/fit-penalty-filter-by-fit-group/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/fit-penalty-filter-by-fit-group/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/fit-penalty-filter-by-fit-group/response-body.adoc[]
+
+http-response
+
+include::{snippets}/fit-penalty-filter-by-fit-group/http-response.adoc[]
