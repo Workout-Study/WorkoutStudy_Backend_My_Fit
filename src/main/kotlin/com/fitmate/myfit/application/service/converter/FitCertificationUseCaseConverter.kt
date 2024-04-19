@@ -22,6 +22,7 @@ class FitCertificationUseCaseConverter private constructor() {
             FitCertificationDetailResponseDto(
                 fitCertification.fitGroupId,
                 fitCertification.id!!,
+                fitCertification.fitRecord.userId,
                 fitCertification.certificationStatus,
                 fitCertification.state,
                 fitCertification.createdAt,

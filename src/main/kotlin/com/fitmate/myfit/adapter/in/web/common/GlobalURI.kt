@@ -32,5 +32,16 @@ class GlobalURI {
         const val MY_FIT_CERTIFICATION_PROGRESS = "$MY_FIT_CERTIFICATION/progresses"
 
         const val MY_FIT_NEED_VOTE_CERTIFICATION = "$MY_FIT_CERTIFICATION/need-votes"
+
+        const val FIT_PENALTY_ROOT = "$ROOT_URI/penalties"
+        const val FIT_PENALTY_FILTER = "$FIT_PENALTY_ROOT/filters"
+        const val FIT_PENALTY_FILTER_BY_USER = "$FIT_PENALTY_FILTER/by-users"
+        const val FIT_PENALTY_FILTER_BY_FIT_GROUP = "$FIT_PENALTY_FILTER/by-fit-group"
+
+        const val FIT_MANAGEMENT_ROOT = "$ROOT_URI/management"
+        const val FIT_PENALTY_MANAGEMENT = "$FIT_MANAGEMENT_ROOT/penalties"
+
+        const val PATH_VARIABLE_FIT_PENALTY_ID = "fit-penalty-id"
+        const val PATH_VARIABLE_FIT_PENALTY_ID_WITH_BRACE = "/{$PATH_VARIABLE_FIT_PENALTY_ID}"
     }
 }

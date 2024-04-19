@@ -74,7 +74,7 @@ class FitCertificationDtoMapper {
             try {
                 fitCertificationIdLong = fitCertificationId.toLong()
             } catch (exception: Exception) {
-                throw BadRequestException("fit group must be long")
+                throw BadRequestException("fit certification id must be long")
             }
 
             return UpdateFitCertificationResultCommand(fitCertificationIdLong, eventPublisher)
