@@ -13,7 +13,7 @@ class FitPenalty(
     var userId: String,
     var amount: Int,
     var paid: Boolean,
-    var penaltyDone: Boolean,
+    var noNeedPay: Boolean,
     createUser: String
 ) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, Instant.now(), createUser) {
     fun updateByFitPenaltyDetail(fitPenaltyDetail: FitPenaltyDetailResponseDto, command: RegisterFitPenaltyCommand) {
@@ -33,7 +33,7 @@ class FitPenalty(
                 entity.userId,
                 entity.amount,
                 entity.paid,
-                entity.penaltyDone,
+                entity.noNeedPay,
                 entity.createUser
             )
 
@@ -52,7 +52,7 @@ class FitPenalty(
             fitPenaltyDetail.userId,
             fitPenaltyDetail.amount,
             GlobalStatus.PENALTY_NOT_PAID,
-            GlobalStatus.PENALTY_NOT_DONE,
+            GlobalStatus.PENALTY_NO_NEED_PAY,
             command.eventPublisher
         )
     }

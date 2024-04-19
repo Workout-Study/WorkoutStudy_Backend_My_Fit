@@ -15,7 +15,7 @@ class FitPenaltyEntity(
     val userId: String,
     val amount: Int,
     @Convert(converter = BooleanNumberConverter::class) var paid: Boolean,
-    @Convert(converter = BooleanNumberConverter::class) var penaltyDone: Boolean,
+    @Convert(converter = BooleanNumberConverter::class) var noNeedPay: Boolean,
     state: Boolean,
     createUser: String
 ) : BaseEntity(state, Instant.now(), createUser) {
@@ -32,7 +32,7 @@ class FitPenaltyEntity(
                 domain.userId,
                 domain.amount,
                 domain.paid,
-                domain.penaltyDone,
+                domain.noNeedPay,
                 domain.state,
                 domain.createUser,
             )

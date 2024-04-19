@@ -23,7 +23,7 @@ class GlobalStatus {
         const val PENALTY_PAID = true
         const val PENALTY_NOT_PAID = false
 
-        const val PENALTY_DONE = true
-        const val PENALTY_NOT_DONE = false
+        const val PENALTY_NEED_PAY = true
+        const val PENALTY_NO_NEED_PAY = false
     }
 }

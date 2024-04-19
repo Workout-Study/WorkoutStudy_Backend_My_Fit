@@ -2,9 +2,11 @@ package com.fitmate.myfit.application.service.adapter
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitPenaltyEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitPenaltyRepository
+import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByUserCommand
 import com.fitmate.myfit.application.port.out.fit.penalty.ReadFitPenaltyPersistencePort
 import com.fitmate.myfit.application.port.out.fit.penalty.SaveFitPenaltyPort
 import com.fitmate.myfit.domain.FitPenalty
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -32,4 +34,17 @@ class FitPenaltyPersistenceAdapter(
         val savedFitPenaltyEntity: FitPenaltyEntity = fitPenaltyRepository.save(fitPenaltyEntity)
         return FitPenalty.entityToDomain(savedFitPenaltyEntity)
     }
+
+    @Transactional(readOnly = true)
+    override fun sumAmountByUserIdAndCondition(command: FitPenaltyFilterByUserCommand): Int =
+        fitPenaltyRepository.sumAmountByUserIdAndCondition(command)
+
+    @Transactional(readOnly = true)
+    override fun findByUserIdAndCondition(
+        command: FitPenaltyFilterByUserCommand,
+        pageable: Pageable
+    ): List<FitPenalty> {
+        return fitPenaltyRepository.findByUserIdAndCondition(command, pageable).map(FitPenalty::entityToDomain).toList()
+    }
+
 }

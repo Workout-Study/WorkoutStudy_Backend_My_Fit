@@ -403,3 +403,31 @@ include::{snippets}/need-vote-certification/response-body.adoc[]
 http-response
 
 include::{snippets}/need-vote-certification/http-response.adoc[]
+
+== 5. fit penalty
+
+=== Fit Penalty Filter By User ( 유저 기준으로 벌금 조회 Slice )
+
+path-parameters
+
+include::{snippets}/fit-penalty-filter-by-user/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/fit-penalty-filter-by-user/http-request.adoc[]
+
+curl-request
+
+include::{snippets}/fit-penalty-filter-by-user/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/fit-penalty-filter-by-user/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/fit-penalty-filter-by-user/response-body.adoc[]
+
+http-response
+
+include::{snippets}/fit-penalty-filter-by-user/http-response.adoc[]
