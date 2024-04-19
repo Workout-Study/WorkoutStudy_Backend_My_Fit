@@ -48,7 +48,7 @@ class FitPenaltyFilterControllerBootTest {
     private val totalAmount = 15000
 
     @Test
-    @DisplayName("[단위][Web Adapter] Fit penalty filter by user - 성공 테스트")
+    @DisplayName("[통합][Web Adapter] Fit penalty filter by user - 성공 테스트")
     @Throws(Exception::class)
     fun `filter fit penalty by user id controller success test`() {
         //given
@@ -103,7 +103,7 @@ class FitPenaltyFilterControllerBootTest {
     }
 
     @Test
-    @DisplayName("[단위][Web Adapter] Fit penalty filter by fit group - 성공 테스트")
+    @DisplayName("[통합][Web Adapter] Fit penalty filter by fit group - 성공 테스트")
     @Throws(Exception::class)
     fun `filter fit penalty by fit group controller success test`() {
         //given

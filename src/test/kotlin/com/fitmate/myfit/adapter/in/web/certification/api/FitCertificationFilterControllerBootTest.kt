@@ -54,6 +54,7 @@ class FitCertificationFilterControllerBootTest {
                     FitGroupResponseDto(
                         fitGroupId,
                         fitGroupName,
+                        requestUserId,
                         cycle,
                         frequency,
                         multiMediaEndPoint,

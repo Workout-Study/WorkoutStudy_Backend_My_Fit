@@ -6,6 +6,7 @@ import com.fitmate.myfit.adapter.`in`.web.penalty.request.FitPenaltyFilterByFitG
 import com.fitmate.myfit.adapter.`in`.web.penalty.request.FitPenaltyFilterByUserRequest
 import com.fitmate.myfit.adapter.`in`.web.penalty.response.FitPenaltyFilteredResponse
 import com.fitmate.myfit.application.port.`in`.fit.penalty.usecase.ReadFitPenaltyUseCase
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
@@ -20,7 +21,7 @@ class FitPenaltyFilterController(
     @GetMapping(GlobalURI.FIT_PENALTY_FILTER_BY_USER + GlobalURI.PATH_VARIABLE_USER_ID_WITH_BRACE)
     fun fitPenaltyFilterByUser(
         @PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) userId: String,
-        @ModelAttribute request: FitPenaltyFilterByUserRequest
+        @ModelAttribute @Valid request: FitPenaltyFilterByUserRequest
     ): ResponseEntity<FitPenaltyFilteredResponse> {
         val fitPenaltyFilterByUserCommand = FitPenaltyFilterDtoMapper.filterByUserRequestToCommand(userId, request)
         return ResponseEntity.ok().body(readFitPenaltyUseCase.fitPenaltyFilterByUser(fitPenaltyFilterByUserCommand))
@@ -29,7 +30,7 @@ class FitPenaltyFilterController(
     @GetMapping(GlobalURI.FIT_PENALTY_FILTER_BY_FIT_GROUP + GlobalURI.PATH_VARIABLE_FIT_GROUP_ID_WITH_BRACE)
     fun fitPenaltyFilterByFitGroupId(
         @PathVariable(GlobalURI.PATH_VARIABLE_FIT_GROUP_ID) fitGroupId: Long,
-        @ModelAttribute request: FitPenaltyFilterByFitGroupRequest
+        @ModelAttribute @Valid request: FitPenaltyFilterByFitGroupRequest
     ): ResponseEntity<FitPenaltyFilteredResponse> {
         val fitPenaltyFilterByFitGroupCommand =
             FitPenaltyFilterDtoMapper.filterByFitGroupRequestToCommand(fitGroupId, request)

@@ -457,3 +457,57 @@ include::{snippets}/fit-penalty-filter-by-fit-group/response-body.adoc[]
 http-response
 
 include::{snippets}/fit-penalty-filter-by-fit-group/http-response.adoc[]
+
+== 6. fit management
+
+=== fit management fit penalty paid by fit leader ( 패널티 금액 리더가 입금 완료 처리 )
+
+path-parameters
+
+include::{snippets}/fit-management-penalty-paid-by-fit-leader/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/fit-management-penalty-paid-by-fit-leader/http-request.adoc[]
+
+curl-request
+
+include::{snippets}/fit-management-penalty-paid-by-fit-leader/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/fit-management-penalty-paid-by-fit-leader/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/fit-management-penalty-paid-by-fit-leader/response-body.adoc[]
+
+http-response
+
+include::{snippets}/fit-management-penalty-paid-by-fit-leader/http-response.adoc[]
+
+=== fit management fit penalty no need pay by fit leader ( 패널티 금액 리더가 입금 불필요 처리 )
+
+path-parameters
+
+include::{snippets}/fit-management-penalty-no-need-pay-by-fit-leader/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/fit-management-penalty-no-need-pay-by-fit-leader/http-request.adoc[]
+
+curl-request
+
+include::{snippets}/fit-management-penalty-no-need-pay-by-fit-leader/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/fit-management-penalty-no-need-pay-by-fit-leader/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/fit-management-penalty-no-need-pay-by-fit-leader/response-body.adoc[]
+
+http-response
+
+include::{snippets}/fit-management-penalty-no-need-pay-by-fit-leader/http-response.adoc[]

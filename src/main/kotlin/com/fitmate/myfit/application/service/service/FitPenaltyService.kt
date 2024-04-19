@@ -8,10 +8,18 @@ import com.fitmate.myfit.application.port.`in`.fit.penalty.response.FitPenaltyFi
 import com.fitmate.myfit.application.port.`in`.fit.penalty.response.SaveFitPenaltyResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.penalty.usecase.ReadFitPenaltyUseCase
 import com.fitmate.myfit.application.port.`in`.fit.penalty.usecase.SaveFitPenaltyUseCase
+import com.fitmate.myfit.application.port.`in`.management.command.NoNeedPayFitPenaltyCommand
+import com.fitmate.myfit.application.port.`in`.management.command.PaidFitPenaltyCommand
+import com.fitmate.myfit.application.port.`in`.management.response.NoNeedPayFitPenaltyResponseDto
+import com.fitmate.myfit.application.port.`in`.management.response.PaidFitPenaltyResponseDto
+import com.fitmate.myfit.application.port.`in`.management.usecase.UpdateFitPenaltyUseCase
+import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.penalty.ReadFitPenaltyApiPort
 import com.fitmate.myfit.application.port.out.fit.penalty.ReadFitPenaltyPersistencePort
 import com.fitmate.myfit.application.port.out.fit.penalty.SaveFitPenaltyPort
 import com.fitmate.myfit.application.service.converter.FitPenaltyUseCaseConverter
+import com.fitmate.myfit.common.exceptions.BadRequestException
+import com.fitmate.myfit.common.exceptions.ResourceNotFoundException
 import com.fitmate.myfit.domain.FitPenalty
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -21,8 +29,9 @@ import org.springframework.transaction.annotation.Transactional
 class FitPenaltyService(
     private val readFitPenaltyPersistencePort: ReadFitPenaltyPersistencePort,
     private val saveFitPenaltyPort: SaveFitPenaltyPort,
-    private val readFitPenaltyApiPort: ReadFitPenaltyApiPort
-) : SaveFitPenaltyUseCase, ReadFitPenaltyUseCase {
+    private val readFitPenaltyApiPort: ReadFitPenaltyApiPort,
+    private val readFitGroupForReadPort: ReadFitGroupForReadPort
+) : SaveFitPenaltyUseCase, ReadFitPenaltyUseCase, UpdateFitPenaltyUseCase {
 
     @Transactional
     override fun saveFitPenalty(command: RegisterFitPenaltyCommand): SaveFitPenaltyResponseDto {
@@ -85,5 +94,41 @@ class FitPenaltyService(
             totalAmount,
             fitPenaltyFilteredResponseDtoList
         )
+    }
+
+    @Transactional
+    override fun paidFitPenaltyByFitReader(command: PaidFitPenaltyCommand): PaidFitPenaltyResponseDto {
+        val fitPenalty = readFitPenaltyPersistencePort.findByFitPenaltyId(command.fitPenaltyId)
+            .orElseThrow { ResourceNotFoundException("fit penalty does not exist") }
+
+        if (fitPenalty.isDeleted) throw BadRequestException("fit penalty already deleted")
+
+        val fitGroup = readFitGroupForReadPort.findByFitGroupId(fitPenalty.fitGroupId)
+            .orElseThrow { ResourceNotFoundException("fit group does not exist") }
+
+        if (fitGroup.fitLeaderUserId != command.requestUserId) throw BadRequestException("fit penalty paid check only can fit leader. request user is not fit leader")
+
+        fitPenalty.payPenalty(command.requestUserId)
+        val savedFitPenalty = saveFitPenaltyPort.saveFitPenalty(fitPenalty)
+
+        return PaidFitPenaltyResponseDto(savedFitPenalty.paid)
+    }
+
+    @Transactional
+    override fun noNeedPayFitPenaltyByFitReader(command: NoNeedPayFitPenaltyCommand): NoNeedPayFitPenaltyResponseDto {
+        val fitPenalty = readFitPenaltyPersistencePort.findByFitPenaltyId(command.fitPenaltyId)
+            .orElseThrow { ResourceNotFoundException("fit penalty does not exist") }
+
+        if (fitPenalty.isDeleted) throw BadRequestException("fit penalty already deleted")
+
+        val fitGroup = readFitGroupForReadPort.findByFitGroupId(fitPenalty.fitGroupId)
+            .orElseThrow { ResourceNotFoundException("fit group does not exist") }
+
+        if (fitGroup.fitLeaderUserId != command.requestUserId) throw BadRequestException("fit penalty no need pay check only can fit leader. request user is not fit leader")
+
+        fitPenalty.noNeedPayCheck(command.requestUserId)
+        val savedFitPenalty = saveFitPenaltyPort.saveFitPenalty(fitPenalty)
+
+        return NoNeedPayFitPenaltyResponseDto(savedFitPenalty.noNeedPay)
     }
 }

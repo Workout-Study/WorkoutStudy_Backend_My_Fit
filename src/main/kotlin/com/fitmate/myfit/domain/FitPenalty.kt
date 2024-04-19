@@ -24,6 +24,18 @@ class FitPenalty(
         this.updateUser = command.eventPublisher
     }
 
+    fun payPenalty(updateUserId: String) {
+        this.paid = GlobalStatus.PENALTY_PAID
+        this.updatedAt = Instant.now()
+        this.updateUser = updateUserId
+    }
+
+    fun noNeedPayCheck(updateUserId: String) {
+        this.noNeedPay = GlobalStatus.PENALTY_NO_NEED_PAY
+        this.updatedAt = Instant.now()
+        this.updateUser = updateUserId
+    }
+
     companion object {
         fun entityToDomain(entity: FitPenaltyEntity): FitPenalty {
             val fitPenalty = FitPenalty(

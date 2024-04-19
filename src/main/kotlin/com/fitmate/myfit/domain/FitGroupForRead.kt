@@ -9,6 +9,7 @@ class FitGroupForRead private constructor(
     var id: Long?,
     val fitGroupId: Long,
     var fitGroupName: String,
+    var fitLeaderUserId: String,
     var cycle: Int,
     var frequency: Int,
     var thumbnailEndPoint: String?,
@@ -18,6 +19,7 @@ class FitGroupForRead private constructor(
 
     fun updateByFitGroupDetail(dto: FitGroupResponseDto, command: SaveFitGroupForReadCommand) {
         this.fitGroupName = dto.fitGroupName
+        this.fitLeaderUserId = dto.fitLeaderUserId
         this.cycle = dto.cycle
         this.frequency = dto.frequency
         this.state = dto.state
@@ -36,6 +38,7 @@ class FitGroupForRead private constructor(
                 entity.id,
                 entity.fitGroupId,
                 entity.fitGroupName,
+                entity.fitLeaderUserId,
                 entity.cycle,
                 entity.frequency,
                 entity.thumbnailEndPoint,
@@ -61,6 +64,7 @@ class FitGroupForRead private constructor(
                 null,
                 fitGroupDetail.fitGroupId,
                 fitGroupDetail.fitGroupName,
+                fitGroupDetail.fitLeaderUserId,
                 fitGroupDetail.cycle,
                 fitGroupDetail.frequency,
                 thumbnailEndPoint,
