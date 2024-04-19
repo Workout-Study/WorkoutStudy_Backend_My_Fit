@@ -1,0 +1,59 @@
+package com.fitmate.myfit.domain
+
+import com.fitmate.myfit.adapter.out.persistence.entity.FitPenaltyEntity
+import com.fitmate.myfit.application.port.`in`.fit.penalty.command.RegisterFitPenaltyCommand
+import com.fitmate.myfit.application.service.dto.FitPenaltyDetailResponseDto
+import com.fitmate.myfit.common.GlobalStatus
+import java.time.Instant
+
+class FitPenalty(
+    val id: Long?,
+    var fitPenaltyId: Long,
+    var fitGroupId: Long,
+    var userId: String,
+    var amount: Int,
+    var paid: Boolean,
+    var penaltyDone: Boolean,
+    createUser: String
+) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, Instant.now(), createUser) {
+    fun updateByFitPenaltyDetail(fitPenaltyDetail: FitPenaltyDetailResponseDto, command: RegisterFitPenaltyCommand) {
+        this.fitGroupId = fitPenaltyDetail.fitGroupId
+        this.userId = fitPenaltyDetail.userId
+        this.amount = fitPenaltyDetail.amount
+        this.updatedAt = Instant.now()
+        this.updateUser = command.eventPublisher
+    }
+
+    companion object {
+        fun entityToDomain(entity: FitPenaltyEntity): FitPenalty {
+            val fitPenalty = FitPenalty(
+                entity.id,
+                entity.fitPenaltyId,
+                entity.fitGroupId,
+                entity.userId,
+                entity.amount,
+                entity.paid,
+                entity.penaltyDone,
+                entity.createUser
+            )
+
+            fitPenalty.setMetaDataByEntity(entity)
+
+            return fitPenalty
+        }
+
+        fun createByFitPenaltyDetail(
+            fitPenaltyDetail: FitPenaltyDetailResponseDto,
+            command: RegisterFitPenaltyCommand
+        ): FitPenalty = FitPenalty(
+            null,
+            fitPenaltyDetail.fitPenaltyId,
+            fitPenaltyDetail.fitGroupId,
+            fitPenaltyDetail.userId,
+            fitPenaltyDetail.amount,
+            GlobalStatus.PENALTY_NOT_PAID,
+            GlobalStatus.PENALTY_NOT_DONE,
+            command.eventPublisher
+        )
+    }
+}

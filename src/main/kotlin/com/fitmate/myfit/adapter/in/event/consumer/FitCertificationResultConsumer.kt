@@ -20,7 +20,7 @@ class FitCertificationResultConsumer(
     /**
      * kafka fit certification result event listener inbound
      *
-     * @param fitCertificationId fit group id where an event occurred
+     * @param fitCertificationId fit certification id where an event occurred
      */
     @KafkaListener(topics = [GlobalStatus.KAFKA_TOPIC_FIT_CERTIFICATION_RESULT], groupId = GlobalStatus.KAFKA_GROUP_ID)
     fun fitCertificationResultListener(fitCertificationId: String) {

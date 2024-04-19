@@ -18,5 +18,12 @@ class GlobalStatus {
         const val KAFKA_TOPIC_FIT_MATE = "fit-mate"
         const val KAFKA_TOPIC_FIT_CERTIFICATION = "fit-certification"
         const val KAFKA_TOPIC_FIT_CERTIFICATION_RESULT = "fit-certification-result"
+        const val KAFKA_TOPIC_FIT_PENALTY = "fit-penalty"
+
+        const val PENALTY_PAID = true
+        const val PENALTY_NOT_PAID = false
+
+        const val PENALTY_DONE = true
+        const val PENALTY_NOT_DONE = false
     }
 }
