@@ -1,7 +1,10 @@
 # WorkoutStudy_Backend_My_Fit_Service
 ## Intro
 
-- 이 서비스는 Fit mate 프로젝트의 운동 기록, 운동 인증, 투표, 벌금 관리 역할을 담당하는 서비스 입니다.
+[Fit-Mate App Aplication](https://github.com/Workout-Study/Project-Introduction)
+
+- 이 서비스는 위 Fit mate 프로젝트의 운동 기록, 운동 인증, 투표, 벌금 관리 역할을 담당하는 서비스 입니다.
+
 
 ## Period
 
