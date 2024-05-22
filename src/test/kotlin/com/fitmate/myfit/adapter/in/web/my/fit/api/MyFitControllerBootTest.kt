@@ -58,7 +58,7 @@ class MyFitControllerBootTest {
     @Autowired
     private lateinit var fitCertificationRepository: FitCertificationRepository
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val fitGroupName = "헬창들은 일주일에 7번 운동해야죠 스터디"
     private val cycle = 1
     private val frequency = 7
@@ -78,7 +78,7 @@ class MyFitControllerBootTest {
                         FitGroupResponseDto(
                             i.toLong(),
                             fitGroupName + i,
-                            "fitLeader$i",
+                            i,
                             cycle,
                             frequency + i,
                             multiMediaEndPoint,
@@ -136,7 +136,7 @@ class MyFitControllerBootTest {
             }
 
             val otherFitCertificationCommand = RegisterFitCertificationCommand(
-                "otherUserId$i",
+                i + 99,
                 fitRecord.id!!,
                 fitGroupIds
             )

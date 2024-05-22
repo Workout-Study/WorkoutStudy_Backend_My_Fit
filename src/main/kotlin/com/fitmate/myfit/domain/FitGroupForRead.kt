@@ -9,7 +9,7 @@ class FitGroupForRead private constructor(
     var id: Long?,
     val fitGroupId: Long,
     var fitGroupName: String,
-    var fitLeaderUserId: String,
+    var fitLeaderUserId: Int,
     var cycle: Int,
     var frequency: Int,
     var thumbnailEndPoint: String?,

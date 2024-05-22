@@ -39,7 +39,7 @@ class FitPenaltyFilterControllerBootTest {
     private val endDate: Instant =
         LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth())
             .atStartOfDay().plusHours(23).plusMinutes(59).plusSeconds(59).toInstant(ZoneOffset.UTC)
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val fitGroupId = 1634L
 
     private val pageNumber = 0

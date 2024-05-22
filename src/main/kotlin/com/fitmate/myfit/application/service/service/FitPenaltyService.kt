@@ -108,7 +108,7 @@ class FitPenaltyService(
 
         if (fitGroup.fitLeaderUserId != command.requestUserId) throw BadRequestException("fit penalty paid check only can fit leader. request user is not fit leader")
 
-        fitPenalty.payPenalty(command.requestUserId)
+        fitPenalty.payPenalty(command.requestUserId.toString())
         val savedFitPenalty = saveFitPenaltyPort.saveFitPenalty(fitPenalty)
 
         return PaidFitPenaltyResponseDto(savedFitPenalty.paid)
@@ -126,7 +126,7 @@ class FitPenaltyService(
 
         if (fitGroup.fitLeaderUserId != command.requestUserId) throw BadRequestException("fit penalty no need pay check only can fit leader. request user is not fit leader")
 
-        fitPenalty.noNeedPayCheck(command.requestUserId)
+        fitPenalty.noNeedPayCheck(command.requestUserId.toString())
         val savedFitPenalty = saveFitPenaltyPort.saveFitPenalty(fitPenalty)
 
         return NoNeedPayFitPenaltyResponseDto(savedFitPenalty.noNeedPay)

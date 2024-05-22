@@ -48,7 +48,7 @@ class FitCertificationControllerTest {
     @MockBean
     private lateinit var readFitCertificationUseCase: ReadFitCertificationUseCase
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val fitRecordId = 137L
     private val fitGroupIds = listOf(13L, 7L, 2L)
 
@@ -77,7 +77,7 @@ class FitCertificationControllerTest {
                 document(
                     "register-fit-certification",
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Fit 인증을 등록하는 User id"),
                         fieldWithPath("fitRecordId").type(JsonFieldType.NUMBER)
                             .description("인증으로 등록할 record의 id"),
@@ -121,7 +121,7 @@ class FitCertificationControllerTest {
                             .description("삭제할 Fit certification id")
                     ),
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Fit certification을 삭제 요청한 User id")
                     ),
                     responseFields(

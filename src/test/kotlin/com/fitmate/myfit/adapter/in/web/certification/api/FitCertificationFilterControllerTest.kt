@@ -36,7 +36,7 @@ class FitCertificationFilterControllerTest {
     @MockBean
     private lateinit var readFitCertificationUseCase: ReadFitCertificationUseCase
 
-    private val userId = "testUserId"
+    private val userId = 26
     private val fitGroupId = 12L
     private val fitGroupName = "헬헬헬 헬스를 해요"
     private val cycle = 1
@@ -100,7 +100,7 @@ class FitCertificationFilterControllerTest {
                             .description("운동 인증 id (fit certification id)"),
                         fieldWithPath("fitCertificationDetails[].recordId").type(JsonFieldType.NUMBER)
                             .description("운동 인증의 record id"),
-                        fieldWithPath("fitCertificationDetails[].certificationRequestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("fitCertificationDetails[].certificationRequestUserId").type(JsonFieldType.NUMBER)
                             .description("운동 인증을 요청한 user id"),
                         fieldWithPath("fitCertificationDetails[].isUserVoteDone").type(JsonFieldType.BOOLEAN)
                             .description("조회를 요청한 유저가 투표 했는지 여부"),
@@ -178,7 +178,7 @@ class FitCertificationFilterControllerTest {
                             .description("주기별 인증 필요 횟수"),
                         fieldWithPath("fitCertificationProgresses[]").type(JsonFieldType.ARRAY)
                             .description("fit mate들의 인증 진행도"),
-                        fieldWithPath("fitCertificationProgresses[].fitMateUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("fitCertificationProgresses[].fitMateUserId").type(JsonFieldType.NUMBER)
                             .description("fit mate의 user id"),
                         fieldWithPath("fitCertificationProgresses[].certificationCount").type(JsonFieldType.NUMBER)
                             .description("금주 인증 횟수")

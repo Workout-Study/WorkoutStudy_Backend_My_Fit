@@ -19,7 +19,7 @@ class FitRecordMultiMediaEndPoint private constructor(
                 null,
                 fitRecord,
                 endPoint,
-                fitRecord.userId
+                fitRecord.userId.toString()
             )
         }
 

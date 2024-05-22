@@ -6,11 +6,11 @@ import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
 interface QFitCertificationRepository {
     fun findNeedToVoteCertificationByFitGroupIdAndUserId(
         fitGroupId: Long,
-        userId: String
+        userId: Int
     ): List<FitCertificationWithVoteDto>
 
     fun findFitCertificationProgressDetailsByGroupId(
         fitGroupId: Long,
-        requestUserId: String
+        requestUserId: Int
     ): List<FitCertificationDetailDto>
 }

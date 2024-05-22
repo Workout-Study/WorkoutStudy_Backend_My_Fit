@@ -81,7 +81,7 @@ class FitRecordService(
                 .isNotEmpty()
         ) throw BadRequestException("fit record register on fit certification.")
 
-        fitRecord.delete(deleteFitRecordCommand.requestUserId)
+        fitRecord.delete(deleteFitRecordCommand.requestUserId.toString())
         updateFitRecordPort.updateFitRecord(fitRecord)
 
         return FitRecordUseCaseConverter.resultToDeleteResponseDto(fitRecord.isDeleted)

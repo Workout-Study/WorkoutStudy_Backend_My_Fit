@@ -10,7 +10,7 @@ class FitMateForRead private constructor(
     var id: Long?,
     val fitGroupId: Long,
     val fitMateId: Long,
-    val fitMateUserId: String,
+    val fitMateUserId: Int,
     state: Boolean,
     createUser: String
 ) : BaseDomain(state, createdAt = Instant.now(), createUser) {

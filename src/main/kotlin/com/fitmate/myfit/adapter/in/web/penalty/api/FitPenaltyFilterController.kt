@@ -20,7 +20,7 @@ class FitPenaltyFilterController(
 
     @GetMapping(GlobalURI.FIT_PENALTY_FILTER_BY_USER + GlobalURI.PATH_VARIABLE_USER_ID_WITH_BRACE)
     fun fitPenaltyFilterByUser(
-        @PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) userId: String,
+        @PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) userId: Int,
         @ModelAttribute @Valid request: FitPenaltyFilterByUserRequest
     ): ResponseEntity<FitPenaltyFilteredResponse> {
         val fitPenaltyFilterByUserCommand = FitPenaltyFilterDtoMapper.filterByUserRequestToCommand(userId, request)

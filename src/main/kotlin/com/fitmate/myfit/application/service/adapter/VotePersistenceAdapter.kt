@@ -16,7 +16,7 @@ class VotePersistenceAdapter(private val voteRepository: VoteRepository) : Regis
     UpdateVotePort {
     @Transactional(readOnly = true)
     override fun findByUserIdAndTargetCategoryAndTargetId(
-        userId: String,
+        userId: Int,
         targetCategory: Int,
         targetId: Long
     ): Optional<Vote> {

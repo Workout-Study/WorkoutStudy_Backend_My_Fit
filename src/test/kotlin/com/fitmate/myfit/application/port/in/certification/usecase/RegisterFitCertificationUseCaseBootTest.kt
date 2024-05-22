@@ -35,7 +35,7 @@ class RegisterFitCertificationUseCaseBootTest {
     @Autowired
     private lateinit var fitCertificationRepository: FitCertificationRepository
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val fitGroupIds = listOf(13L, 7L, 2L)
 
     private val recordStartDate = Instant.now()

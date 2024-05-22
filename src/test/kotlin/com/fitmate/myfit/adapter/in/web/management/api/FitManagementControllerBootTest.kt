@@ -52,7 +52,7 @@ class FitManagementControllerBootTest {
     private lateinit var fitGroupForReadRepository: FitGroupForReadRepository
 
     private val fitPenaltyId = 162L
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val fitGroupId = 63L
 
     private lateinit var fitPenaltyEntity: FitPenaltyEntity

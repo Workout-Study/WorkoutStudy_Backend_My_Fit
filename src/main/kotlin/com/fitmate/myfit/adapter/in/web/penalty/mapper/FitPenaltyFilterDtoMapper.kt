@@ -8,7 +8,7 @@ import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFil
 class FitPenaltyFilterDtoMapper {
     companion object {
         fun filterByUserRequestToCommand(
-            userId: String,
+            userId: Int,
             request: FitPenaltyFilterByUserRequest
         ): FitPenaltyFilterByUserCommand =
             FitPenaltyFilterByUserCommand(

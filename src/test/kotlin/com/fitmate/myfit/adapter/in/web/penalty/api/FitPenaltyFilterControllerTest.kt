@@ -46,7 +46,7 @@ class FitPenaltyFilterControllerTest {
     private val endDate: Instant =
         LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth())
             .atStartOfDay().plusHours(23).plusMinutes(59).plusSeconds(59).toInstant(ZoneOffset.UTC)
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val fitGroupId = 1634L
 
     private val pageNumber = 0
@@ -149,7 +149,7 @@ class FitPenaltyFilterControllerTest {
                             .description("fit penalty id"),
                         fieldWithPath("content[].fitGroupId").type(JsonFieldType.NUMBER)
                             .description("fit penalty가 발생한 fit group id"),
-                        fieldWithPath("content[].userId").type(JsonFieldType.STRING)
+                        fieldWithPath("content[].userId").type(JsonFieldType.NUMBER)
                             .description("fit penalty (벌금) 이 발부된 user id"),
                         fieldWithPath("content[].amount").type(JsonFieldType.NUMBER)
                             .description("fit penalty 금액"),
@@ -259,7 +259,7 @@ class FitPenaltyFilterControllerTest {
                             .description("fit penalty id"),
                         fieldWithPath("content[].fitGroupId").type(JsonFieldType.NUMBER)
                             .description("fit penalty가 발생한 fit group id"),
-                        fieldWithPath("content[].userId").type(JsonFieldType.STRING)
+                        fieldWithPath("content[].userId").type(JsonFieldType.NUMBER)
                             .description("fit penalty (벌금) 이 발부된 user id"),
                         fieldWithPath("content[].amount").type(JsonFieldType.NUMBER)
                             .description("fit penalty 금액"),

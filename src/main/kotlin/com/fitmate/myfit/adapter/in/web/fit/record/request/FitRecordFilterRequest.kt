@@ -1,12 +1,11 @@
 package com.fitmate.myfit.adapter.`in`.web.fit.record.request
 
-import jakarta.validation.constraints.NotEmpty
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 
 data class FitRecordFilterRequest(
-    @field:NotEmpty val userId: String,
+    val userId: Int,
     val recordEndStartDate: Instant =
         LocalDate.now().withDayOfMonth(1)
             .atStartOfDay().toInstant(ZoneOffset.UTC),

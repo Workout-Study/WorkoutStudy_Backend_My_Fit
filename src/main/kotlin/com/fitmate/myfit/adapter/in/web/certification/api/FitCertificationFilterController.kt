@@ -20,7 +20,7 @@ class FitCertificationFilterController(private val readFitCertificationUseCase: 
     )
     fun getFitCertificationByGroupId(
         @PathVariable(GlobalURI.PATH_VARIABLE_FIT_GROUP_ID) fitGroupId: Long,
-        @PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) requestUserId: String
+        @PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) requestUserId: Int
     ): ResponseEntity<FitCertificationDetailsResponse> {
         val fitCertificationFilterByGroupIdCommand =
             FitCertificationFilterDtoMapper.filterByGroupIdAndUserIdRequestToCommand(fitGroupId, requestUserId)

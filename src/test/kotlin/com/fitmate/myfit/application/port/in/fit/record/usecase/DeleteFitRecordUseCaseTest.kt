@@ -52,7 +52,7 @@ class DeleteFitRecordUseCaseTest {
     @Mock
     private lateinit var readFitGroupForReadPort: ReadFitGroupForReadPort
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
@@ -128,7 +128,7 @@ class DeleteFitRecordUseCaseTest {
         //given
         val deleteFitRecordCommand = DeleteFitRecordCommand(
             fitRecordEntity.id!!,
-            "wrongRequestUserId"
+            requestUserId % 2
         )
 
         whenever(readFitRecordPort.findById(any<Long>())).thenReturn(
