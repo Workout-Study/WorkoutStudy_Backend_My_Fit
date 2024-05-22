@@ -5,7 +5,7 @@ import java.time.Instant
 data class FitPenaltyFilteredResponseDto(
     val fitPenaltyId: Long,
     val fitGroupId: Long,
-    val userId: String,
+    val userId: Int,
     val amount: Int,
     val paid: Boolean,
     val noNeedPay: Boolean,

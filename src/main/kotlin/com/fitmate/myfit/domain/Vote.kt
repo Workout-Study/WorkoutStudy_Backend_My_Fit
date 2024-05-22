@@ -8,16 +8,16 @@ import java.time.Instant
 
 class Vote private constructor(
     val id: Long?,
-    val userId: String,
+    val userId: Int,
     var agree: Boolean,
     val targetCategory: Int, // target category - 1: fit certification
     val targetId: Long,
-) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId) {
+) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId.toString()) {
 
     fun updateAgree(updateVoteCommand: UpdateVoteCommand) {
         this.agree = updateVoteCommand.agree
         this.updatedAt = Instant.now()
-        this.updateUser = updateVoteCommand.requestUserId
+        this.updateUser = updateVoteCommand.requestUserId.toString()
     }
 
     companion object {

@@ -34,7 +34,7 @@ class FitMateForReadPersistenceAdapter(
     }
 
     @Transactional(readOnly = true)
-    override fun findByFitMateUserId(userId: String): List<FitMateForRead> {
+    override fun findByFitMateUserId(userId: Int): List<FitMateForRead> {
         val fitMateForReadEntityList =
             fitMateForReadRepository.findByFitMateUserIdAndState(
                 userId,

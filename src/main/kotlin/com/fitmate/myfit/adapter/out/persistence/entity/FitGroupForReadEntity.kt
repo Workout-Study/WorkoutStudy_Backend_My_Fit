@@ -10,7 +10,7 @@ import java.time.Instant
 class FitGroupForReadEntity private constructor(
     @Column(unique = true) val fitGroupId: Long,
     val fitGroupName: String,
-    var fitLeaderUserId: String,
+    var fitLeaderUserId: Int,
     val cycle: Int,
     val frequency: Int,
     @Column(nullable = true) val thumbnailEndPoint: String?,

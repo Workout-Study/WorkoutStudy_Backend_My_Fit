@@ -66,7 +66,7 @@ class VoteService(
 
         if (vote.isDeleted) throw BadRequestException("vote already deleted")
 
-        vote.delete(deleteVoteCommand.requestUserId)
+        vote.delete(deleteVoteCommand.requestUserId.toString())
         updateVotePort.updateVote(vote)
 
         return VoteUseCaseConverter.resultToDeleteResponseDto(vote.isDeleted)

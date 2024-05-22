@@ -8,11 +8,11 @@ import java.time.Instant
 
 class FitCertification private constructor(
     val id: Long?,
-    val userId: String,
+    val userId: Int,
     val fitRecord: FitRecord,
     val fitGroupId: Long,
     var certificationStatus: CertificationStatus = CertificationStatus.REQUESTED
-) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId) {
+) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId.toString()) {
 
     fun updateResult(fitCertificationResult: FitCertificationResultResponseDto) {
         this.certificationStatus = fitCertificationResult.certificationStatus

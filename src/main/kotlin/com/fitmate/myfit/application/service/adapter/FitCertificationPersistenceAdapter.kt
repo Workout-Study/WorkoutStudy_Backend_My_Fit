@@ -52,7 +52,7 @@ class FitCertificationPersistenceAdapter(
 
     @Transactional(readOnly = true)
     override fun findByUserIdAndFitGroupIdAndCertificationStatus(
-        userId: String,
+        userId: Int,
         fitGroupId: Long,
         certificationStatus: CertificationStatus
     ): Optional<FitCertification> {
@@ -109,7 +109,7 @@ class FitCertificationPersistenceAdapter(
 
     @Transactional(readOnly = true)
     override fun countByUserIdAndFitGroupIdAndCertificationStatusAndDateGreaterThanEqual(
-        userId: String,
+        userId: Int,
         fitGroupId: Long,
         certified: CertificationStatus,
         instant: Instant
@@ -125,14 +125,14 @@ class FitCertificationPersistenceAdapter(
     @Transactional(readOnly = true)
     override fun findNeedToVoteCertificationByFitGroupIdAndUserId(
         fitGroupId: Long,
-        userId: String
+        userId: Int
     ): List<FitCertificationWithVoteDto> =
         fitCertificationRepository.findNeedToVoteCertificationByFitGroupIdAndUserId(fitGroupId, userId)
 
     @Transactional(readOnly = true)
     override fun findFitCertificationProgressDetailsByGroupId(
         fitGroupId: Long,
-        requestUserId: String
+        requestUserId: Int
     ): List<FitCertificationDetailDto> =
         fitCertificationRepository.findFitCertificationProgressDetailsByGroupId(fitGroupId, requestUserId)
 

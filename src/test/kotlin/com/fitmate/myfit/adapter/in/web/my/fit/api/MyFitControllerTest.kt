@@ -44,7 +44,7 @@ class MyFitControllerTest {
     @MockBean
     private lateinit var readNeedVoteCertificationUseCase: ReadNeedVoteCertificationUseCase
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val fitGroupName = "헬창들은 일주일에 7번 운동해야죠 스터디"
     private val cycle = 1
     private val frequency = 7
@@ -198,7 +198,7 @@ class MyFitControllerTest {
                             JsonFieldType.NUMBER
                         ).description("투표해야할 인증의 recordId ( fit record id )"),
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].certificationRequestUserId").type(
-                            JsonFieldType.STRING
+                            JsonFieldType.NUMBER
                         ).description("투표해야할 인증을 요청한 유저 id"),
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].agreeCount").type(
                             JsonFieldType.NUMBER

@@ -34,7 +34,7 @@ class RegisterVoteUseCaseTest {
     @Mock
     private lateinit var updateVotePort: UpdateVotePort
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val agree = true
     private val targetCategory = 1
     private val targetId = 13L
@@ -74,7 +74,7 @@ class RegisterVoteUseCaseTest {
 
         whenever(
             readVotePort.findByUserIdAndTargetCategoryAndTargetId(
-                any<String>(),
+                any<Int>(),
                 any<Int>(),
                 any<Long>()
             )

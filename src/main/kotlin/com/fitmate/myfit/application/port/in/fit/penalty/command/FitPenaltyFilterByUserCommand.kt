@@ -1,11 +1,10 @@
 package com.fitmate.myfit.application.port.`in`.fit.penalty.command
 
 import com.fitmate.myfit.common.SelfValidating
-import jakarta.validation.constraints.NotEmpty
 import java.time.Instant
 
 data class FitPenaltyFilterByUserCommand(
-    @field:NotEmpty val userId: String,
+    val userId: Int,
     val fitGroupId: Long?,
     val startDate: Instant,
     val endDate: Instant,

@@ -12,7 +12,7 @@ import java.time.Instant
 class FitPenaltyEntity(
     @Column(unique = true) val fitPenaltyId: Long,
     val fitGroupId: Long,
-    val userId: String,
+    val userId: Int,
     val amount: Int,
     @Convert(converter = BooleanNumberConverter::class) var paid: Boolean,
     @Convert(converter = BooleanNumberConverter::class) var noNeedPay: Boolean,

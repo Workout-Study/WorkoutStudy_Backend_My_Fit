@@ -50,7 +50,7 @@ class QFitRecordRepositoryImpl(jpaQueryFactory: JPAQueryFactory) :
             .orderBy(fitRecordEntity.id.desc())
             .fetch()
 
-    private fun conditionWithUserId(userId: String): Predicate {
+    private fun conditionWithUserId(userId: Int): Predicate {
         return fitRecordEntity.userId.eq(userId)
     }
 

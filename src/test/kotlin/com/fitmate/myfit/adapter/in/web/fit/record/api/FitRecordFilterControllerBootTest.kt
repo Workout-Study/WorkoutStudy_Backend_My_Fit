@@ -43,7 +43,7 @@ class FitRecordFilterControllerBootTest {
     @Autowired
     private lateinit var multiMediaEndPointRepository: FitRecordMultiMediaEndPointRepository
 
-    private val userId = "testUserId"
+    private val userId = 26
     private val recordEndStartDate: Instant =
         LocalDate.now().withDayOfMonth(1)
             .atStartOfDay().toInstant(ZoneOffset.UTC)
@@ -133,7 +133,7 @@ class FitRecordFilterControllerBootTest {
         )
 
         multiMediaEndPointRepository.save(
-            FitRecordMultiMediaEndPointEntity(fitRecordEntity, multiMediaEndPoint, userId)
+            FitRecordMultiMediaEndPointEntity(fitRecordEntity, multiMediaEndPoint, userId.toString())
         )
 
         val queryString = UriComponentsBuilder.newInstance()
@@ -197,7 +197,7 @@ class FitRecordFilterControllerBootTest {
         )
 
         multiMediaEndPointRepository.save(
-            FitRecordMultiMediaEndPointEntity(fitRecordEntity, multiMediaEndPoint, userId)
+            FitRecordMultiMediaEndPointEntity(fitRecordEntity, multiMediaEndPoint, userId.toString())
         )
 
         val queryString = UriComponentsBuilder.newInstance()

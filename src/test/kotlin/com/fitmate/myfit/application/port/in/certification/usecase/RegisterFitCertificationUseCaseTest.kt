@@ -66,7 +66,7 @@ class RegisterFitCertificationUseCaseTest {
     @Mock
     private lateinit var readVoteMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val fitGroupIds = listOf(13L, 7L, 2L)
 
     private val recordStartDate = Instant.now()
@@ -113,7 +113,7 @@ class RegisterFitCertificationUseCaseTest {
         whenever(readFitRecordPort.findById(any<Long>())).thenReturn(Optional.of(fitRecord))
         whenever(
             readFitCertificationPort.findByUserIdAndFitGroupIdAndCertificationStatus(
-                any<String>(),
+                any<Int>(),
                 any<Long>(),
                 any<CertificationStatus>()
             )
@@ -210,7 +210,7 @@ class RegisterFitCertificationUseCaseTest {
         whenever(readFitRecordPort.findById(any<Long>())).thenReturn(Optional.of(fitRecord))
         whenever(
             readFitCertificationPort.findByUserIdAndFitGroupIdAndCertificationStatus(
-                any<String>(),
+                any<Int>(),
                 any<Long>(),
                 any<CertificationStatus>()
             )
@@ -248,7 +248,7 @@ class RegisterFitCertificationUseCaseTest {
         whenever(readFitRecordPort.findById(any<Long>())).thenReturn(Optional.of(fitRecord))
         whenever(
             readFitCertificationPort.findByUserIdAndFitGroupIdAndCertificationStatus(
-                any<String>(),
+                any<Int>(),
                 any<Long>(),
                 any<CertificationStatus>()
             )

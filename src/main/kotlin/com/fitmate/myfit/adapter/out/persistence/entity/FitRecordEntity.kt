@@ -10,10 +10,10 @@ import java.time.Instant
 @Table(indexes = [Index(columnList = "recordEndDate")])
 @EqualsAndHashCode
 class FitRecordEntity(
-    @Column(nullable = false) var userId: String,
+    @Column(nullable = false) var userId: Int,
     @Column(nullable = false) var recordStartDate: Instant,
     @Column(nullable = false) var recordEndDate: Instant
-) : BaseEntity(GlobalStatus.PERSISTENCE_NOT_DELETED, Instant.now(), userId) {
+) : BaseEntity(GlobalStatus.PERSISTENCE_NOT_DELETED, Instant.now(), userId.toString()) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

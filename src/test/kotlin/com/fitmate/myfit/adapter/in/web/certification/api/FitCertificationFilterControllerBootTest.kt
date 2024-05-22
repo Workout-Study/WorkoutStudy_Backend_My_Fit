@@ -36,7 +36,7 @@ class FitCertificationFilterControllerBootTest {
     @Autowired
     private lateinit var fitGroupForeReadRepository: FitGroupForReadRepository
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
 
     private val fitGroupId = 1131L
     private val fitGroupName = "헬짱이 될테야"

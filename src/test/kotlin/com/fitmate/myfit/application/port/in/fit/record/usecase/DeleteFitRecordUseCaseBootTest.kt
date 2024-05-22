@@ -34,7 +34,7 @@ class DeleteFitRecordUseCaseBootTest {
     @Autowired
     private lateinit var fitCertificationRepository: FitCertificationRepository
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
 
@@ -93,7 +93,7 @@ class DeleteFitRecordUseCaseBootTest {
         //given
         val deleteFitRecordCommand = DeleteFitRecordCommand(
             fitRecord.id!!,
-            "wrongRequestUserId"
+            requestUserId % 2
         )
 
         //when then

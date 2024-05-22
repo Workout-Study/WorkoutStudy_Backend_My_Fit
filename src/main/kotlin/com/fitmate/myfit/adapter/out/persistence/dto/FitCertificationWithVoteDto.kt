@@ -5,7 +5,7 @@ import java.time.Instant
 
 data class FitCertificationWithVoteDto(
     val certificationId: Long,
-    val userId: String,
+    val userId: Int,
     val fitRecordId: Long,
     val certificationStatus: CertificationStatus,
     val agreeCount: Long,

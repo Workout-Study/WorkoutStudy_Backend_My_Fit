@@ -17,7 +17,7 @@ class RegisterVoteUseCaseBootTest {
     @Autowired
     private lateinit var registerVoteUseCase: RegisterVoteUseCase
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val agree = true
     private val targetCategory = 1
     private val targetId = 13L
