@@ -10,7 +10,7 @@ class FitPenalty(
     val id: Long?,
     var fitPenaltyId: Long,
     var fitGroupId: Long,
-    var userId: String,
+    var userId: Int,
     var amount: Int,
     var paid: Boolean,
     var noNeedPay: Boolean,

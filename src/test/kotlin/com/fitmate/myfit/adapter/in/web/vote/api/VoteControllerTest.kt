@@ -50,7 +50,7 @@ class VoteControllerTest {
     @MockBean
     private lateinit var updateVoteUseCase: UpdateVoteUseCase
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val agree = true
     private val targetCategory = 1
     private val targetId = 13L
@@ -80,7 +80,7 @@ class VoteControllerTest {
                 document(
                     "register-vote",
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Vote를 등록하는 User id"),
                         fieldWithPath("agree").type(JsonFieldType.BOOLEAN)
                             .description("찬반 여부"),
@@ -121,7 +121,7 @@ class VoteControllerTest {
                 document(
                     "delete-vote",
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Vote를 삭제요청한 User id"),
                         fieldWithPath("targetCategory").type(JsonFieldType.NUMBER)
                             .description("투표를 삭제할 target의 category ( target category - 1: fit certification )"),
@@ -161,7 +161,7 @@ class VoteControllerTest {
                 document(
                     "update-vote",
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Vote를 수정요청한 User id"),
                         fieldWithPath("agree").type(JsonFieldType.BOOLEAN)
                             .description("찬반 여부"),

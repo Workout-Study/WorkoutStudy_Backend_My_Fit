@@ -16,7 +16,7 @@ interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Lon
     ): List<FitCertificationEntity>
 
     fun findByUserIdAndFitGroupIdAndCertificationStatusAndState(
-        userId: String,
+        userId: Int,
         fitGroupId: Long,
         certificationStatus: CertificationStatus,
         state: Boolean
@@ -29,7 +29,7 @@ interface FitCertificationRepository : JpaRepository<FitCertificationEntity, Lon
     ): List<FitCertificationEntity>
 
     fun countByUserIdAndFitGroupIdAndCertificationStatusAndCreatedAtGreaterThanEqual(
-        userId: String,
+        userId: Int,
         fitGroupId: Long,
         certified: CertificationStatus,
         instant: Instant

@@ -11,7 +11,7 @@ import java.time.Instant
 @Table(indexes = [Index(columnList = "userId"), Index(columnList = "targetId")])
 @EqualsAndHashCode
 class VoteEntity private constructor(
-    @Column(nullable = false) val userId: String,
+    @Column(nullable = false) val userId: Int,
     @Convert(converter = BooleanNumberConverter::class)
     var agree: Boolean,
     /**
@@ -19,7 +19,7 @@ class VoteEntity private constructor(
      */
     @Column(nullable = false) val targetCategory: Int,
     @Column(nullable = false) val targetId: Long
-) : BaseEntity(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId) {
+) : BaseEntity(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId.toString()) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

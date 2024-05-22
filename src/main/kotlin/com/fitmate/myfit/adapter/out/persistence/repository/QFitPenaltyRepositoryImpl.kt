@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.util.StringUtils
 import java.time.Instant
 
 @Repository
@@ -55,8 +54,8 @@ class QFitPenaltyRepositoryImpl(
             .limit(SliceUtil.getSliceLimit(pageable.pageSize))
             .fetch()
 
-    private fun eqUserId(userId: String?): BooleanExpression? =
-        if (StringUtils.hasText(userId)) fitPenaltyEntity.userId.eq(userId)
+    private fun eqUserId(userId: Int?): BooleanExpression? =
+        if (userId != null) fitPenaltyEntity.userId.eq(userId)
         else null
 
     private fun fitGroupCondition(fitGroupId: Long?): BooleanExpression? =

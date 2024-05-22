@@ -45,7 +45,7 @@ class FitRecordControllerTest {
     @MockBean
     private lateinit var deleteFitRecordUseCase: DeleteFitRecordUseCase
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
@@ -75,7 +75,7 @@ class FitRecordControllerTest {
                 document(
                     "register-fit-record",
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Fit record를 등록하는 User id"),
                         fieldWithPath("recordStartDate").type(JsonFieldType.STRING)
                             .description("기록 시작 시간"),
@@ -123,7 +123,7 @@ class FitRecordControllerTest {
                             .description("삭제할 Fit record id")
                     ),
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Fit record를 삭제 요청한 User id")
                     ),
                     responseFields(

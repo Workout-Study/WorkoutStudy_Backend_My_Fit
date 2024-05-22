@@ -9,10 +9,10 @@ import java.time.Instant
 @EqualsAndHashCode
 class FitRecord private constructor(
     val id: Long?,
-    val userId: String,
+    val userId: Int,
     val recordStartDate: Instant,
     val recordEndDate: Instant
-) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId) {
+) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId.toString()) {
 
     companion object {
         fun createByCommand(registerFitRecordCommand: RegisterFitRecordCommand): FitRecord {

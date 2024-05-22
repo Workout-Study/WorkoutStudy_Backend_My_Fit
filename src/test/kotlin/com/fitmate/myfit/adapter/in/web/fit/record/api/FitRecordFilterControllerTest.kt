@@ -44,7 +44,7 @@ class FitRecordFilterControllerTest {
     @MockBean
     private lateinit var readFitRecordUseCase: ReadFitRecordUseCase
 
-    private val userId = "testUserId"
+    private val userId = 26
     private val recordEndStartDate: Instant =
         LocalDate.now().withDayOfMonth(1)
             .atStartOfDay().toInstant(ZoneOffset.UTC)

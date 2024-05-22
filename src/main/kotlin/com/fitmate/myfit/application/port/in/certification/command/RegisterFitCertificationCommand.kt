@@ -1,10 +1,9 @@
 package com.fitmate.myfit.application.port.`in`.certification.command
 
 import com.fitmate.myfit.common.SelfValidating
-import jakarta.validation.constraints.NotEmpty
 
 data class RegisterFitCertificationCommand(
-    @field:NotEmpty val requestUserId: String,
+    val requestUserId: Int,
     val fitRecordId: Long,
     val fitGroupIds: List<Long>
 ) : SelfValidating<RegisterFitCertificationCommand>() {

@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 
 data class FitPenaltyFilterByFitGroupRequest(
-    val fitMateUserId: String?,
+    val fitMateUserId: Int?,
     val startDate: Instant =
         LocalDate.now().withDayOfMonth(1)
             .atStartOfDay().toInstant(ZoneOffset.UTC),

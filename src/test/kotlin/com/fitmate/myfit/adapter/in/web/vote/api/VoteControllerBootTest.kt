@@ -40,7 +40,7 @@ class VoteControllerBootTest {
     @Autowired
     private lateinit var voteRepository: VoteRepository
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val agree = true
     private val targetCategory = 1
     private val targetId = 13L

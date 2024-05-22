@@ -10,7 +10,7 @@ class FitCertificationFilterDtoMapper {
     companion object {
         fun filterByGroupIdAndUserIdRequestToCommand(
             fitGroupId: Long,
-            requestUserId: String
+            requestUserId: Int
         ): FitCertificationFilterByGroupCommand =
             FitCertificationFilterByGroupCommand(fitGroupId, requestUserId)
 

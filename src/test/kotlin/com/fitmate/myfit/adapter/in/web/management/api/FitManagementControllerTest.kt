@@ -41,7 +41,7 @@ class FitManagementControllerTest {
     private lateinit var updateFitPenaltyUseCase: UpdateFitPenaltyUseCase
 
     private val fitPenaltyId = 162L
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
 
     @Test
     @DisplayName("[단위][Web Adapter] Fit management penalty 입금 완료 by fit leader - 성공 테스트")
@@ -71,7 +71,7 @@ class FitManagementControllerTest {
                             .description("입금 완료 처리할 fit penalty id"),
                     ),
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Fit penalty가 수납완료 됐음을 처리할 User id ( fit leader 여야함 )")
                     ),
                     responseFields(
@@ -110,7 +110,7 @@ class FitManagementControllerTest {
                             .description("입금 불필요 처리할 fit penalty id"),
                     ),
                     requestFields(
-                        fieldWithPath("requestUserId").type(JsonFieldType.STRING)
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
                             .description("Fit penalty가 입금불필요 됐음을 처리할 User id ( fit leader 여야함 )")
                     ),
                     responseFields(

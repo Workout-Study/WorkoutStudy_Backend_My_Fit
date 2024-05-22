@@ -110,7 +110,7 @@ class FitCertificationService(
         if (fitCertification.certificationStatus != CertificationStatus.REQUESTED)
             throw BadRequestException("fit certification already get result. if certification has result can't delete it")
 
-        fitCertification.delete(deleteFitCertificationCommand.requestUserId)
+        fitCertification.delete(deleteFitCertificationCommand.requestUserId.toString())
         updateFitCertificationPort.updateFitCertification(fitCertification)
 
         fitCertificationEventPublishPort.publishFitCertificationDeleteEvent(fitCertification.id!!)

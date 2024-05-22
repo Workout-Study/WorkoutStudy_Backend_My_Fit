@@ -65,7 +65,7 @@ class DeleteFitCertificationUseCaseTest {
     @Mock
     private lateinit var readVoteMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
 
-    private val requestUserId = "testUserId"
+    private val requestUserId = 642
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
     private val fitGroupIds = listOf(13L, 7L, 2L)
@@ -170,7 +170,7 @@ class DeleteFitCertificationUseCaseTest {
             requestUserId
         )
 
-        val wrongUserId = "wrongUserId"
+        val wrongUserId = requestUserId % 2
 
         val fitRecordEntity = FitRecordEntity(
             wrongUserId,

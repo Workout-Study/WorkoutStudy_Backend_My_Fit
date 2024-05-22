@@ -27,7 +27,7 @@ class QFitCertificationRepositoryImpl(jpaQueryFactory: JPAQueryFactory) :
     @Transactional(readOnly = true)
     override fun findNeedToVoteCertificationByFitGroupIdAndUserId(
         fitGroupId: Long,
-        userId: String
+        userId: Int
     ): List<FitCertificationWithVoteDto> =
         factory.select(
             Projections.constructor(
@@ -88,7 +88,7 @@ class QFitCertificationRepositoryImpl(jpaQueryFactory: JPAQueryFactory) :
     @Transactional(readOnly = true)
     override fun findFitCertificationProgressDetailsByGroupId(
         fitGroupId: Long,
-        requestUserId: String
+        requestUserId: Int
     ): List<FitCertificationDetailDto> =
         factory.select(
             Projections.constructor(

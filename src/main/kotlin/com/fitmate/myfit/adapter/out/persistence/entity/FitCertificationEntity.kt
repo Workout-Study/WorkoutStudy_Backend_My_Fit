@@ -11,14 +11,14 @@ import java.time.Instant
 @Table(indexes = [Index(columnList = "fitGroupId")])
 @EqualsAndHashCode
 class FitCertificationEntity private constructor(
-    val userId: String,
+    val userId: Int,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fit_record_id", nullable = false)
     val fitRecordEntity: FitRecordEntity,
     val fitGroupId: Long,
     @Enumerated(EnumType.STRING)
     var certificationStatus: CertificationStatus
-) : BaseEntity(GlobalStatus.PERSISTENCE_NOT_DELETED, Instant.now(), userId) {
+) : BaseEntity(GlobalStatus.PERSISTENCE_NOT_DELETED, Instant.now(), userId.toString()) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

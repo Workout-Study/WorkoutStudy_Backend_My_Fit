@@ -10,7 +10,7 @@ import java.time.Instant
 class FitMateForReadEntity private constructor(
     val fitGroupId: Long,
     @Column(unique = true) val fitMateId: Long,
-    val fitMateUserId: String,
+    val fitMateUserId: Int,
     state: Boolean,
     createUser: String
 ) : BaseEntity(state, createdAt = Instant.now(), createUser) {

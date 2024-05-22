@@ -16,7 +16,7 @@ interface ReadFitCertificationPort {
     ): List<FitCertification>
 
     fun findByUserIdAndFitGroupIdAndCertificationStatus(
-        userId: String,
+        userId: Int,
         fitGroupId: Long,
         certificationStatus: CertificationStatus
     ): Optional<FitCertification>
@@ -29,7 +29,7 @@ interface ReadFitCertificationPort {
     ): List<FitCertification>
 
     fun countByUserIdAndFitGroupIdAndCertificationStatusAndDateGreaterThanEqual(
-        userId: String,
+        userId: Int,
         fitGroupId: Long,
         certified: CertificationStatus,
         instant: Instant
@@ -37,12 +37,12 @@ interface ReadFitCertificationPort {
 
     fun findNeedToVoteCertificationByFitGroupIdAndUserId(
         fitGroupId: Long,
-        userId: String
+        userId: Int
     ): List<FitCertificationWithVoteDto>
 
     fun findFitCertificationProgressDetailsByGroupId(
         fitGroupId: Long,
-        requestUserId: String
+        requestUserId: Int
     ): List<FitCertificationDetailDto>
 
     fun findByFitRecord(fitRecord: FitRecord): List<FitCertification>

@@ -1,6 +1,6 @@
 package com.fitmate.myfit.application.port.`in`.certification.response
 
 data class FitCertificationProgressesResponseDto(
-    val fitMateUserId: String,
+    val fitMateUserId: Int,
     val certificationCount: Int
 )

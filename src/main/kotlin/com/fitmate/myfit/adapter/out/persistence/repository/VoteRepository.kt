@@ -6,7 +6,7 @@ import java.util.*
 
 interface VoteRepository : JpaRepository<VoteEntity, Long> {
     fun findByUserIdAndTargetCategoryAndTargetIdAndState(
-        userId: String,
+        userId: Int,
         targetCategory: Int,
         targetId: Long,
         state: Boolean
