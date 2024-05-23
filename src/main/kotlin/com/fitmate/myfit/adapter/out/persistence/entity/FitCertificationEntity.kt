@@ -4,12 +4,10 @@ import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.domain.CertificationStatus
 import com.fitmate.myfit.domain.FitCertification
 import jakarta.persistence.*
-import lombok.EqualsAndHashCode
 import java.time.Instant
 
 @Entity
 @Table(indexes = [Index(columnList = "fitGroupId")])
-@EqualsAndHashCode
 class FitCertificationEntity private constructor(
     val userId: Int,
     @ManyToOne(fetch = FetchType.LAZY)

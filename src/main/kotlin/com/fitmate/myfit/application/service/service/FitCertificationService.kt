@@ -13,6 +13,7 @@ import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.user.ReadUserForReadPort
 import com.fitmate.myfit.application.port.out.vote.ReadVotePort
 import com.fitmate.myfit.application.service.converter.FitCertificationUseCaseConverter
 import com.fitmate.myfit.common.GlobalStatus
@@ -21,6 +22,7 @@ import com.fitmate.myfit.common.exceptions.ResourceAlreadyExistException
 import com.fitmate.myfit.common.exceptions.ResourceNotFoundException
 import com.fitmate.myfit.domain.CertificationStatus
 import com.fitmate.myfit.domain.FitCertification
+import com.fitmate.myfit.domain.UserForRead
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.DayOfWeek
@@ -28,6 +30,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class FitCertificationService(
@@ -40,7 +43,8 @@ class FitCertificationService(
     private val fitCertificationEventPublishPort: FitCertificationEventPublishPort,
     private val readVotePort: ReadVotePort,
     private val readFitCertificationResultPort: ReadFitCertificationResultPort,
-    private val readRecordMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
+    private val readRecordMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort,
+    private val readUserForReadPort: ReadUserForReadPort
 ) : RegisterFitCertificationUseCase, DeleteFitCertificationUseCase, ReadFitCertificationUseCase,
     UpdateFitCertificationResultUseCase {
 
@@ -127,10 +131,13 @@ class FitCertificationService(
             )
 
         val fitCertificationDetailDtoList = fitCertificationDetailList.map {
+            val userForRead = getUserForReadPort(it.certificationRequestUserId)
+
             FitCertificationDetailWithVoteResponseDto(
                 it.certificationId,
                 it.recordId,
                 it.certificationRequestUserId,
+                userForRead?.nickname,
                 it.isUserVoteDone,
                 it.isUserAgree,
                 it.agreeCount.toInt(),
@@ -145,6 +152,9 @@ class FitCertificationService(
 
         return fitCertificationDetailDtoList
     }
+
+    private fun getUserForReadPort(userId: Int): UserForRead? =
+        readUserForReadPort.findByUserId(userId).getOrNull()
 
     private fun getRecordThumbnailEndPoint(recordId: Long): String? {
         val fitRecord = readFitRecordPort.findById(recordId)
@@ -166,8 +176,11 @@ class FitCertificationService(
 
         val mondayInstant = getStartOfCurrentWeek()
         fitMateForReadList.forEach {
+            val userForRead = getUserForReadPort(it.fitMateUserId)
+
             val responseDto = FitCertificationProgressesResponseDto(
                 it.fitMateUserId,
+                userForRead?.nickname,
                 readFitCertificationPort.countByUserIdAndFitGroupIdAndCertificationStatusAndDateGreaterThanEqual(
                     it.fitMateUserId,
                     it.fitGroupId,

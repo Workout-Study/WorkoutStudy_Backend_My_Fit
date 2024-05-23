@@ -13,12 +13,15 @@ class GlobalStatus {
         const val VOTE_AGREE = true
         const val VOTE_DISAGREE = false
 
-        const val KAFKA_GROUP_ID = "fit-group-service"
+        const val KAFKA_GROUP_ID = "my-fit-service"
         const val KAFKA_TOPIC_FIT_GROUP = "fit-group"
         const val KAFKA_TOPIC_FIT_MATE = "fit-mate"
         const val KAFKA_TOPIC_FIT_CERTIFICATION = "fit-certification"
         const val KAFKA_TOPIC_FIT_CERTIFICATION_RESULT = "fit-certification-result"
         const val KAFKA_TOPIC_FIT_PENALTY = "fit-penalty"
+        const val KAFKA_TOPIC_USER_CREATE_EVENT = "user-create-event"
+        const val KAFKA_TOPIC_USER_DELETE_EVENT = "user-delete-event"
+        const val KAFKA_TOPIC_USER_UPDATE_EVENT = "user-update-event"
 
         const val PENALTY_PAID = true
         const val PENALTY_NOT_PAID = false

@@ -13,9 +13,11 @@ import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.user.ReadUserForReadPort
 import com.fitmate.myfit.common.exceptions.ResourceNotFoundException
 import com.fitmate.myfit.domain.CertificationStatus
 import com.fitmate.myfit.domain.FitRecord
+import com.fitmate.myfit.domain.UserForRead
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -25,6 +27,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class FitCertificationFilterService(
@@ -32,7 +35,8 @@ class FitCertificationFilterService(
     private val readFitMateForReadPort: ReadFitMateForReadPort,
     private val readFitCertificationPort: ReadFitCertificationPort,
     private val readRecordMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort,
-    private val readFitRecordPort: ReadFitRecordPort
+    private val readFitRecordPort: ReadFitRecordPort,
+    private val readUserForReadPort: ReadUserForReadPort
 ) : ReadFitCertificationProgressUseCase, ReadNeedVoteCertificationUseCase {
 
     companion object {
@@ -144,10 +148,13 @@ class FitCertificationFilterService(
         val fitRecord = readFitRecordPort.findById(dto.fitRecordId)
             .orElseThrow { ResourceNotFoundException("fit record does not exist") }
 
+        val readUserForReadPort = getUserForReadPort(dto.userId)
+
         return NeedVoteCertificationResponseDto(
             dto.certificationId,
             dto.fitRecordId,
             dto.userId,
+            readUserForReadPort?.nickname,
             dto.agreeCount.toInt(),
             dto.disagreeCount.toInt(),
             dto.maxAgreeCount.toInt(),
@@ -155,6 +162,9 @@ class FitCertificationFilterService(
             getFitRecordMultiMediaEndPoints(fitRecord)
         )
     }
+
+    private fun getUserForReadPort(userId: Int): UserForRead? =
+        readUserForReadPort.findByUserId(userId).getOrNull()
 
     private fun getFitRecordMultiMediaEndPoints(fitRecord: FitRecord) =
         readRecordMultiMediaEndPointPort.findByFitRecordAndOrderByIdAsc(fitRecord)
