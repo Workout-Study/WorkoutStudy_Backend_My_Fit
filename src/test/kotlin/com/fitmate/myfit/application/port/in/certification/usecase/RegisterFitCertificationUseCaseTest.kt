@@ -9,6 +9,7 @@ import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadFitRecordPort
 import com.fitmate.myfit.application.port.out.fit.record.ReadRecordMultiMediaEndPointPort
+import com.fitmate.myfit.application.port.out.user.ReadUserForReadPort
 import com.fitmate.myfit.application.port.out.vote.ReadVotePort
 import com.fitmate.myfit.application.service.service.FitCertificationService
 import com.fitmate.myfit.common.exceptions.BadRequestException
@@ -65,6 +66,9 @@ class RegisterFitCertificationUseCaseTest {
 
     @Mock
     private lateinit var readVoteMultiMediaEndPointPort: ReadRecordMultiMediaEndPointPort
+
+    @Mock
+    private lateinit var readUserForReadPort: ReadUserForReadPort
 
     private val requestUserId = 642
     private val fitGroupIds = listOf(13L, 7L, 2L)

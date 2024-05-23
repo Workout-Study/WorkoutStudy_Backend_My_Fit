@@ -2,11 +2,9 @@ package com.fitmate.myfit.adapter.out.persistence.entity
 
 import com.fitmate.myfit.domain.FitMateForRead
 import jakarta.persistence.*
-import lombok.EqualsAndHashCode
 import java.time.Instant
 
 @Entity
-@EqualsAndHashCode
 class FitMateForReadEntity private constructor(
     val fitGroupId: Long,
     @Column(unique = true) val fitMateId: Long,

@@ -6,6 +6,7 @@ data class FitCertificationDetailWithVoteResponseDto(
     val certificationId: Long,
     val recordId: Long,
     val certificationRequestUserId: Int,
+    val certificationRequestUserNickname: String?,
     val isUserVoteDone: Boolean,
     val isUserAgree: Boolean,
     val agreeCount: Int,

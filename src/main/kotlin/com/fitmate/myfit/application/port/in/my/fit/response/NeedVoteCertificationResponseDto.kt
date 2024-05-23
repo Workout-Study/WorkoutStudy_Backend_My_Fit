@@ -6,6 +6,7 @@ data class NeedVoteCertificationResponseDto(
     val certificationId: Long,
     val recordId: Long,
     val certificationRequestUserId: Int,
+    val certificationRequestUserNickname: String?,
     val agreeCount: Int,
     val disagreeCount: Int,
     val maxAgreeCount: Int,
