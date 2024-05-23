@@ -77,6 +77,7 @@ class FitPenaltyFilterControllerTest {
                     i.toLong(),
                     i.toLong() + 3,
                     requestUserId + i,
+                    "testUserId" + i,
                     5000,
                     true,
                     false,
@@ -151,6 +152,8 @@ class FitPenaltyFilterControllerTest {
                             .description("fit penalty가 발생한 fit group id"),
                         fieldWithPath("content[].userId").type(JsonFieldType.NUMBER)
                             .description("fit penalty (벌금) 이 발부된 user id"),
+                        fieldWithPath("content[].userNickname").type(JsonFieldType.STRING)
+                            .description("fit penalty (벌금) 이 발부된 user nickname"),
                         fieldWithPath("content[].amount").type(JsonFieldType.NUMBER)
                             .description("fit penalty 금액"),
                         fieldWithPath("content[].paid").type(JsonFieldType.BOOLEAN)
@@ -187,6 +190,7 @@ class FitPenaltyFilterControllerTest {
                     i.toLong(),
                     i.toLong() + 3,
                     requestUserId + i,
+                    "testUserId" + i,
                     5000,
                     true,
                     false,
@@ -261,6 +265,8 @@ class FitPenaltyFilterControllerTest {
                             .description("fit penalty가 발생한 fit group id"),
                         fieldWithPath("content[].userId").type(JsonFieldType.NUMBER)
                             .description("fit penalty (벌금) 이 발부된 user id"),
+                        fieldWithPath("content[].userNickname").type(JsonFieldType.STRING)
+                            .description("fit penalty (벌금) 이 발부된 user nickname"),
                         fieldWithPath("content[].amount").type(JsonFieldType.NUMBER)
                             .description("fit penalty 금액"),
                         fieldWithPath("content[].paid").type(JsonFieldType.BOOLEAN)

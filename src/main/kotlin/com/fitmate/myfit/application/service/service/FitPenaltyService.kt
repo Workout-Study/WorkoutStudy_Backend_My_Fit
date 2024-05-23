@@ -17,20 +17,24 @@ import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.penalty.ReadFitPenaltyApiPort
 import com.fitmate.myfit.application.port.out.fit.penalty.ReadFitPenaltyPersistencePort
 import com.fitmate.myfit.application.port.out.fit.penalty.SaveFitPenaltyPort
+import com.fitmate.myfit.application.port.out.user.ReadUserForReadPort
 import com.fitmate.myfit.application.service.converter.FitPenaltyUseCaseConverter
 import com.fitmate.myfit.common.exceptions.BadRequestException
 import com.fitmate.myfit.common.exceptions.ResourceNotFoundException
 import com.fitmate.myfit.domain.FitPenalty
+import com.fitmate.myfit.domain.UserForRead
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class FitPenaltyService(
     private val readFitPenaltyPersistencePort: ReadFitPenaltyPersistencePort,
     private val saveFitPenaltyPort: SaveFitPenaltyPort,
     private val readFitPenaltyApiPort: ReadFitPenaltyApiPort,
-    private val readFitGroupForReadPort: ReadFitGroupForReadPort
+    private val readFitGroupForReadPort: ReadFitGroupForReadPort,
+    private val readUserForReadPort: ReadUserForReadPort
 ) : SaveFitPenaltyUseCase, ReadFitPenaltyUseCase, UpdateFitPenaltyUseCase {
 
     @Transactional
@@ -76,10 +80,13 @@ class FitPenaltyService(
         if (hasNext) fitPenaltiesList = fitPenaltiesList.dropLast(1)
 
         val fitPenaltyFilteredResponseDtoList = fitPenaltiesList.map {
+            val userForRead = getUserForReadPort(it.userId)
+
             FitPenaltyFilteredResponseDto(
                 it.fitPenaltyId,
                 it.fitGroupId,
                 it.userId,
+                userForRead?.nickname,
                 it.amount,
                 it.paid,
                 it.noNeedPay,
@@ -95,6 +102,9 @@ class FitPenaltyService(
             fitPenaltyFilteredResponseDtoList
         )
     }
+
+    private fun getUserForReadPort(userId: Int): UserForRead? =
+        readUserForReadPort.findByUserId(userId).getOrNull()
 
     @Transactional
     override fun paidFitPenaltyByFitReader(command: PaidFitPenaltyCommand): PaidFitPenaltyResponseDto {

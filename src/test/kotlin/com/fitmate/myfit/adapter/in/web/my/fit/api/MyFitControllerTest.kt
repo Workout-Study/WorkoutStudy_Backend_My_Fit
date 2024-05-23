@@ -136,6 +136,7 @@ class MyFitControllerTest {
                             i.toLong(),
                             i.toLong() + 1L,
                             requestUserId,
+                            "testUserId" + 1,
                             i + 3,
                             i + 1,
                             i + 9,
@@ -146,6 +147,7 @@ class MyFitControllerTest {
                             i.toLong() + 3L,
                             i.toLong() + 1L,
                             requestUserId,
+                            "testUserId" + 2,
                             i + 1,
                             i + 0,
                             i + 6,
@@ -200,6 +202,9 @@ class MyFitControllerTest {
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].certificationRequestUserId").type(
                             JsonFieldType.NUMBER
                         ).description("투표해야할 인증을 요청한 유저 id"),
+                        fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].certificationRequestUserNickname").type(
+                            JsonFieldType.STRING
+                        ).description("투표해야할 인증을 요청한 유저 nickname"),
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].agreeCount").type(
                             JsonFieldType.NUMBER
                         ).description("찬성 수"),

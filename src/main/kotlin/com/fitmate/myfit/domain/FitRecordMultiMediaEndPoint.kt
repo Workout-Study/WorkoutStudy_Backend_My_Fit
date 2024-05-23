@@ -2,10 +2,8 @@ package com.fitmate.myfit.domain
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordMultiMediaEndPointEntity
 import com.fitmate.myfit.common.GlobalStatus
-import lombok.EqualsAndHashCode
 import java.time.Instant
 
-@EqualsAndHashCode
 class FitRecordMultiMediaEndPoint private constructor(
     val id: Long?,
     val fitRecord: FitRecord,

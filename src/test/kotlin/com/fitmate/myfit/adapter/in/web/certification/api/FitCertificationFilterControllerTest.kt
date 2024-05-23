@@ -55,6 +55,7 @@ class FitCertificationFilterControllerTest {
                     i.toLong(),
                     i.toLong(),
                     userId + i,
+                    "testUserId" + i,
                     true,
                     false,
                     i + 4,
@@ -102,6 +103,8 @@ class FitCertificationFilterControllerTest {
                             .description("운동 인증의 record id"),
                         fieldWithPath("fitCertificationDetails[].certificationRequestUserId").type(JsonFieldType.NUMBER)
                             .description("운동 인증을 요청한 user id"),
+                        fieldWithPath("fitCertificationDetails[].certificationRequestUserNickname").type(JsonFieldType.STRING)
+                            .description("운동 인증을 요청한 user nickname"),
                         fieldWithPath("fitCertificationDetails[].isUserVoteDone").type(JsonFieldType.BOOLEAN)
                             .description("조회를 요청한 유저가 투표 했는지 여부"),
                         fieldWithPath("fitCertificationDetails[].isUserAgree").type(JsonFieldType.BOOLEAN)
@@ -138,10 +141,12 @@ class FitCertificationFilterControllerTest {
             listOf(
                 FitCertificationProgressesResponseDto(
                     userId + 1,
+                    "testUserId" + 1,
                     3
                 ),
                 FitCertificationProgressesResponseDto(
                     userId + 2,
+                    "testUserId" + 2,
                     1
                 ),
             )
@@ -180,6 +185,8 @@ class FitCertificationFilterControllerTest {
                             .description("fit mate들의 인증 진행도"),
                         fieldWithPath("fitCertificationProgresses[].fitMateUserId").type(JsonFieldType.NUMBER)
                             .description("fit mate의 user id"),
+                        fieldWithPath("fitCertificationProgresses[].fitMateUserNickname").type(JsonFieldType.STRING)
+                            .description("fit mate의 user nickname"),
                         fieldWithPath("fitCertificationProgresses[].certificationCount").type(JsonFieldType.NUMBER)
                             .description("금주 인증 횟수")
                     )

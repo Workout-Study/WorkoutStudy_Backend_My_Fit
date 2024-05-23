@@ -3,12 +3,10 @@ package com.fitmate.myfit.adapter.out.persistence.entity
 import com.fitmate.myfit.adapter.out.persistence.converter.BooleanNumberConverter
 import com.fitmate.myfit.domain.FitPenalty
 import jakarta.persistence.*
-import lombok.EqualsAndHashCode
 import java.time.Instant
 
 @Entity
 @Table(indexes = [Index(columnList = "fitGroupId"), Index(columnList = "userId")])
-@EqualsAndHashCode
 class FitPenaltyEntity(
     @Column(unique = true) val fitPenaltyId: Long,
     val fitGroupId: Long,

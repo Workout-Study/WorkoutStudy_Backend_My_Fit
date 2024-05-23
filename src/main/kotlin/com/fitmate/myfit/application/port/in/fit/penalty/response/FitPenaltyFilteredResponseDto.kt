@@ -6,6 +6,7 @@ data class FitPenaltyFilteredResponseDto(
     val fitPenaltyId: Long,
     val fitGroupId: Long,
     val userId: Int,
+    val userNickname: String?,
     val amount: Int,
     val paid: Boolean,
     val noNeedPay: Boolean,

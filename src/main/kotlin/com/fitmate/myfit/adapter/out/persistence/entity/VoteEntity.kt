@@ -4,12 +4,10 @@ import com.fitmate.myfit.adapter.out.persistence.converter.BooleanNumberConverte
 import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.domain.Vote
 import jakarta.persistence.*
-import lombok.EqualsAndHashCode
 import java.time.Instant
 
 @Entity
 @Table(indexes = [Index(columnList = "userId"), Index(columnList = "targetId")])
-@EqualsAndHashCode
 class VoteEntity private constructor(
     @Column(nullable = false) val userId: Int,
     @Convert(converter = BooleanNumberConverter::class)
