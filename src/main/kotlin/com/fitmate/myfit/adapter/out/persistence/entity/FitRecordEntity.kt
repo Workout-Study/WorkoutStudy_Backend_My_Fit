@@ -6,7 +6,7 @@ import jakarta.persistence.*
 import java.time.Instant
 
 @Entity
-@Table(indexes = [Index(columnList = "recordEndDate")])
+@Table(indexes = [Index(columnList = "recordEndDate"), Index(columnList = "userId")])
 class FitRecordEntity(
     @Column(nullable = false) var userId: Int,
     @Column(nullable = false) var recordStartDate: Instant,
