@@ -128,7 +128,7 @@ class FitRecordControllerTest {
                     ),
                     responseFields(
                         fieldWithPath("isDeleteSuccess").type(JsonFieldType.BOOLEAN)
-                            .description("등록 성공 여부")
+                            .description("삭제 성공 여부")
                     )
                 )
             )
