@@ -1,11 +1,8 @@
 package com.fitmate.myfit.application.service.service
 
 import com.fitmate.myfit.adapter.`in`.event.mapper.UserForReadMapper
-import com.fitmate.myfit.application.port.`in`.user.command.DeleteUserForReadCommand
 import com.fitmate.myfit.application.port.`in`.user.command.SaveUserForReadCommand
-import com.fitmate.myfit.application.port.`in`.user.response.DeleteUserForReadResponseDto
 import com.fitmate.myfit.application.port.`in`.user.response.SaveUserForReadResponseDto
-import com.fitmate.myfit.application.port.`in`.user.usecase.DeleteUserUseCase
 import com.fitmate.myfit.application.port.`in`.user.usecase.SaveUserUseCase
 import com.fitmate.myfit.application.port.out.user.ReadUserForReadPort
 import com.fitmate.myfit.application.port.out.user.ReadUserPort
@@ -19,7 +16,7 @@ class UserForReadService(
     private val readUserForReadPort: ReadUserForReadPort,
     private val saveUserForReadPort: SaveUserForReadPort,
     private val readUserPort: ReadUserPort
-) : SaveUserUseCase, DeleteUserUseCase {
+) : SaveUserUseCase {
 
     /**
      * register user data if not exist.
@@ -39,25 +36,5 @@ class UserForReadService(
         val savedUserForRead = saveUserForReadPort.saveUserForRead(userForRead)
 
         return UserForReadMapper.resultToSaveResponseDto(savedUserForRead.id != null)
-    }
-
-    /**
-     * delete user data if  exist.
-     *
-     * @param deleteUserForReadCommand user Id
-     */
-    @Transactional
-    override fun deleteUser(deleteUserForReadCommand: DeleteUserForReadCommand): DeleteUserForReadResponseDto {
-        val userForReadOpt = readUserForReadPort.findByUserId(deleteUserForReadCommand.userId)
-
-        if (userForReadOpt.isEmpty) return UserForReadMapper.resultToDeleteResponseDto(false)
-
-        val userForRead = userForReadOpt.get()
-
-        userForRead.delete(deleteUserForReadCommand.eventPublisher)
-
-        saveUserForReadPort.saveUserForRead(userForRead)
-
-        return UserForReadMapper.resultToDeleteResponseDto(userForRead.isDeleted)
     }
 }
