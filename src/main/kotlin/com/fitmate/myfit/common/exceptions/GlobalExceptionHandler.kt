@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import org.springframework.web.servlet.resource.NoResourceFoundException
 
 @Slf4j
 @RestControllerAdvice
@@ -60,6 +62,18 @@ class GlobalExceptionHandler(
     fun sendMessageException(sendMessageException: SendMessageException): ResponseEntity<String> {
         logger?.error("SendMessageException", sendMessageException)
         return ResponseEntity.badRequest().body(sendMessageException.message)
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException::class)
+    fun methodArgumentTypeMismatchException(methodArgumentTypeMismatchException: MethodArgumentTypeMismatchException): ResponseEntity<String> {
+        logger?.info("MethodArgumentTypeMismatchException", methodArgumentTypeMismatchException)
+        return ResponseEntity.badRequest().body(methodArgumentTypeMismatchException.message)
+    }
+
+    @ExceptionHandler(NoResourceFoundException::class)
+    fun methodArgumentTypeMismatchException(noResourceFoundException: NoResourceFoundException): ResponseEntity<String> {
+        logger?.info("NoResourceFoundException", noResourceFoundException)
+        return ResponseEntity.badRequest().body(noResourceFoundException.message)
     }
 
     @ExceptionHandler(Exception::class)

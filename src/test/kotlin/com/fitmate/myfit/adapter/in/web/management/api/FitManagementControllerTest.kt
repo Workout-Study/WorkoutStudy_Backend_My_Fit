@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.management.request.NoNeedPayFitPenaltyRequest
 import com.fitmate.myfit.adapter.`in`.web.management.request.PaidFitPenaltyRequest
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.management.command.NoNeedPayFitPenaltyCommand
 import com.fitmate.myfit.application.port.`in`.management.command.PaidFitPenaltyCommand
 import com.fitmate.myfit.application.port.`in`.management.response.NoNeedPayFitPenaltyResponseDto
@@ -39,6 +40,9 @@ class FitManagementControllerTest {
 
     @MockBean
     private lateinit var updateFitPenaltyUseCase: UpdateFitPenaltyUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val fitPenaltyId = 162L
     private val requestUserId = 642

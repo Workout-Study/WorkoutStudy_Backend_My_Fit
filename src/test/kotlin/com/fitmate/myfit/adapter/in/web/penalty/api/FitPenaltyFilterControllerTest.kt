@@ -4,6 +4,7 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.penalty.request.FitPenaltyFilterByFitGroupRequest
 import com.fitmate.myfit.adapter.`in`.web.penalty.request.FitPenaltyFilterByUserRequest
 import com.fitmate.myfit.adapter.`in`.web.penalty.response.FitPenaltyFilteredResponse
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByFitGroupCommand
 import com.fitmate.myfit.application.port.`in`.fit.penalty.command.FitPenaltyFilterByUserCommand
 import com.fitmate.myfit.application.port.`in`.fit.penalty.response.FitPenaltyFilteredResponseDto
@@ -39,6 +40,9 @@ class FitPenaltyFilterControllerTest {
 
     @MockBean
     private lateinit var readFitPenaltyUseCase: ReadFitPenaltyUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val startDate: Instant =
         LocalDate.now().withDayOfMonth(1)

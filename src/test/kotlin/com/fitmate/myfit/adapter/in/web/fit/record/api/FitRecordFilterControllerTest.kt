@@ -4,6 +4,7 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordSliceFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitCertificationResponse
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
@@ -43,6 +44,9 @@ class FitRecordFilterControllerTest {
 
     @MockBean
     private lateinit var readFitRecordUseCase: ReadFitRecordUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val userId = 26
     private val recordEndStartDate: Instant =
