@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.DeleteFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.fit.record.command.DeleteFitRecordCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitRecordResponseDto
@@ -44,6 +45,9 @@ class FitRecordControllerTest {
 
     @MockBean
     private lateinit var deleteFitRecordUseCase: DeleteFitRecordUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val requestUserId = 642
     private val recordStartDate = Instant.now()

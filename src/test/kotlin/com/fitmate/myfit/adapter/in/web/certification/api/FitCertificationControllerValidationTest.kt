@@ -3,6 +3,7 @@ package com.fitmate.myfit.adapter.`in`.web.certification.api
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmate.myfit.adapter.`in`.web.certification.request.DeleteFitCertificationRequest
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.certification.usecase.DeleteFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCertificationUseCase
 import com.fitmate.myfit.application.port.`in`.certification.usecase.RegisterFitCertificationUseCase
@@ -36,6 +37,9 @@ class FitCertificationControllerValidationTest {
 
     @MockBean
     private lateinit var readFitCertificationUseCase: ReadFitCertificationUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val requestUserId = 642
     private val fitRecordId = 137L

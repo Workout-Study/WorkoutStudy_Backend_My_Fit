@@ -3,6 +3,7 @@ package com.fitmate.myfit.adapter.`in`.web.my.fit.api
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.FitCertificationProgressFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.NeedVoteCertificationFilterRequest
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.my.fit.command.FitCertificationProgressFilterCommand
 import com.fitmate.myfit.application.port.`in`.my.fit.command.NeedVoteCertificationFilterCommand
 import com.fitmate.myfit.application.port.`in`.my.fit.response.FilterCertificationProgressResponseDto
@@ -43,6 +44,9 @@ class MyFitControllerTest {
 
     @MockBean
     private lateinit var readNeedVoteCertificationUseCase: ReadNeedVoteCertificationUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val requestUserId = 642
     private val fitGroupName = "헬창들은 일주일에 7번 운동해야죠 스터디"
