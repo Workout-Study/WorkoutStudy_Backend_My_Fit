@@ -39,8 +39,8 @@ eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${server.port}}
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
@@ -50,7 +50,7 @@ spring:
   config:
     activate:
       on-profile: main
-    import: "optional:configserver:http://127.0.0.1:8888"
+    import: "optional:configserver:http://config:8888"
   cloud:
     config:
       name: my-fit-service
@@ -88,8 +88,8 @@ eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${server.port}}
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://eureka:8761/eureka
 

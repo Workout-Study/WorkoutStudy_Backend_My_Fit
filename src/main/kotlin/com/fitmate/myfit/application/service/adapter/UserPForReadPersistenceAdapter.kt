@@ -4,7 +4,6 @@ import com.fitmate.myfit.adapter.out.persistence.entity.UserForReadEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.UserForReadRepository
 import com.fitmate.myfit.application.port.out.user.ReadUserForReadPort
 import com.fitmate.myfit.application.port.out.user.SaveUserForReadPort
-import com.fitmate.myfit.common.GlobalStatus
 import com.fitmate.myfit.domain.UserForRead
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +17,7 @@ class UserPForReadPersistenceAdapter(
     @Transactional(readOnly = true)
     override fun findByUserId(userId: Int): Optional<UserForRead> {
         val userForReadEntityOpt =
-            userForReadRepository.findByUserIdAndState(userId, GlobalStatus.PERSISTENCE_NOT_DELETED)
+            userForReadRepository.findByUserId(userId)
 
         return if (userForReadEntityOpt.isPresent) {
             Optional.of(

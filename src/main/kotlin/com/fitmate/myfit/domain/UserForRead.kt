@@ -14,6 +14,7 @@ class UserForRead(
 ) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId.toString()) {
     fun updateByUserInfo(userInfo: UserInfoResponseDto, saveUserForReadCommand: SaveUserForReadCommand) {
         this.nickname = userInfo.nickname
+        this.state = userInfo.state
         this.updatedAt = Instant.now()
         this.updateUser = saveUserForReadCommand.eventPublisher
     }
@@ -37,12 +38,16 @@ class UserForRead(
             userInfo: UserInfoResponseDto,
             saveUserForReadCommand: SaveUserForReadCommand
         ): UserForRead {
-            return UserForRead(
+            val userForRead = UserForRead(
                 null,
                 userInfo.userId,
                 userInfo.nickname,
                 saveUserForReadCommand.eventPublisher
             )
+
+            userForRead.state = userInfo.state
+
+            return userForRead
         }
     }
 }
