@@ -2,6 +2,7 @@ package com.fitmate.myfit.adapter.`in`.web.certification.api
 
 import com.fitmate.myfit.adapter.`in`.web.certification.response.FitCertificationProgressesResponse
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.certification.command.FitCertificationProgressByGroupIdCommand
 import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationDetailWithVoteResponseDto
 import com.fitmate.myfit.application.port.`in`.certification.response.FitCertificationProgressesResponseDto
@@ -35,6 +36,9 @@ class FitCertificationFilterControllerTest {
 
     @MockBean
     private lateinit var readFitCertificationUseCase: ReadFitCertificationUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val userId = 26
     private val fitGroupId = 12L

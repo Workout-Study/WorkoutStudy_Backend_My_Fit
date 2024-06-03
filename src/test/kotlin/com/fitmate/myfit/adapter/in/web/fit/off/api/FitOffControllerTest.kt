@@ -5,6 +5,7 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.DeleteFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.RegisterFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.UpdateFitOffRequest
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.fit.off.command.DeleteFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.RegisterFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.UpdateFitOffCommand
@@ -52,6 +53,9 @@ class FitOffControllerTest {
 
     @MockBean
     private lateinit var updateFitOffUseCase: UpdateFitOffUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val requestUserId = 642
     private val fitOffStartDate = LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()

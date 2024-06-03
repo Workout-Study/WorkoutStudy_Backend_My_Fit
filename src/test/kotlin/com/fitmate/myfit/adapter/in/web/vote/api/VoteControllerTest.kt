@@ -5,6 +5,7 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.vote.request.DeleteVoteRequest
 import com.fitmate.myfit.adapter.`in`.web.vote.request.RegisterVoteRequest
 import com.fitmate.myfit.adapter.`in`.web.vote.request.UpdateVoteRequest
+import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.vote.command.DeleteVoteCommand
 import com.fitmate.myfit.application.port.`in`.vote.command.RegisterVoteCommand
 import com.fitmate.myfit.application.port.`in`.vote.command.UpdateVoteCommand
@@ -49,6 +50,9 @@ class VoteControllerTest {
 
     @MockBean
     private lateinit var updateVoteUseCase: UpdateVoteUseCase
+
+    @MockBean
+    private lateinit var senderUtils: SenderUtils
 
     private val requestUserId = 642
     private val agree = true
