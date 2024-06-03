@@ -50,7 +50,7 @@ spring:
   config:
     activate:
       on-profile: main
-    import: "optional:configserver:http://127.0.0.1:8888"
+    import: "optional:configserver:http://config:8888"
   cloud:
     config:
       name: my-fit-service
