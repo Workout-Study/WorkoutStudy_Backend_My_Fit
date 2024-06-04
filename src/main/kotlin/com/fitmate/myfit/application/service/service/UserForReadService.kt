@@ -1,6 +1,7 @@
 package com.fitmate.myfit.application.service.service
 
 import com.fitmate.myfit.adapter.`in`.event.mapper.UserForReadMapper
+import com.fitmate.myfit.application.port.`in`.user.command.CreateUserForReadCommand
 import com.fitmate.myfit.application.port.`in`.user.command.SaveUserForReadCommand
 import com.fitmate.myfit.application.port.`in`.user.response.SaveUserForReadResponseDto
 import com.fitmate.myfit.application.port.`in`.user.usecase.SaveUserUseCase
@@ -33,6 +34,23 @@ class UserForReadService(
                 .orElse(UserForRead.createByUserInfo(userInfo, saveUserForReadCommand))
 
         userForRead.updateByUserInfo(userInfo, saveUserForReadCommand)
+        val savedUserForRead = saveUserForReadPort.saveUserForRead(userForRead)
+
+        return UserForReadMapper.resultToSaveResponseDto(savedUserForRead.id != null)
+    }
+
+    /**
+     * register user data.
+     *
+     * @param createUserForReadCommand data about user
+     */
+    @Transactional
+    override fun createUser(createUserForReadCommand: CreateUserForReadCommand): SaveUserForReadResponseDto {
+        val userForRead =
+            readUserForReadPort.findByUserId(createUserForReadCommand.userId)
+                .orElse(UserForRead.createByUserCommand(createUserForReadCommand))
+
+        userForRead.updateByUserCommand(createUserForReadCommand)
         val savedUserForRead = saveUserForReadPort.saveUserForRead(userForRead)
 
         return UserForReadMapper.resultToSaveResponseDto(savedUserForRead.id != null)

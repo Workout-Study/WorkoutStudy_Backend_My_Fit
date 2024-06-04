@@ -1,5 +1,7 @@
 package com.fitmate.myfit.adapter.`in`.event.mapper
 
+import com.fitmate.myfit.adapter.`in`.event.dto.UserCreateMessageDto
+import com.fitmate.myfit.application.port.`in`.user.command.CreateUserForReadCommand
 import com.fitmate.myfit.application.port.`in`.user.command.DeleteUserForReadCommand
 import com.fitmate.myfit.application.port.`in`.user.command.SaveUserForReadCommand
 import com.fitmate.myfit.application.port.`in`.user.response.DeleteUserForReadResponseDto
@@ -43,5 +45,17 @@ class UserForReadMapper {
 
         fun resultToDeleteResponseDto(result: Boolean): DeleteUserForReadResponseDto =
             DeleteUserForReadResponseDto(result)
+
+        fun createUserRequestToCommand(
+            userCreateMessageDto: UserCreateMessageDto,
+            eventPublisher: String
+        ): CreateUserForReadCommand =
+            CreateUserForReadCommand(
+                userCreateMessageDto.id,
+                userCreateMessageDto.nickname,
+                userCreateMessageDto.state,
+                eventPublisher
+            )
+
     }
 }
