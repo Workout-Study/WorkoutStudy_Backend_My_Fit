@@ -1,6 +1,7 @@
 package com.fitmate.myfit.domain
 
 import com.fitmate.myfit.adapter.out.persistence.entity.UserForReadEntity
+import com.fitmate.myfit.application.port.`in`.user.command.CreateUserForReadCommand
 import com.fitmate.myfit.application.port.`in`.user.command.SaveUserForReadCommand
 import com.fitmate.myfit.application.service.dto.UserInfoResponseDto
 import com.fitmate.myfit.common.GlobalStatus
@@ -17,6 +18,13 @@ class UserForRead(
         this.state = userInfo.state
         this.updatedAt = Instant.now()
         this.updateUser = saveUserForReadCommand.eventPublisher
+    }
+
+    fun updateByUserCommand(createUserForReadCommand: CreateUserForReadCommand) {
+        this.nickname = createUserForReadCommand.nickname
+        this.state = createUserForReadCommand.state
+        this.updatedAt = Instant.now()
+        this.updateUser = createUserForReadCommand.eventPublisher
     }
 
     companion object {
@@ -46,6 +54,19 @@ class UserForRead(
             )
 
             userForRead.state = userInfo.state
+
+            return userForRead
+        }
+
+        fun createByUserCommand(command: CreateUserForReadCommand): UserForRead {
+            val userForRead = UserForRead(
+                null,
+                command.userId,
+                command.nickname,
+                command.eventPublisher
+            )
+
+            userForRead.state = command.state
 
             return userForRead
         }

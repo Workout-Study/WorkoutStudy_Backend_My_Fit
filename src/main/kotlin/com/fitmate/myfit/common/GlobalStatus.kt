@@ -20,6 +20,7 @@ class GlobalStatus {
         const val KAFKA_TOPIC_FIT_CERTIFICATION_RESULT = "fit-certification-result"
         const val KAFKA_TOPIC_FIT_PENALTY = "fit-penalty"
         const val KAFKA_TOPIC_USER_INFO_EVENT = "user-info-event"
+        const val KAFKA_TOPIC_USER_CREATE_EVENT = "user-create-event"
 
         const val PENALTY_PAID = true
         const val PENALTY_NOT_PAID = false
