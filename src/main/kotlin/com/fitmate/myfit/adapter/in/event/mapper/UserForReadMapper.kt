@@ -51,7 +51,7 @@ class UserForReadMapper {
             eventPublisher: String
         ): CreateUserForReadCommand =
             CreateUserForReadCommand(
-                userCreateMessageDto.id,
+                userCreateMessageDto.userId,
                 userCreateMessageDto.nickname,
                 userCreateMessageDto.state,
                 eventPublisher
