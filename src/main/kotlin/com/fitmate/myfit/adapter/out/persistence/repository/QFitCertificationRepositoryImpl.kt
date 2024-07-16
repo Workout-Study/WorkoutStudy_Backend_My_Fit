@@ -7,14 +7,19 @@ import com.fitmate.myfit.adapter.out.persistence.entity.QFitCertificationEntity.
 import com.fitmate.myfit.adapter.out.persistence.entity.QFitMateForReadEntity.fitMateForReadEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.QFitRecordEntity.fitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.QVoteEntity.voteEntity
+import com.fitmate.myfit.application.port.`in`.my.fit.command.MyFitGroupIssueSliceFilterCommand
 import com.fitmate.myfit.common.GlobalStatus
+import com.fitmate.myfit.common.SliceUtil
+import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.ExpressionUtils
+import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 
 
 @Repository
@@ -161,4 +166,37 @@ class QFitCertificationRepositoryImpl(jpaQueryFactory: JPAQueryFactory) :
                 fitCertificationEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED)
             )
             .fetch()
+
+    @Transactional(readOnly = true)
+    override fun findFitCertificationByFitGroupIssue(
+        command: MyFitGroupIssueSliceFilterCommand,
+        fitGroupIdList: List<Long>,
+        fitGroupIssueStartDate: Instant,
+        fitGroupIssueEndDate: Instant
+    ): List<FitCertificationEntity> {
+        return factory.select(fitCertificationEntity)
+            .from(fitCertificationEntity)
+            .where(
+                fitCertificationEntity.state.eq(GlobalStatus.PERSISTENCE_NOT_DELETED),
+                getFitGroupIdCondition(fitGroupIdList),
+                getDateCondition(fitGroupIssueStartDate, fitGroupIssueEndDate)
+            )
+            .offset(command.pageable.offset)
+            .limit(SliceUtil.getSliceLimit(command.pageable.pageSize))
+            .orderBy(fitCertificationEntity.createdAt.desc())
+            .fetch()
+    }
+
+    private fun getDateCondition(startDate: Instant, endDate: Instant): BooleanBuilder {
+        val booleanBuilder = BooleanBuilder();
+
+        booleanBuilder.and(fitCertificationEntity.createdAt.goe(startDate))
+        booleanBuilder.and(fitCertificationEntity.createdAt.loe(endDate))
+
+        return booleanBuilder
+    }
+
+    private fun getFitGroupIdCondition(fitGroupIdList: List<Long>): Predicate? {
+        return fitCertificationEntity.fitGroupId.`in`(fitGroupIdList)
+    }
 }

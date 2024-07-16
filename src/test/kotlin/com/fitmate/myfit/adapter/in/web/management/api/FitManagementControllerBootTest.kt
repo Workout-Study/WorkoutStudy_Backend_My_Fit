@@ -54,6 +54,8 @@ class FitManagementControllerBootTest {
     private val fitPenaltyId = 162L
     private val requestUserId = 642
     private val fitGroupId = 63L
+    private val maxFitMate = 20
+    private val presentFitMateCount = 7
 
     private lateinit var fitPenaltyEntity: FitPenaltyEntity
 
@@ -66,6 +68,8 @@ class FitManagementControllerBootTest {
                         fitGroupId,
                         "testFitGroupName",
                         requestUserId,
+                        maxFitMate,
+                        presentFitMateCount,
                         1,
                         3,
                         listOf(),

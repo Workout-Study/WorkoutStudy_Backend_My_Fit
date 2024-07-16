@@ -2,6 +2,7 @@ package com.fitmate.myfit.application.service.adapter
 
 import com.fitmate.myfit.adapter.out.persistence.entity.FitGroupForReadEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitGroupForReadRepository
+import com.fitmate.myfit.adapter.out.persistence.repository.FitMateForReadRepository
 import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.group.SaveFitGroupForReadPort
 import com.fitmate.myfit.domain.FitGroupForRead
@@ -11,7 +12,8 @@ import java.util.*
 
 @Component
 class FitGroupForReadPersistenceAdapter(
-    private val fitGroupForReadRepository: FitGroupForReadRepository
+    private val fitGroupForReadRepository: FitGroupForReadRepository,
+    private val fitMateForReadRepository: FitMateForReadRepository
 ) : ReadFitGroupForReadPort, SaveFitGroupForReadPort {
 
     @Transactional(readOnly = true)
