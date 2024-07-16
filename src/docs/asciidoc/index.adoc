@@ -404,6 +404,28 @@ http-response
 
 include::{snippets}/need-vote-certification/http-response.adoc[]
 
+=== My Fit Group Issue ( 내 Fit Group 소식 ) - 현재는 인증에 관한 소식만 구현돼있음
+
+http-request
+
+include::{snippets}/fit-group-issue/http-request.adoc[]
+
+curl-request
+
+include::{snippets}/fit-group-issue/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/fit-group-issue/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/fit-group-issue/response-body.adoc[]
+
+http-response
+
+include::{snippets}/fit-group-issue/http-response.adoc[]
+
 == 5. fit penalty
 
 === Fit Penalty Filter By User ( 유저 기준으로 벌금 조회 Slice )

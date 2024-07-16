@@ -2,15 +2,21 @@ package com.fitmate.myfit.adapter.`in`.web.my.fit.api
 
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.FitCertificationProgressFilterRequest
+import com.fitmate.myfit.adapter.`in`.web.my.fit.request.MyFitGroupIssueSliceFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.NeedVoteCertificationFilterRequest
+import com.fitmate.myfit.adapter.`in`.web.my.fit.response.MyFitGroupIssueSliceFilterResponse
 import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.my.fit.command.FitCertificationProgressFilterCommand
+import com.fitmate.myfit.application.port.`in`.my.fit.command.MyFitGroupIssueSliceFilterCommand
 import com.fitmate.myfit.application.port.`in`.my.fit.command.NeedVoteCertificationFilterCommand
 import com.fitmate.myfit.application.port.`in`.my.fit.response.FilterCertificationProgressResponseDto
+import com.fitmate.myfit.application.port.`in`.my.fit.response.MyFitGroupIssueSliceFilterResponseDto
 import com.fitmate.myfit.application.port.`in`.my.fit.response.NeedVoteCertificationFitGroupResponseDto
 import com.fitmate.myfit.application.port.`in`.my.fit.response.NeedVoteCertificationResponseDto
 import com.fitmate.myfit.application.port.`in`.my.fit.usecase.ReadFitCertificationProgressUseCase
+import com.fitmate.myfit.application.port.`in`.my.fit.usecase.ReadFitGroupIssueUseCase
 import com.fitmate.myfit.application.port.`in`.my.fit.usecase.ReadNeedVoteCertificationUseCase
+import com.fitmate.myfit.domain.CertificationStatus
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -46,6 +52,9 @@ class MyFitControllerTest {
     private lateinit var readNeedVoteCertificationUseCase: ReadNeedVoteCertificationUseCase
 
     @MockBean
+    private lateinit var readFitGroupIssueUseCase: ReadFitGroupIssueUseCase
+
+    @MockBean
     private lateinit var senderUtils: SenderUtils
 
     private val requestUserId = 642
@@ -54,6 +63,9 @@ class MyFitControllerTest {
     private val frequency = 7
     private val certificationCount = frequency - 3
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
+    private val maxFitMate = 20
+    private val presentFitMateCount = 7
+    private val userId = 12
 
     @Test
     @DisplayName("[단위][Web Adapter] Fit certification progress list 조회 - 성공 테스트")
@@ -69,6 +81,8 @@ class MyFitControllerTest {
                 FilterCertificationProgressResponseDto(
                     i.toLong(),
                     fitGroupName + i,
+                    maxFitMate,
+                    presentFitMateCount,
                     multiMediaEndPoint[0],
                     cycle,
                     frequency + i,
@@ -108,6 +122,10 @@ class MyFitControllerTest {
                             .description("fit group id"),
                         fieldWithPath("fitCertificationProgresses[].fitGroupName").type(JsonFieldType.STRING)
                             .description("fit group 이름"),
+                        fieldWithPath("fitCertificationProgresses[].maxFitMate").type(JsonFieldType.NUMBER)
+                            .description("fit group의 최대 fit mate 수"),
+                        fieldWithPath("fitCertificationProgresses[].presentFitMateCount").type(JsonFieldType.NUMBER)
+                            .description("fit group의 현재 fit mate 수"),
                         fieldWithPath("fitCertificationProgresses[].thumbnailEndPoint").type(JsonFieldType.STRING)
                             .description("fit group의 썸네일 사진 end point"),
                         fieldWithPath("fitCertificationProgresses[].cycle").type(JsonFieldType.NUMBER)
@@ -224,6 +242,99 @@ class MyFitControllerTest {
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].recordMultiMediaEndPoints[]").type(
                             JsonFieldType.ARRAY
                         ).description("인증을 요청한 기록의 multi media end points")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("[단위][Web Adapter] My Fit Group Issue Filter 조회 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `get my fit group issue filter controller success test`() {
+        //given
+        val request = MyFitGroupIssueSliceFilterRequest(requestUserId)
+
+        val myFitGroupIssueSliceFilterResponseDtoList = mutableListOf<MyFitGroupIssueSliceFilterResponseDto>()
+
+        for (i in 1..5) {
+            myFitGroupIssueSliceFilterResponseDtoList.add(
+                MyFitGroupIssueSliceFilterResponseDto(
+                    i.toLong(),
+                    userId + i,
+                    "user" + userId + i,
+                    multiMediaEndPoint.get(0),
+                    if (i % 2 == 0) CertificationStatus.REQUESTED else CertificationStatus.CERTIFIED,
+                    i + 6,
+                    i + 1,
+                    i + 7,
+                    if (i % 2 == 0) true else false,
+                    if (i % 2 == 0) true else false,
+                    Instant.now()
+                )
+            )
+        }
+
+        val resposne = MyFitGroupIssueSliceFilterResponse(
+            request.pageNumber,
+            request.pageSize,
+            true,
+            myFitGroupIssueSliceFilterResponseDtoList
+        )
+
+        val queryString = UriComponentsBuilder.newInstance()
+            .queryParam("userId", request.userId)
+            .queryParam("pageNumber", request.pageNumber)
+            .queryParam("pageSize", request.pageSize)
+            .build()
+            .encode()
+            .toUriString()
+
+        whenever(readFitGroupIssueUseCase.filterFitGroupIssue(any<MyFitGroupIssueSliceFilterCommand>()))
+            .thenReturn(resposne)
+        //when
+        val resultActions = mockMvc.perform(
+            get(GlobalURI.MY_FIT_GROUP_ISSUE_FILTER + queryString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+            .andDo(
+                document(
+                    "fit-group-issue",
+                    queryParameters(
+                        parameterWithName("userId").description("내 그룹 소식을 조회하는 유저 id"),
+                        parameterWithName("pageNumber").description("조회할 fit record slice 페이지 번호 ( null일 경우 기본값 0 )"),
+                        parameterWithName("pageSize").description("조회할 fit record slice size ( null일 경우 기본값 5 )")
+                    ),
+                    responseFields(
+                        fieldWithPath("pageNumber").type(JsonFieldType.NUMBER).description("조회 페이지 번호"),
+                        fieldWithPath("pageSize").type(JsonFieldType.NUMBER).description("조회 한 페이지 size"),
+                        fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN).description("다음 Slice가 있는지"),
+                        fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("내 그룹 소식 list"),
+                        fieldWithPath("content[].fitGroupId").type(JsonFieldType.NUMBER)
+                            .description("인증이 요층 된 fit group id"),
+                        fieldWithPath("content[].certificationRequestUserId").type(JsonFieldType.NUMBER)
+                            .description("인증을 요청한 유저"),
+                        fieldWithPath("content[].certificationRequestUserNickname").type(JsonFieldType.STRING)
+                            .description("인증을 요청한 유저의 닉네임"),
+                        fieldWithPath("content[].thumbnailEndPoint").type(JsonFieldType.STRING)
+                            .description("인증의 썸네일 사진 end point"),
+                        fieldWithPath("content[].certificationStatus").type(JsonFieldType.STRING)
+                            .description("인증의 인증 상태 (REQUESTED, CERTIFIED, REJECTED)"),
+                        fieldWithPath("content[].agreeCount").type(JsonFieldType.NUMBER)
+                            .description("인증의 찬성 수"),
+                        fieldWithPath("content[].disagreeCount").type(JsonFieldType.NUMBER)
+                            .description("인증의 반대 수"),
+                        fieldWithPath("content[].maxAgreeCount").type(JsonFieldType.NUMBER)
+                            .description("인증의 최대 투표 수"),
+                        fieldWithPath("content[].isUserVoteDone").type(JsonFieldType.BOOLEAN)
+                            .description("조회를 요청한 유저가 인증에 투표 했는지 여부"),
+                        fieldWithPath("content[].isUserAgree").type(JsonFieldType.BOOLEAN)
+                            .description("조회를 요청한 유저가 인증에 찬성 했는지 여부"),
+                        fieldWithPath("content[].issueDate").type(JsonFieldType.STRING)
+                            .description("인증이 요청된 시각")
                     )
                 )
             )

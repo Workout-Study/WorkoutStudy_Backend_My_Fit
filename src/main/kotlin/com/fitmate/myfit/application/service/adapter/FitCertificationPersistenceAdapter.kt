@@ -5,6 +5,7 @@ import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
 import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitCertificationRepository
+import com.fitmate.myfit.application.port.`in`.my.fit.command.MyFitGroupIssueSliceFilterCommand
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.RegisterFitCertificationPort
 import com.fitmate.myfit.application.port.out.certification.UpdateFitCertificationPort
@@ -144,5 +145,22 @@ class FitCertificationPersistenceAdapter(
             GlobalStatus.PERSISTENCE_NOT_DELETED
         )
         return fitCertificationEntities.map { FitCertification.entityToDomain(it) }
+    }
+
+    @Transactional(readOnly = true)
+    override fun findFitCertificationByFitGroupIssue(
+        command: MyFitGroupIssueSliceFilterCommand,
+        fitGroupIdList: List<Long>,
+        fitGroupIssueStartDate: Instant,
+        fitGroupIssueEndDate: Instant
+    ): List<FitCertification> {
+        val fitCertificationEntityList = fitCertificationRepository.findFitCertificationByFitGroupIssue(
+            command,
+            fitGroupIdList,
+            fitGroupIssueStartDate,
+            fitGroupIssueEndDate
+        )
+
+        return fitCertificationEntityList.map { FitCertification.entityToDomain(it) }
     }
 }

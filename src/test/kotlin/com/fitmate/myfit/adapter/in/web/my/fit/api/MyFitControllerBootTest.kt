@@ -2,6 +2,7 @@ package com.fitmate.myfit.adapter.`in`.web.my.fit.api
 
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.FitCertificationProgressFilterRequest
+import com.fitmate.myfit.adapter.`in`.web.my.fit.request.MyFitGroupIssueSliceFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.NeedVoteCertificationFilterRequest
 import com.fitmate.myfit.adapter.out.persistence.entity.FitCertificationEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.FitGroupForReadEntity
@@ -66,6 +67,8 @@ class MyFitControllerBootTest {
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
+    private val maxFitMate = 20
+    private val presentFitMateCount = 7
 
     @BeforeEach
     fun setUp() {
@@ -79,6 +82,8 @@ class MyFitControllerBootTest {
                             i.toLong(),
                             fitGroupName + i,
                             i,
+                            maxFitMate,
+                            presentFitMateCount,
                             cycle,
                             frequency + i,
                             multiMediaEndPoint,
@@ -177,7 +182,7 @@ class MyFitControllerBootTest {
     }
 
     @Test
-    @DisplayName("[단위][Web Adapter] Need vote certification list 조회 - 성공 테스트")
+    @DisplayName("[통합][Web Adapter] Need vote certification list 조회 - 성공 테스트")
     @Throws(Exception::class)
     fun `get need vote certification list controller success test`() {
         //given
@@ -192,6 +197,30 @@ class MyFitControllerBootTest {
         //when
         val resultActions = mockMvc.perform(
             get(GlobalURI.MY_FIT_NEED_VOTE_CERTIFICATION + queryString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+    }
+
+    @Test
+    @DisplayName("[통합][Web Adapter] My Fit Group Issue Filter 조회 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `get my fit group issue filter controller success test`() {
+        //given
+        val request = MyFitGroupIssueSliceFilterRequest(requestUserId)
+
+        val queryString = UriComponentsBuilder.newInstance()
+            .queryParam("userId", request.userId)
+            .build()
+            .encode()
+            .toUriString()
+
+        //when
+        val resultActions = mockMvc.perform(
+            get(GlobalURI.MY_FIT_GROUP_ISSUE_FILTER + queryString)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
         )

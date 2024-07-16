@@ -10,6 +10,8 @@ class FitGroupForRead private constructor(
     val fitGroupId: Long,
     var fitGroupName: String,
     var fitLeaderUserId: Int,
+    var maxFitMate: Int,
+    var presentFitMateCount: Int,
     var cycle: Int,
     var frequency: Int,
     var thumbnailEndPoint: String?,
@@ -22,6 +24,8 @@ class FitGroupForRead private constructor(
         this.fitLeaderUserId = dto.fitLeaderUserId
         this.cycle = dto.cycle
         this.frequency = dto.frequency
+        this.maxFitMate = dto.maxFitMate
+        this.presentFitMateCount = dto.presentFitMateCount
         this.state = dto.state
         this.updatedAt = Instant.now()
         this.updateUser = command.eventPublisher
@@ -39,6 +43,8 @@ class FitGroupForRead private constructor(
                 entity.fitGroupId,
                 entity.fitGroupName,
                 entity.fitLeaderUserId,
+                entity.maxFitMate,
+                entity.presentFitMateCount,
                 entity.cycle,
                 entity.frequency,
                 entity.thumbnailEndPoint,
@@ -65,6 +71,8 @@ class FitGroupForRead private constructor(
                 fitGroupDetail.fitGroupId,
                 fitGroupDetail.fitGroupName,
                 fitGroupDetail.fitLeaderUserId,
+                fitGroupDetail.maxFitMate,
+                fitGroupDetail.presentFitMateCount,
                 fitGroupDetail.cycle,
                 fitGroupDetail.frequency,
                 thumbnailEndPoint,

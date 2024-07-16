@@ -3,10 +3,13 @@ package com.fitmate.myfit.adapter.`in`.web.my.fit.api
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.my.fit.mapper.MyFitDtoMapper
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.FitCertificationProgressFilterRequest
+import com.fitmate.myfit.adapter.`in`.web.my.fit.request.MyFitGroupIssueSliceFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.my.fit.request.NeedVoteCertificationFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.my.fit.response.FitCertificationProgressResponse
+import com.fitmate.myfit.adapter.`in`.web.my.fit.response.MyFitGroupIssueSliceFilterResponse
 import com.fitmate.myfit.adapter.`in`.web.my.fit.response.NeedVoteCertificationFilterResponse
 import com.fitmate.myfit.application.port.`in`.my.fit.usecase.ReadFitCertificationProgressUseCase
+import com.fitmate.myfit.application.port.`in`.my.fit.usecase.ReadFitGroupIssueUseCase
 import com.fitmate.myfit.application.port.`in`.my.fit.usecase.ReadNeedVoteCertificationUseCase
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -17,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class MyFitController(
     private val readFitCertificationProgressUseCase: ReadFitCertificationProgressUseCase,
-    private val readNeedVoteCertificationUseCase: ReadNeedVoteCertificationUseCase
+    private val readNeedVoteCertificationUseCase: ReadNeedVoteCertificationUseCase,
+    private val readFitGroupIssueUseCase: ReadFitGroupIssueUseCase
 ) {
 
     /**
@@ -60,5 +64,18 @@ class MyFitController(
                 filterCertificationProgressResponseDtoList
             )
         )
+    }
+
+    /**
+     * Get My Fit Group issue filter
+     */
+    @GetMapping(GlobalURI.MY_FIT_GROUP_ISSUE_FILTER)
+    fun getMyFitGroupIssueFilter(
+        @ModelAttribute @Valid myFitGroupIssueSliceFilterRequest: MyFitGroupIssueSliceFilterRequest
+    ): ResponseEntity<MyFitGroupIssueSliceFilterResponse> {
+        val myFitGroupIssueSliceFilterCommand =
+            MyFitDtoMapper.myFitGroupIssueSliceFilterRequestToCommand(myFitGroupIssueSliceFilterRequest)
+        return ResponseEntity.ok()
+            .body(readFitGroupIssueUseCase.filterFitGroupIssue(myFitGroupIssueSliceFilterCommand));
     }
 }

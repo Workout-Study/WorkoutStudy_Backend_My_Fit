@@ -43,6 +43,8 @@ class FitCertificationFilterControllerBootTest {
     private val cycle = 1
     private val frequency = 3
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
+    private val maxFitMate = 20
+    private val presentFitMateCount = 7
 
     private lateinit var fitGroupForRead: FitGroupForReadEntity
 
@@ -55,6 +57,8 @@ class FitCertificationFilterControllerBootTest {
                         fitGroupId,
                         fitGroupName,
                         requestUserId,
+                        maxFitMate,
+                        presentFitMateCount,
                         cycle,
                         frequency,
                         multiMediaEndPoint,
