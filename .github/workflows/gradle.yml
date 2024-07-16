@@ -56,9 +56,9 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.KEY }}
+          password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            ${{ secrets.SERVER_PASSWORD }}
             docker stop my-fit
             docker rm my-fit
             docker pull ${{secrets.DOCKER_USERNAME}}/my-fit:latest

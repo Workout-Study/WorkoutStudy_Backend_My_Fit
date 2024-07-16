@@ -7,6 +7,8 @@ data class FitGroupResponseDto(
     val fitGroupId: Long,
     val fitGroupName: String,
     val fitLeaderUserId: Int,
+    val maxFitMate: Int,
+    val presentFitMateCount: Int,
     val cycle: Int,
     val frequency: Int,
     val multiMediaEndPoints: List<String>,

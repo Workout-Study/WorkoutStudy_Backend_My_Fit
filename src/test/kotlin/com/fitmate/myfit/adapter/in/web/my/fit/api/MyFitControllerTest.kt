@@ -54,6 +54,8 @@ class MyFitControllerTest {
     private val frequency = 7
     private val certificationCount = frequency - 3
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
+    private val maxFitMate = 20
+    private val presentFitMateCount = 7
 
     @Test
     @DisplayName("[단위][Web Adapter] Fit certification progress list 조회 - 성공 테스트")
@@ -69,6 +71,8 @@ class MyFitControllerTest {
                 FilterCertificationProgressResponseDto(
                     i.toLong(),
                     fitGroupName + i,
+                    maxFitMate,
+                    presentFitMateCount,
                     multiMediaEndPoint[0],
                     cycle,
                     frequency + i,
@@ -108,6 +112,10 @@ class MyFitControllerTest {
                             .description("fit group id"),
                         fieldWithPath("fitCertificationProgresses[].fitGroupName").type(JsonFieldType.STRING)
                             .description("fit group 이름"),
+                        fieldWithPath("fitCertificationProgresses[].maxFitMate").type(JsonFieldType.NUMBER)
+                            .description("fit group의 최대 fit mate 수"),
+                        fieldWithPath("fitCertificationProgresses[].presentFitMateCount").type(JsonFieldType.NUMBER)
+                            .description("fit group의 현재 fit mate 수"),
                         fieldWithPath("fitCertificationProgresses[].thumbnailEndPoint").type(JsonFieldType.STRING)
                             .description("fit group의 썸네일 사진 end point"),
                         fieldWithPath("fitCertificationProgresses[].cycle").type(JsonFieldType.NUMBER)
