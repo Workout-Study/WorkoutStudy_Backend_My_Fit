@@ -2,6 +2,7 @@ package com.fitmate.myfit.application.port.out.certification
 
 import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationDetailDto
 import com.fitmate.myfit.adapter.out.persistence.dto.FitCertificationWithVoteDto
+import com.fitmate.myfit.application.port.`in`.my.fit.command.MyFitGroupIssueSliceFilterCommand
 import com.fitmate.myfit.domain.CertificationStatus
 import com.fitmate.myfit.domain.FitCertification
 import com.fitmate.myfit.domain.FitRecord
@@ -46,4 +47,11 @@ interface ReadFitCertificationPort {
     ): List<FitCertificationDetailDto>
 
     fun findByFitRecord(fitRecord: FitRecord): List<FitCertification>
+
+    fun findFitCertificationByFitGroupIssue(
+        command: MyFitGroupIssueSliceFilterCommand,
+        fitGroupIdList: List<Long>,
+        fitGroupIssueStartDate: Instant,
+        fitGroupIssueEndDate: Instant
+    ): List<FitCertification>
 }
