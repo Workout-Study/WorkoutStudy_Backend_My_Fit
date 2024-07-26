@@ -133,6 +133,9 @@ class FitCertificationService(
         val fitCertificationDetailDtoList = fitCertificationDetailList.map {
             val userForRead = getUserForReadPort(it.certificationRequestUserId)
 
+            val fitRecord = readFitRecordPort.findById(it.recordId)
+                .orElseThrow { ResourceNotFoundException("fit record does not exist") }
+
             FitCertificationDetailWithVoteResponseDto(
                 it.certificationId,
                 it.recordId,
@@ -145,7 +148,8 @@ class FitCertificationService(
                 it.maxAgreeCount.toInt(),
                 it.fitRecordStartDate,
                 it.fitRecordEndDate,
-                getRecordThumbnailEndPoint(it.recordId),
+                readRecordMultiMediaEndPointPort.findByFitRecordAndOrderByIdAsc(fitRecord).stream()
+                    .map { multiMedia -> multiMedia.endPoint }.toList(),
                 it.createdAt.plus(12, ChronoUnit.HOURS)
             )
         }.toList()
