@@ -120,6 +120,8 @@ class FitCertificationFilterService(
         val responseDto = mutableListOf<NeedVoteCertificationFitGroupResponseDto>()
 
         fitMateList.forEach {
+            if (command.fitGroupId != null && it.fitGroupId != command.fitGroupId) return@forEach
+
             val fitGroupForReadOpt = readFitGroupForReadPort.findByFitGroupId(it.fitGroupId)
             if (fitGroupForReadOpt.isEmpty) {
                 logger?.info(
@@ -160,6 +162,8 @@ class FitCertificationFilterService(
         return NeedVoteCertificationResponseDto(
             dto.certificationId,
             dto.fitRecordId,
+            fitRecord.recordStartDate,
+            fitRecord.recordEndDate,
             dto.userId,
             readUserForReadPort?.nickname,
             dto.agreeCount.toInt(),
@@ -254,7 +258,9 @@ class FitCertificationFilterService(
                 GlobalStatus.VOTE_TARGET_CATEGORY_CERTIFICATION,
                 it.id
             ),
-            fitGroup.maxFitMate,
+            readFitMateForReadPort.countByFitGroup(
+                it.fitGroupId
+            ) - 1,
             userVote.isPresent,
             if (userVote.isPresent) userVote.get().agree else false,
             it.createdAt

@@ -4,10 +4,13 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.mapper.FitRecordDtoMapper
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.DeleteFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
+import com.fitmate.myfit.adapter.`in`.web.fit.record.request.UpdateFitRecordMultiMediaEndPointRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.DeleteFitRecordResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.RegisterFitRecordResponse
+import com.fitmate.myfit.adapter.`in`.web.fit.record.response.UpdateFitRecordMultiMediaEndPointResponse
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.DeleteFitRecordUseCase
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.UpdateFitRecordMultiMediaEndPointUseCase
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,7 +19,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class FitRecordController(
     private val registerFitRecordUseCase: RegisterFitRecordUseCase,
-    private val deleteFitRecordUseCase: DeleteFitRecordUseCase
+    private val deleteFitRecordUseCase: DeleteFitRecordUseCase,
+    private val updateFitRecordUseCase: UpdateFitRecordMultiMediaEndPointUseCase
 ) {
 
     /**
@@ -51,5 +55,15 @@ class FitRecordController(
         val deleteFitRecordResponseDto = deleteFitRecordUseCase.deleteFitRecord(deleteFitRecordCommand)
         return ResponseEntity.ok()
             .body(FitRecordDtoMapper.dtoToDeleteResponse(deleteFitRecordResponseDto))
+    }
+
+    @PatchMapping(GlobalURI.FIT_RECORD_ROOT + GlobalURI.PATH_VARIABLE_FIT_RECORD_ID_WITH_BRACE)
+    fun updateFitRecordMultiMediaEndPoint(
+        @PathVariable(GlobalURI.PATH_VARIABLE_FIT_RECORD_ID) fitRecordId: Long,
+        @RequestBody @Valid request: UpdateFitRecordMultiMediaEndPointRequest
+    ): ResponseEntity<UpdateFitRecordMultiMediaEndPointResponse> {
+        val command = FitRecordDtoMapper.updateMultiMediaEndPointRequestToCommand(fitRecordId, request)
+        val responseDto = updateFitRecordUseCase.updateFitRecordMultiMediaEndPoint(command)
+        return ResponseEntity.ok().body(FitRecordDtoMapper.dtoToUpdateMultiMediaEndPointResponse(responseDto))
     }
 }

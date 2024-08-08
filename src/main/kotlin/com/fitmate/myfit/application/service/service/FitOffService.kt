@@ -1,14 +1,20 @@
 package com.fitmate.myfit.application.service.service
 
+import com.fitmate.myfit.adapter.`in`.web.fit.off.response.FitOffDetail
+import com.fitmate.myfit.adapter.`in`.web.fit.off.response.ProceedingFitOffResponse
 import com.fitmate.myfit.application.port.`in`.fit.off.command.DeleteFitOffCommand
+import com.fitmate.myfit.application.port.`in`.fit.off.command.GetProceedingFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.RegisterFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.UpdateFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.response.DeleteFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.RegisterFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.UpdateFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.DeleteFitOffUseCase
+import com.fitmate.myfit.application.port.`in`.fit.off.usecase.ReadFitOffUseCase
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.RegisterFitOffUseCase
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.UpdateFitOffUseCase
+import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
+import com.fitmate.myfit.application.port.out.fit.mate.ReadFitMateForReadPort
 import com.fitmate.myfit.application.port.out.fit.off.ReadFitOffPort
 import com.fitmate.myfit.application.port.out.fit.off.RegisterFitOffPort
 import com.fitmate.myfit.application.port.out.fit.off.UpdateFitOffPort
@@ -24,8 +30,10 @@ import java.time.Instant
 class FitOffService(
     private val readFitOffPort: ReadFitOffPort,
     private val registerFitOffPort: RegisterFitOffPort,
-    private val updateFitOffPort: UpdateFitOffPort
-) : RegisterFitOffUseCase, DeleteFitOffUseCase, UpdateFitOffUseCase {
+    private val updateFitOffPort: UpdateFitOffPort,
+    private val readFitGroupForReadPort: ReadFitGroupForReadPort,
+    private val readFitMateForReadPort: ReadFitMateForReadPort
+) : RegisterFitOffUseCase, DeleteFitOffUseCase, UpdateFitOffUseCase, ReadFitOffUseCase {
 
     /**
      * Register fit off use case,
@@ -112,5 +120,20 @@ class FitOffService(
         updateFitOffPort.updateFitOff(fitOff)
 
         return FitOffUseCaseConverter.resultToUpdateResponseDto(true)
+    }
+
+    @Transactional(readOnly = true)
+    override fun getProceedingFitOffByGroupId(command: GetProceedingFitOffCommand): ProceedingFitOffResponse {
+        val fitGroup = readFitGroupForReadPort.findByFitGroupId(command.fitGroupId)
+            .orElseThrow { ResourceNotFoundException("fit group does not exist") }
+
+        val fitMateUserIdList = readFitMateForReadPort.findByFitGroupId(fitGroup.id!!)
+            .map { it.fitMateUserId }.toList()
+
+        val fitOffDetailList = readFitOffPort.findProceedingFitOffByUserIds(fitMateUserIdList)
+            .map { FitOffDetail(it.id!!, it.userId, it.fitOffStartDate, it.fitOffEndDate, it.fitOffReason) }
+            .toList()
+
+        return ProceedingFitOffResponse(fitOffDetailList)
     }
 }

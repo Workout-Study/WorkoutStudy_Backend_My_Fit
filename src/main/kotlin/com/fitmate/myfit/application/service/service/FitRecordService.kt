@@ -1,16 +1,15 @@
 package com.fitmate.myfit.application.service.service
 
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitCertificationResponse
-import com.fitmate.myfit.application.port.`in`.fit.record.command.DeleteFitRecordCommand
-import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
-import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
-import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.*
 import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.response.UpdateFitRecordMultiMediaEndPointResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.DeleteFitRecordUseCase
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.ReadFitRecordUseCase
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.UpdateFitRecordMultiMediaEndPointUseCase
 import com.fitmate.myfit.application.port.out.certification.ReadFitCertificationPort
 import com.fitmate.myfit.application.port.out.fit.group.ReadFitGroupForReadPort
 import com.fitmate.myfit.application.port.out.fit.record.*
@@ -32,10 +31,11 @@ class FitRecordService(
     private val registerFitRecordPort: RegisterFitRecordPort,
     private val registerRecordMultiMediaEndPointPort: RegisterRecordMultiMediaEndPointPort,
     private val readRecordMultiMediaEndPoint: ReadRecordMultiMediaEndPointPort,
+    private val updateRecordMultiMediaEndPoint: UpdateRecordMultiMediaEndPointPort,
     private val readFitCertificationPort: ReadFitCertificationPort,
     private val updateFitRecordPort: UpdateFitRecordPort,
     private val readFitGroupForReadPort: ReadFitGroupForReadPort
-) : RegisterFitRecordUseCase, ReadFitRecordUseCase, DeleteFitRecordUseCase {
+) : RegisterFitRecordUseCase, ReadFitRecordUseCase, DeleteFitRecordUseCase, UpdateFitRecordMultiMediaEndPointUseCase {
 
     /**
      * Register fit record use case,
@@ -163,4 +163,30 @@ class FitRecordService(
 
     private fun findMultiMediaEndPointsAndGet(fitRecord: FitRecord): List<String> =
         readRecordMultiMediaEndPoint.findByFitRecordAndOrderByIdAsc(fitRecord).map { it.endPoint }
+
+    @Transactional
+    override fun updateFitRecordMultiMediaEndPoint(command: UpdateFitRecordMultiMediaEndPointCommand): UpdateFitRecordMultiMediaEndPointResponseDto {
+        val fitRecord = readFitRecordPort.findById(command.fitRecordId)
+            .orElseThrow { ResourceNotFoundException("fit record does not exist") }
+
+        if (fitRecord.userId != command.requestUserId) throw BadRequestException("request user does not match fit record user id")
+
+        if (fitRecord.isDeleted) throw BadRequestException("fit record already deleted")
+
+        readRecordMultiMediaEndPoint.findByFitRecord(fitRecord)
+            .forEach {
+                it.delete(command.requestUserId.toString())
+                updateRecordMultiMediaEndPoint.update(it)
+            }
+
+        command.multiMediaEndPoints?.let {
+            val fitRecordMultiMediaEndPoints = command.multiMediaEndPoints.map {
+                FitRecordMultiMediaEndPoint.createFitRecord(fitRecord, it)
+            }
+
+            registerRecordMultiMediaEndPointPort.saveAll(fitRecordMultiMediaEndPoints)
+        }
+
+        return FitRecordUseCaseConverter.resultToUpdateMultiMediaEndPointResponseDto(true)
+    }
 }

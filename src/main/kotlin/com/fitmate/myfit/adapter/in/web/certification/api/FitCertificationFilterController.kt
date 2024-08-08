@@ -8,6 +8,7 @@ import com.fitmate.myfit.application.port.`in`.certification.usecase.ReadFitCert
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -20,10 +21,11 @@ class FitCertificationFilterController(private val readFitCertificationUseCase: 
     )
     fun getFitCertificationByGroupId(
         @PathVariable(GlobalURI.PATH_VARIABLE_FIT_GROUP_ID) fitGroupId: Long,
-        @PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) requestUserId: Int
+        @PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) requestUserId: Int,
+        @RequestParam(required = false) withOwn: Int?
     ): ResponseEntity<FitCertificationDetailsResponse> {
         val fitCertificationFilterByGroupIdCommand =
-            FitCertificationFilterDtoMapper.filterByGroupIdAndUserIdRequestToCommand(fitGroupId, requestUserId)
+            FitCertificationFilterDtoMapper.filterByGroupIdAndUserIdRequestToCommand(fitGroupId, requestUserId, withOwn)
         val fitCertificationDetailResponseDtoList =
             readFitCertificationUseCase.getFitCertificationByGroupId(fitCertificationFilterByGroupIdCommand)
         return ResponseEntity.ok()

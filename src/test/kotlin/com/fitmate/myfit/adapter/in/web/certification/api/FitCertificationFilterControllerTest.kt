@@ -80,7 +80,7 @@ class FitCertificationFilterControllerTest {
             get(
                 GlobalURI.FIT_CERTIFICATION_FILTER
                         + GlobalURI.PATH_VARIABLE_FIT_GROUP_ID_WITH_BRACE
-                        + GlobalURI.PATH_VARIABLE_USER_ID_WITH_BRACE,
+                        + GlobalURI.PATH_VARIABLE_USER_ID_WITH_BRACE + "?withOwn=1",
                 fitGroupId,
                 userId
             ).contentType(MediaType.APPLICATION_JSON)
@@ -97,6 +97,10 @@ class FitCertificationFilterControllerTest {
                             .description("진행중인 Fit certification list를 조회할 group id"),
                         parameterWithName(GlobalURI.PATH_VARIABLE_USER_ID)
                             .description("Fit certification list를 조회하는 User id")
+                    ),
+                    queryParameters(
+                        parameterWithName("withOwn")
+                            .description("자신것을 포함해서 조회할지 ( 1: 자신것 포함하지 않음, null 혹은 다른 값 : 자신것 포함 )")
                     ),
                     responseFields(
                         fieldWithPath("fitCertificationDetails[]").type(JsonFieldType.ARRAY)

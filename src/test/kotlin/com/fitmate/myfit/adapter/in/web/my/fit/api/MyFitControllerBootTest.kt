@@ -186,7 +186,7 @@ class MyFitControllerBootTest {
     @Throws(Exception::class)
     fun `get need vote certification list controller success test`() {
         //given
-        val request = NeedVoteCertificationFilterRequest(requestUserId)
+        val request = NeedVoteCertificationFilterRequest(requestUserId, null)
 
         val queryString = UriComponentsBuilder.newInstance()
             .queryParam("requestUserId", request.requestUserId)

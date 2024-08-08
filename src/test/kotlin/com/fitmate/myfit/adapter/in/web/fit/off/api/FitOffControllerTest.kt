@@ -5,14 +5,18 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.DeleteFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.RegisterFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.UpdateFitOffRequest
+import com.fitmate.myfit.adapter.`in`.web.fit.off.response.FitOffDetail
+import com.fitmate.myfit.adapter.`in`.web.fit.off.response.ProceedingFitOffResponse
 import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.fit.off.command.DeleteFitOffCommand
+import com.fitmate.myfit.application.port.`in`.fit.off.command.GetProceedingFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.RegisterFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.UpdateFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.response.DeleteFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.RegisterFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.UpdateFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.DeleteFitOffUseCase
+import com.fitmate.myfit.application.port.`in`.fit.off.usecase.ReadFitOffUseCase
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.RegisterFitOffUseCase
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.UpdateFitOffUseCase
 import org.junit.jupiter.api.DisplayName
@@ -32,6 +36,7 @@ import org.springframework.restdocs.request.RequestDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -53,6 +58,9 @@ class FitOffControllerTest {
 
     @MockBean
     private lateinit var updateFitOffUseCase: UpdateFitOffUseCase
+
+    @MockBean
+    private lateinit var readFitOffUseCase: ReadFitOffUseCase
 
     @MockBean
     private lateinit var senderUtils: SenderUtils
@@ -188,6 +196,49 @@ class FitOffControllerTest {
                     responseFields(
                         fieldWithPath("isUpdateSuccess").type(JsonFieldType.BOOLEAN)
                             .description("수정 성공 여부")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("[단위][Web Adapter] 진행중인 Fit off 조회 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `get proceeding fit off controller success test`() {
+        //given
+        val responseDto = listOf<FitOffDetail>(FitOffDetail(51L, 16, Instant.MIN, Instant.now(), "test"))
+        val response = ProceedingFitOffResponse(responseDto)
+
+        whenever(readFitOffUseCase.getProceedingFitOffByGroupId(any<GetProceedingFitOffCommand>()))
+            .thenReturn(response)
+        //when
+        val resultActions = mockMvc.perform(
+            get(
+                GlobalURI.FIT_OFF_ROOT + GlobalURI.PATH_VARIABLE_FIT_GROUP_ID_WITH_BRACE, fitOffId
+            ).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+            .andDo(
+                document(
+                    "get-proceeding-fit-off-by-group-id",
+                    pathParameters(
+                        parameterWithName(GlobalURI.PATH_VARIABLE_FIT_GROUP_ID)
+                            .description("조회할 fit group id")
+                    ),
+                    responseFields(
+                        fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("현재 진행중인 fit off 목록"),
+                        fieldWithPath("content[].fitOffId").type(JsonFieldType.NUMBER).description("fit off id"),
+                        fieldWithPath("content[].userId").type(JsonFieldType.NUMBER)
+                            .description("fit off를 등록한 user id"),
+                        fieldWithPath("content[].fitOffStartDate").type(JsonFieldType.STRING)
+                            .description("fit off 시작일"),
+                        fieldWithPath("content[].fitOffEndDate").type(JsonFieldType.STRING)
+                            .description("fit off 종료일"),
+                        fieldWithPath("content[].fitOffReason").type(JsonFieldType.STRING)
+                            .description("fit off 사유")
                     )
                 )
             )

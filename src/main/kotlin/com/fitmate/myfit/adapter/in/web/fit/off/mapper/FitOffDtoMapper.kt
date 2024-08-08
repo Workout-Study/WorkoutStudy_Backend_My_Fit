@@ -7,6 +7,7 @@ import com.fitmate.myfit.adapter.`in`.web.fit.off.response.DeleteFitOffResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.RegisterFitOffResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.UpdateFitOffResponse
 import com.fitmate.myfit.application.port.`in`.fit.off.command.DeleteFitOffCommand
+import com.fitmate.myfit.application.port.`in`.fit.off.command.GetProceedingFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.RegisterFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.UpdateFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.response.DeleteFitOffResponseDto
@@ -44,5 +45,9 @@ class FitOffDtoMapper {
 
         fun dtoToUpdateResponse(updateFitOffResponseDto: UpdateFitOffResponseDto): UpdateFitOffResponse =
             UpdateFitOffResponse(updateFitOffResponseDto.isUpdateSuccess)
+
+        fun proceedingFitOffRequestToCommand(fitGroupId: Long): GetProceedingFitOffCommand {
+            return GetProceedingFitOffCommand(fitGroupId)
+        }
     }
 }

@@ -23,7 +23,7 @@ class MyFitDtoMapper private constructor() {
         ): FitCertificationProgressResponse = FitCertificationProgressResponse(dtoList)
 
         fun needVoteCertificationRequestToCommand(request: NeedVoteCertificationFilterRequest): NeedVoteCertificationFilterCommand =
-            NeedVoteCertificationFilterCommand(request.requestUserId)
+            NeedVoteCertificationFilterCommand(request.requestUserId, request.fitGroupId)
 
         fun dtoToFilteredNeedVoteCertificationResponse(
             dtoList: List<NeedVoteCertificationFitGroupResponseDto>
@@ -32,7 +32,7 @@ class MyFitDtoMapper private constructor() {
 
         fun myFitGroupIssueSliceFilterRequestToCommand(request: MyFitGroupIssueSliceFilterRequest): MyFitGroupIssueSliceFilterCommand {
             val pageable = PageRequest.of(request.pageNumber, request.pageSize)
-            
+
             return MyFitGroupIssueSliceFilterCommand(
                 request.userId,
                 pageable

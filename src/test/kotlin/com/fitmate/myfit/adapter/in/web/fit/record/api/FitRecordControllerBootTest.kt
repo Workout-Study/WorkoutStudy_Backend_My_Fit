@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.DeleteFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
+import com.fitmate.myfit.adapter.`in`.web.fit.record.request.UpdateFitRecordMultiMediaEndPointRequest
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitRecordRepository
 import org.junit.jupiter.api.DisplayName
@@ -83,6 +84,33 @@ class FitRecordControllerBootTest {
                 GlobalURI.FIT_RECORD_ROOT + GlobalURI.PATH_VARIABLE_FIT_RECORD_ID_WITH_BRACE, fitRecordEntity.id!!
             ).contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(deleteFitRecordRequest))
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+    }
+
+    @Test
+    @DisplayName("[통합][Web Adapter] Fit record 사진 수정 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `update fit record multi media end point controller success test`() {
+        //given
+        val request =
+            UpdateFitRecordMultiMediaEndPointRequest(requestUserId, multiMediaEndPoint)
+        val fitRecordEntity = fitRecordRepository.save(
+            FitRecordEntity(
+                requestUserId,
+                Instant.now().minusSeconds(50000L),
+                Instant.now()
+            )
+        )
+
+        //when
+        val resultActions = mockMvc.perform(
+            patch(GlobalURI.FIT_RECORD_ROOT + GlobalURI.PATH_VARIABLE_FIT_RECORD_ID_WITH_BRACE, fitRecordEntity.id!!)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON)
         )
         //then

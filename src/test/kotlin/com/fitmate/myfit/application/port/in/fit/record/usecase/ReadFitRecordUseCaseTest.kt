@@ -47,6 +47,9 @@ class ReadFitRecordUseCaseTest {
     @Mock
     private lateinit var readFitGroupForReadPort: ReadFitGroupForReadPort
 
+    @Mock
+    private lateinit var updateRecordMultiMediaEndPointPort: UpdateRecordMultiMediaEndPointPort
+
     private val userId = 26
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
