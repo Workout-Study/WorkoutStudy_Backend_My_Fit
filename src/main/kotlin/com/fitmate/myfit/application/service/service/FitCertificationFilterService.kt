@@ -254,7 +254,9 @@ class FitCertificationFilterService(
                 GlobalStatus.VOTE_TARGET_CATEGORY_CERTIFICATION,
                 it.id
             ),
-            fitGroup.maxFitMate,
+            readFitMateForReadPort.countByFitGroup(
+                it.fitGroupId
+            ) - 1,
             userVote.isPresent,
             if (userVote.isPresent) userVote.get().agree else false,
             it.createdAt
