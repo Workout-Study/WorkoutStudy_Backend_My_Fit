@@ -5,4 +5,5 @@ import com.fitmate.myfit.domain.FitRecordMultiMediaEndPoint
 
 interface ReadRecordMultiMediaEndPointPort {
     fun findByFitRecordAndOrderByIdAsc(fitRecord: FitRecord): List<FitRecordMultiMediaEndPoint>
+    fun findByFitRecord(fitRecord: FitRecord): List<FitRecordMultiMediaEndPoint>
 }

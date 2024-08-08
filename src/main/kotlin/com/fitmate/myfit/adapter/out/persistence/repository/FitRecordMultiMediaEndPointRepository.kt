@@ -9,4 +9,9 @@ interface FitRecordMultiMediaEndPointRepository : JpaRepository<FitRecordMultiMe
         fitRecordEntity: FitRecordEntity,
         state: Boolean
     ): List<FitRecordMultiMediaEndPointEntity>
+
+    fun findByFitRecordEntityAndState(
+        fitRecordEntity: FitRecordEntity,
+        state: Boolean
+    ): List<FitRecordMultiMediaEndPointEntity>
 }

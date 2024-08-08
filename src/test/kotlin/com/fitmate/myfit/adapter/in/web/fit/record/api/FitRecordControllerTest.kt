@@ -4,13 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.DeleteFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
+import com.fitmate.myfit.adapter.`in`.web.fit.record.request.UpdateFitRecordMultiMediaEndPointRequest
 import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.fit.record.command.DeleteFitRecordCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
+import com.fitmate.myfit.application.port.`in`.fit.record.command.UpdateFitRecordMultiMediaEndPointCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.response.UpdateFitRecordMultiMediaEndPointResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.DeleteFitRecordUseCase
 import com.fitmate.myfit.application.port.`in`.fit.record.usecase.RegisterFitRecordUseCase
+import com.fitmate.myfit.application.port.`in`.fit.record.usecase.UpdateFitRecordMultiMediaEndPointUseCase
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
@@ -45,6 +49,9 @@ class FitRecordControllerTest {
 
     @MockBean
     private lateinit var deleteFitRecordUseCase: DeleteFitRecordUseCase
+
+    @MockBean
+    private lateinit var updateFitRecordMultiMediaEndPointUseCase: UpdateFitRecordMultiMediaEndPointUseCase
 
     @MockBean
     private lateinit var senderUtils: SenderUtils
@@ -133,6 +140,48 @@ class FitRecordControllerTest {
                     responseFields(
                         fieldWithPath("isDeleteSuccess").type(JsonFieldType.BOOLEAN)
                             .description("삭제 성공 여부")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("[단위][Web Adapter] Fit record 사진 수정 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `update fit record multi media end point controller success test`() {
+        //given
+        val request =
+            UpdateFitRecordMultiMediaEndPointRequest(requestUserId, multiMediaEndPoint)
+        val responseDto = UpdateFitRecordMultiMediaEndPointResponseDto(true)
+
+        whenever(updateFitRecordMultiMediaEndPointUseCase.updateFitRecordMultiMediaEndPoint(any<UpdateFitRecordMultiMediaEndPointCommand>()))
+            .thenReturn(responseDto)
+        //when
+        val resultActions = mockMvc.perform(
+            patch(GlobalURI.FIT_RECORD_ROOT + GlobalURI.PATH_VARIABLE_FIT_RECORD_ID_WITH_BRACE, 124L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+            .andDo(
+                document(
+                    "update-fit-record-multimedia-end-point",
+                    pathParameters(
+                        parameterWithName(GlobalURI.PATH_VARIABLE_FIT_RECORD_ID)
+                            .description("update할 Fit record id")
+                    ),
+                    requestFields(
+                        fieldWithPath("requestUserId").type(JsonFieldType.NUMBER)
+                            .description("Fit record를 등록하는 User id"),
+                        fieldWithPath("multiMediaEndPoints").type(JsonFieldType.ARRAY)
+                            .description("멀티 미디어 end point list ( 주어진 index 순으로 return ) - 기존 등록 돼있었던 url들 전부 삭제함")
+                    ),
+                    responseFields(
+                        fieldWithPath("isUpdateSuccess").type(JsonFieldType.BOOLEAN)
+                            .description("등록 성공 여부")
                     )
                 )
             )

@@ -52,6 +52,9 @@ class DeleteFitRecordUseCaseTest {
     @Mock
     private lateinit var readFitGroupForReadPort: ReadFitGroupForReadPort
 
+    @Mock
+    private lateinit var updateFitRecordMultiMediaEndPointPort: UpdateRecordMultiMediaEndPointPort
+
     private val requestUserId = 642
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)

@@ -96,6 +96,40 @@ http-response
 
 include::{snippets}/delete-fit-record/http-response.adoc[]
 
+=== Update Fit Record Multimedia End Point ( fit record 사진 업데이트 )
+
+path-parameters
+
+include::{snippets}/update-fit-record-multimedia-end-point/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/update-fit-record-multimedia-end-point/http-request.adoc[]
+
+request-fields
+
+include::{snippets}/update-fit-record-multimedia-end-point/request-fields.adoc[]
+
+request-body
+
+include::{snippets}/update-fit-record-multimedia-end-point/request-body.adoc[]
+
+curl-request
+
+include::{snippets}/update-fit-record-multimedia-end-point/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/update-fit-record-multimedia-end-point/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/update-fit-record-multimedia-end-point/response-body.adoc[]
+
+http-response
+
+include::{snippets}/update-fit-record-multimedia-end-point/http-response.adoc[]
+
 === Fit Record Filter ( 사용자의 기록 기간으로 filtering )
 
 http-request
@@ -633,3 +667,37 @@ include::{snippets}/update-fit-off/response-body.adoc[]
 http-response
 
 include::{snippets}/update-fit-off/http-response.adoc[]
+
+=== Get Proceeding Fit Off List by group id ( 그룹 id로 현재 진행중인 fit off 조회 )
+
+path-parameters
+
+include::{snippets}/get-proceeding-fit-off-by-group-id/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/get-proceeding-fit-off-by-group-id/http-request.adoc[]
+
+request-fields
+
+include::{snippets}/get-proceeding-fit-off-by-group-id/request-fields.adoc[]
+
+request-body
+
+include::{snippets}/get-proceeding-fit-off-by-group-id/request-body.adoc[]
+
+curl-request
+
+include::{snippets}/get-proceeding-fit-off-by-group-id/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/get-proceeding-fit-off-by-group-id/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/get-proceeding-fit-off-by-group-id/response-body.adoc[]
+
+http-response
+
+include::{snippets}/get-proceeding-fit-off-by-group-id/http-response.adoc[]
