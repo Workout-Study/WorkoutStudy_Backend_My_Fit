@@ -2,6 +2,7 @@ package com.fitmate.myfit.application.service.converter
 
 import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.response.UpdateFitRecordMultiMediaEndPointResponseDto
 import com.fitmate.myfit.domain.FitRecord
 
 class FitRecordUseCaseConverter private constructor() {
@@ -13,5 +14,8 @@ class FitRecordUseCaseConverter private constructor() {
 
         fun resultToDeleteResponseDto(result: Boolean): DeleteFitRecordResponseDto =
             DeleteFitRecordResponseDto(result)
+
+        fun resultToUpdateMultiMediaEndPointResponseDto(result: Boolean): UpdateFitRecordMultiMediaEndPointResponseDto =
+            UpdateFitRecordMultiMediaEndPointResponseDto(result)
     }
 }

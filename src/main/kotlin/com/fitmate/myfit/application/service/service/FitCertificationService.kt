@@ -130,29 +130,31 @@ class FitCertificationService(
                 command.requestUserId
             )
 
-        val fitCertificationDetailDtoList = fitCertificationDetailList.map {
-            val userForRead = getUserForReadPort(it.certificationRequestUserId)
+        val fitCertificationDetailDtoList = fitCertificationDetailList
+            .filter { !(command.withOwn != null && command.withOwn == 1 && command.requestUserId == it.certificationRequestUserId) }
+            .map {
+                val userForRead = getUserForReadPort(it.certificationRequestUserId)
 
-            val fitRecord = readFitRecordPort.findById(it.recordId)
-                .orElseThrow { ResourceNotFoundException("fit record does not exist") }
+                val fitRecord = readFitRecordPort.findById(it.recordId)
+                    .orElseThrow { ResourceNotFoundException("fit record does not exist") }
 
-            FitCertificationDetailWithVoteResponseDto(
-                it.certificationId,
-                it.recordId,
-                it.certificationRequestUserId,
-                userForRead?.nickname,
-                it.isUserVoteDone,
-                it.isUserAgree,
-                it.agreeCount.toInt(),
-                it.disagreeCount.toInt(),
-                it.maxAgreeCount.toInt(),
-                it.fitRecordStartDate,
-                it.fitRecordEndDate,
-                readRecordMultiMediaEndPointPort.findByFitRecordAndOrderByIdAsc(fitRecord).stream()
-                    .map { multiMedia -> multiMedia.endPoint }.toList(),
-                it.createdAt.plus(12, ChronoUnit.HOURS)
-            )
-        }.toList()
+                FitCertificationDetailWithVoteResponseDto(
+                    it.certificationId,
+                    it.recordId,
+                    it.certificationRequestUserId,
+                    userForRead?.nickname,
+                    it.isUserVoteDone,
+                    it.isUserAgree,
+                    it.agreeCount.toInt(),
+                    it.disagreeCount.toInt(),
+                    it.maxAgreeCount.toInt(),
+                    it.fitRecordStartDate,
+                    it.fitRecordEndDate,
+                    readRecordMultiMediaEndPointPort.findByFitRecordAndOrderByIdAsc(fitRecord).stream()
+                        .map { multiMedia -> multiMedia.endPoint }.toList(),
+                    it.createdAt.plus(12, ChronoUnit.HOURS)
+                )
+            }.toList()
 
         return fitCertificationDetailDtoList
     }

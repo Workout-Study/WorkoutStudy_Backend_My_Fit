@@ -1,19 +1,15 @@
 package com.fitmate.myfit.adapter.`in`.web.fit.record.mapper
 
-import com.fitmate.myfit.adapter.`in`.web.fit.record.request.DeleteFitRecordRequest
-import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordFilterRequest
-import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordSliceFilterRequest
-import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
+import com.fitmate.myfit.adapter.`in`.web.fit.record.request.*
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.DeleteFitRecordResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitRecordDetailResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.RegisterFitRecordResponse
-import com.fitmate.myfit.application.port.`in`.fit.record.command.DeleteFitRecordCommand
-import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
-import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
-import com.fitmate.myfit.application.port.`in`.fit.record.command.RegisterFitRecordCommand
+import com.fitmate.myfit.adapter.`in`.web.fit.record.response.UpdateFitRecordMultiMediaEndPointResponse
+import com.fitmate.myfit.application.port.`in`.fit.record.command.*
 import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRecordResponseDto
+import com.fitmate.myfit.application.port.`in`.fit.record.response.UpdateFitRecordMultiMediaEndPointResponseDto
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 
@@ -70,5 +66,14 @@ class FitRecordDtoMapper private constructor() {
 
         fun dtoToDeleteResponse(dto: DeleteFitRecordResponseDto): DeleteFitRecordResponse =
             DeleteFitRecordResponse(dto.isDeleteSuccess)
+
+        fun updateMultiMediaEndPointRequestToCommand(
+            fitRecordId: Long,
+            request: UpdateFitRecordMultiMediaEndPointRequest
+        ) = UpdateFitRecordMultiMediaEndPointCommand(fitRecordId, request.requestUserId, request.multiMediaEndPoints)
+
+        fun dtoToUpdateMultiMediaEndPointResponse(
+            responseDto: UpdateFitRecordMultiMediaEndPointResponseDto
+        ) = UpdateFitRecordMultiMediaEndPointResponse(responseDto.isUpdateSuccess)
     }
 }

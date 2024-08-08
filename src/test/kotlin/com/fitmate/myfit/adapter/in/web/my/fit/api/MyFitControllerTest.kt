@@ -144,7 +144,7 @@ class MyFitControllerTest {
     @Throws(Exception::class)
     fun `get need vote certification list controller success test`() {
         //given
-        val request = NeedVoteCertificationFilterRequest(requestUserId)
+        val request = NeedVoteCertificationFilterRequest(requestUserId, 15L)
 
         val needVoteCertificationFitGroupResponseDtoList = mutableListOf<NeedVoteCertificationFitGroupResponseDto>()
 
@@ -157,6 +157,8 @@ class MyFitControllerTest {
                         NeedVoteCertificationResponseDto(
                             i.toLong(),
                             i.toLong() + 1L,
+                            Instant.now(),
+                            Instant.now(),
                             requestUserId,
                             "testUserId" + 1,
                             i + 3,
@@ -168,6 +170,8 @@ class MyFitControllerTest {
                         NeedVoteCertificationResponseDto(
                             i.toLong() + 3L,
                             i.toLong() + 1L,
+                            Instant.now(),
+                            Instant.now(),
                             requestUserId,
                             "testUserId" + 2,
                             i + 1,
@@ -183,6 +187,7 @@ class MyFitControllerTest {
 
         val queryString = UriComponentsBuilder.newInstance()
             .queryParam("requestUserId", request.requestUserId)
+            .queryParam("fitGroupId", request.requestUserId)
             .build()
             .encode()
             .toUriString()
@@ -203,7 +208,9 @@ class MyFitControllerTest {
                     "need-vote-certification",
                     queryParameters(
                         parameterWithName("requestUserId")
-                            .description("Fit certification progress(인증 진척도)를 조회하는 User id")
+                            .description("Fit certification progress(인증 진척도)를 조회하는 User id"),
+                        parameterWithName("fitGroupId")
+                            .description("Fit certification progress(인증 진척도)를 조회할 fit group id ( 해당 값 안넘길경우 user가 포함된 fit group 전부를 대상으로 함 )")
                     ),
                     responseFields(
                         fieldWithPath("needVoteCertificationFitGroupList[]").type(JsonFieldType.ARRAY)
@@ -221,6 +228,12 @@ class MyFitControllerTest {
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].recordId").type(
                             JsonFieldType.NUMBER
                         ).description("투표해야할 인증의 recordId ( fit record id )"),
+                        fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].recordStartDate").type(
+                            JsonFieldType.STRING
+                        ).description("투표해야할 인증의 record 시작 시간"),
+                        fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].recordEndDate").type(
+                            JsonFieldType.STRING
+                        ).description("투표해야할 인증의 record 끝 시간)"),
                         fieldWithPath("needVoteCertificationFitGroupList[].needVoteCertificationList[].certificationRequestUserId").type(
                             JsonFieldType.NUMBER
                         ).description("투표해야할 인증을 요청한 유저 id"),

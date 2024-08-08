@@ -5,6 +5,8 @@ import java.time.Instant
 data class NeedVoteCertificationResponseDto(
     val certificationId: Long,
     val recordId: Long,
+    val recordStartDate: Instant,
+    val recordEndDate: Instant,
     val certificationRequestUserId: Int,
     val certificationRequestUserNickname: String?,
     val agreeCount: Int,

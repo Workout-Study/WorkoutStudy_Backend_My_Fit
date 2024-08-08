@@ -10,9 +10,10 @@ class FitCertificationFilterDtoMapper {
     companion object {
         fun filterByGroupIdAndUserIdRequestToCommand(
             fitGroupId: Long,
-            requestUserId: Int
+            requestUserId: Int,
+            withOwn: Int?
         ): FitCertificationFilterByGroupCommand =
-            FitCertificationFilterByGroupCommand(fitGroupId, requestUserId)
+            FitCertificationFilterByGroupCommand(fitGroupId, requestUserId, withOwn)
 
         fun dtoToFitCertificationDetailsResponse(dtoList: List<FitCertificationDetailWithVoteResponseDto>): FitCertificationDetailsResponse =
             FitCertificationDetailsResponse(dtoList)
