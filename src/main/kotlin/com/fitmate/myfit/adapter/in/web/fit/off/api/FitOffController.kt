@@ -6,9 +6,11 @@ import com.fitmate.myfit.adapter.`in`.web.fit.off.request.DeleteFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.RegisterFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.UpdateFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.DeleteFitOffResponse
+import com.fitmate.myfit.adapter.`in`.web.fit.off.response.ProceedingFitOffResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.RegisterFitOffResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.UpdateFitOffResponse
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.DeleteFitOffUseCase
+import com.fitmate.myfit.application.port.`in`.fit.off.usecase.ReadFitOffUseCase
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.RegisterFitOffUseCase
 import com.fitmate.myfit.application.port.`in`.fit.off.usecase.UpdateFitOffUseCase
 import jakarta.validation.Valid
@@ -20,7 +22,8 @@ import org.springframework.web.bind.annotation.*
 class FitOffController(
     private val registerFitOffUseCase: RegisterFitOffUseCase,
     private val deleteFitOffUseCase: DeleteFitOffUseCase,
-    private val updateFitOffUseCase: UpdateFitOffUseCase
+    private val updateFitOffUseCase: UpdateFitOffUseCase,
+    private val readFitOffUseCase: ReadFitOffUseCase
 ) {
 
     /**
@@ -71,5 +74,11 @@ class FitOffController(
         val updateFitOffCommand = FitOffDtoMapper.updateRequestToCommand(fitOffId, updateFitOffRequest)
         val updateFitOffResponseDto = updateFitOffUseCase.updateFitOff(updateFitOffCommand)
         return ResponseEntity.ok().body(FitOffDtoMapper.dtoToUpdateResponse(updateFitOffResponseDto))
+    }
+
+    @GetMapping(GlobalURI.FIT_OFF_ROOT + GlobalURI.PATH_VARIABLE_FIT_GROUP_ID_WITH_BRACE)
+    fun getProceedingFitOffByGroupId(@PathVariable(GlobalURI.PATH_VARIABLE_FIT_GROUP_ID) fitGroupId: Long): ResponseEntity<ProceedingFitOffResponse> {
+        val command = FitOffDtoMapper.proceedingFitOffRequestToCommand(fitGroupId)
+        return ResponseEntity.ok().body(readFitOffUseCase.getProceedingFitOffByGroupId(command))
     }
 }
