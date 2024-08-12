@@ -6,7 +6,7 @@
         </http>
         <format>
             <label>
-                <pattern>app="wallet",host=${HOSTNAME},level=%level</pattern>
+                <pattern>app=my-fit,host=${HOSTNAME},level=%level</pattern>
                 <readMarkers>true</readMarkers>
             </label>
             <message>
