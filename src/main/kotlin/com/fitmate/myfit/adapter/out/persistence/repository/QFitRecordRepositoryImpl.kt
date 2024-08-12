@@ -1,5 +1,6 @@
 package com.fitmate.myfit.adapter.out.persistence.repository
 
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.entity.QFitRecordEntity.fitRecordEntity
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
@@ -54,11 +55,30 @@ class QFitRecordRepositoryImpl(jpaQueryFactory: JPAQueryFactory) :
         return fitRecordEntity.userId.eq(userId)
     }
 
+    private fun conditionWithRecordDate(recordEndStartDate: String?, recordEndEndDate: String?): Predicate {
+        val booleanBuilder = BooleanBuilder()
+
+        if (recordEndStartDate != null) {
+            val recordEndStartDateInstant = DateParseUtils.stringToInstant(recordEndStartDate)
+            booleanBuilder.and(fitRecordEntity.recordEndDate.goe(recordEndStartDateInstant))
+        }
+        if (recordEndEndDate != null) {
+            val recordEndEndDateInstant = DateParseUtils.stringToInstant(recordEndEndDate)
+            booleanBuilder.and(fitRecordEntity.recordEndDate.loe(recordEndEndDateInstant))
+        }
+
+        return booleanBuilder
+    }
+
     private fun conditionWithRecordDate(recordEndStartDate: Instant?, recordEndEndDate: Instant?): Predicate {
         val booleanBuilder = BooleanBuilder()
 
-        if (recordEndStartDate != null) booleanBuilder.and(fitRecordEntity.recordEndDate.goe(recordEndStartDate))
-        if (recordEndEndDate != null) booleanBuilder.and(fitRecordEntity.recordEndDate.loe(recordEndEndDate))
+        if (recordEndStartDate != null) {
+            booleanBuilder.and(fitRecordEntity.recordEndDate.goe(recordEndStartDate))
+        }
+        if (recordEndEndDate != null) {
+            booleanBuilder.and(fitRecordEntity.recordEndDate.loe(recordEndEndDate))
+        }
 
         return booleanBuilder
     }

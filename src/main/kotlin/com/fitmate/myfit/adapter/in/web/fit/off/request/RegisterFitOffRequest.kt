@@ -1,10 +1,10 @@
 package com.fitmate.myfit.adapter.`in`.web.fit.off.request
 
-import java.time.Instant
+import jakarta.validation.constraints.NotEmpty
 
 data class RegisterFitOffRequest(
     val requestUserId: Int,
-    val fitOffStartDate: Instant,
-    val fitOffEndDate: Instant,
+    @field:NotEmpty val fitOffStartDate: String,
+    @field:NotEmpty val fitOffEndDate: String,
     val fitOffReason: String
 )

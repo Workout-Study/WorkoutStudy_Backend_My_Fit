@@ -1,5 +1,6 @@
 package com.fitmate.myfit.application.port.`in`.my.fit.response
 
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.domain.CertificationStatus
 import java.time.Instant
 
@@ -14,5 +15,7 @@ data class MyFitGroupIssueSliceFilterResponseDto(
     val maxAgreeCount: Int,
     val isUserVoteDone: Boolean,
     val isUserAgree: Boolean,
-    val issueDate: Instant
-)
+    private val issueDateInstant: Instant
+) {
+    val issueDate = DateParseUtils.instantToString(issueDateInstant)
+}

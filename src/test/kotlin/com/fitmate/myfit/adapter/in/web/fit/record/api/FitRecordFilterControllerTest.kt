@@ -4,6 +4,7 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.FitRecordSliceFilterRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitCertificationResponse
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordFilterCommand
 import com.fitmate.myfit.application.port.`in`.fit.record.command.FitRecordSliceFilterCommand
@@ -32,7 +33,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.web.util.UriComponentsBuilder
 import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 @WebMvcTest(FitRecordFilterController::class)
@@ -49,13 +52,14 @@ class FitRecordFilterControllerTest {
     private lateinit var senderUtils: SenderUtils
 
     private val userId = 26
-    private val recordEndStartDate: Instant =
+    private val formatter = DateTimeFormatter.ofPattern(DateParseUtils.DEFAULT_FORMAT)
+    private val recordEndStartDate =
         LocalDate.now().withDayOfMonth(1)
-            .atStartOfDay().toInstant(ZoneOffset.UTC)
-    private val recordEndEndDate: Instant =
+            .atStartOfDay().toInstant(ZoneOffset.UTC).atZone(ZoneId.systemDefault()).format(formatter)
+    private val recordEndEndDate =
         LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth())
             .atStartOfDay().plusHours(23).plusMinutes(59).plusSeconds(59).toInstant(ZoneOffset.UTC)
-
+            .atZone(ZoneId.systemDefault()).format(formatter)
 
     private val recordStartDate = Instant.now()
     private val recordEndDate = recordStartDate.plusSeconds(100000)
@@ -107,10 +111,15 @@ class FitRecordFilterControllerTest {
 
         val queryString = UriComponentsBuilder.newInstance()
             .queryParam("userId", fitRecordFilterRequest.userId)
-            .queryParam("recordEndStartDate", fitRecordFilterRequest.recordEndStartDate)
-            .queryParam("recordEndEndDate", fitRecordFilterRequest.recordEndEndDate)
+            .queryParam(
+                "recordEndStartDate",
+                DateParseUtils.instantToString(fitRecordFilterRequest.recordEndStartDateInstant)
+            )
+            .queryParam(
+                "recordEndEndDate",
+                DateParseUtils.instantToString(fitRecordFilterRequest.recordEndEndDateInstant)
+            )
             .build()
-            .encode()
             .toUriString()
         //when
         val resultActions = mockMvc.perform(

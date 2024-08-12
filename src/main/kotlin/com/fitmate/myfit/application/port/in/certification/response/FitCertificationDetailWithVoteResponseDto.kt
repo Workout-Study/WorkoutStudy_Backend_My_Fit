@@ -1,5 +1,6 @@
 package com.fitmate.myfit.application.port.`in`.certification.response
 
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import java.time.Instant
 
 data class FitCertificationDetailWithVoteResponseDto(
@@ -12,8 +13,12 @@ data class FitCertificationDetailWithVoteResponseDto(
     val agreeCount: Int,
     val disagreeCount: Int,
     val maxAgreeCount: Int,
-    val fitRecordStartDate: Instant,
-    val fitRecordEndDate: Instant,
+    private val fitRecordStartDateInstant: Instant,
+    private val fitRecordEndDateInstant: Instant,
     val multiMediaEndPoints: List<String>?,
-    val voteEndDate: Instant
-)
+    private val voteEndDateInstant: Instant
+) {
+    val fitRecordStartDate = DateParseUtils.instantToString(fitRecordStartDateInstant)
+    val fitRecordEndDate = DateParseUtils.instantToString(fitRecordStartDateInstant)
+    val voteEndDate = DateParseUtils.instantToString(voteEndDateInstant)
+}

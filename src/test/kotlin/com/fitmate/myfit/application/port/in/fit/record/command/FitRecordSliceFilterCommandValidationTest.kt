@@ -1,5 +1,6 @@
 package com.fitmate.myfit.application.port.`in`.fit.record.command
 
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -19,8 +20,8 @@ class FitRecordSliceFilterCommandValidationTest {
         Assertions.assertDoesNotThrow {
             FitRecordSliceFilterCommand(
                 userId,
-                recordStartDate,
-                recordEndDate,
+                DateParseUtils.instantToString(recordStartDate),
+                DateParseUtils.instantToString(recordEndDate),
                 Pageable.ofSize(1)
             )
         }
