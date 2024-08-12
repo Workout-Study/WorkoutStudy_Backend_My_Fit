@@ -1,5 +1,6 @@
 package com.fitmate.myfit.adapter.`in`.web.certification.response
 
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.domain.CertificationStatus
 import java.time.Instant
 
@@ -8,6 +9,9 @@ data class FitCertificationDetailResponse(
     val fitCertificationId: Long,
     val certificationStatus: CertificationStatus,
     val state: Boolean,
-    val createdAt: Instant,
-    val voteEndDate: Instant
-)
+    private val createdAtInstant: Instant,
+    private val voteEndDateInstant: Instant
+) {
+    val createdAt = DateParseUtils.instantToString(createdAtInstant)
+    val voteEndDate = DateParseUtils.instantToString(voteEndDateInstant)
+}

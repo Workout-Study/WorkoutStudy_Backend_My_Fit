@@ -5,6 +5,7 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.DeleteFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.RegisterFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.UpdateFitOffRequest
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.adapter.out.persistence.entity.FitOffEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitOffRepository
 import org.junit.jupiter.api.DisplayName
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -41,8 +43,11 @@ class FitOffControllerBootTest {
     private lateinit var fitOffRepository: FitOffRepository
 
     private val requestUserId = 642
-    private val fitOffStartDate = LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
-    private val fitOffEndDate = LocalDate.now().plusDays(5).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+    private val formatter = DateTimeFormatter.ofPattern(DateParseUtils.DEFAULT_FORMAT)
+    private val fitOffStartDate =
+        LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).format(formatter)
+    private val fitOffEndDate =
+        LocalDate.now().plusDays(5).atStartOfDay().atZone(ZoneId.systemDefault()).format(formatter)
     private val fitOffReason = "발목 부상"
 
     @Test
@@ -75,8 +80,8 @@ class FitOffControllerBootTest {
         val fitOffEntity = fitOffRepository.save(
             FitOffEntity(
                 requestUserId,
-                fitOffStartDate,
-                fitOffEndDate,
+                DateParseUtils.stringToInstant(fitOffStartDate),
+                DateParseUtils.stringToInstant(fitOffEndDate),
                 fitOffReason
             )
         )
@@ -104,8 +109,8 @@ class FitOffControllerBootTest {
         val fitOffEntity = fitOffRepository.save(
             FitOffEntity(
                 requestUserId,
-                fitOffStartDate,
-                fitOffEndDate,
+                DateParseUtils.stringToInstant(fitOffStartDate),
+                DateParseUtils.stringToInstant(fitOffEndDate),
                 fitOffReason
             )
         )

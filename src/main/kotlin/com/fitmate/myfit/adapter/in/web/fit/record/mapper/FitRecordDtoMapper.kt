@@ -5,6 +5,7 @@ import com.fitmate.myfit.adapter.`in`.web.fit.record.response.DeleteFitRecordRes
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.FitRecordDetailResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.RegisterFitRecordResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.record.response.UpdateFitRecordMultiMediaEndPointResponse
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.application.port.`in`.fit.record.command.*
 import com.fitmate.myfit.application.port.`in`.fit.record.response.DeleteFitRecordResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.record.response.FitRecordDetailResponseDto
@@ -12,15 +13,19 @@ import com.fitmate.myfit.application.port.`in`.fit.record.response.RegisterFitRe
 import com.fitmate.myfit.application.port.`in`.fit.record.response.UpdateFitRecordMultiMediaEndPointResponseDto
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
+import java.time.Instant
 
 class FitRecordDtoMapper private constructor() {
 
     companion object {
         fun registerRequestToCommand(request: RegisterFitRecordRequest): RegisterFitRecordCommand {
+            val recordStartDate: Instant = DateParseUtils.stringToInstant(request.recordStartDate)
+            val recordEndDate: Instant = DateParseUtils.stringToInstant(request.recordEndDate)
+
             return RegisterFitRecordCommand(
                 request.requestUserId,
-                request.recordStartDate,
-                request.recordEndDate,
+                recordStartDate,
+                recordEndDate,
                 request.multiMediaEndPoints
             )
         }
@@ -50,8 +55,8 @@ class FitRecordDtoMapper private constructor() {
         fun filterRequestToCommand(fitRecordFilterRequest: FitRecordFilterRequest): FitRecordFilterCommand {
             return FitRecordFilterCommand(
                 fitRecordFilterRequest.userId,
-                fitRecordFilterRequest.recordEndStartDate,
-                fitRecordFilterRequest.recordEndEndDate
+                fitRecordFilterRequest.recordEndStartDateInstant,
+                fitRecordFilterRequest.recordEndEndDateInstant
             )
         }
 
