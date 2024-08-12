@@ -1,5 +1,6 @@
 package com.fitmate.myfit.application.port.`in`.fit.record.usecase
 
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitRecordMultiMediaEndPointRepository
 import com.fitmate.myfit.adapter.out.persistence.repository.FitRecordRepository
@@ -106,8 +107,8 @@ class ReadFitRecordUseCaseBootTest {
         //given
         val fitRecordSliceFilterCommand = FitRecordSliceFilterCommand(
             userId,
-            recordStartDate,
-            recordEndDate,
+            DateParseUtils.instantToString(recordStartDate),
+            DateParseUtils.instantToString(recordEndDate),
             Pageable.ofSize(2)
         )
 

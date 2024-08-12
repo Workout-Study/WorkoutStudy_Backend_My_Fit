@@ -3,6 +3,7 @@ package com.fitmate.myfit.adapter.`in`.web.penalty.api
 import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.penalty.request.FitPenaltyFilterByFitGroupRequest
 import com.fitmate.myfit.adapter.`in`.web.penalty.request.FitPenaltyFilterByUserRequest
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.application.port.`in`.fit.penalty.response.FitPenaltyFilteredResponseDto
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -22,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.util.UriComponentsBuilder
 import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,12 +36,14 @@ class FitPenaltyFilterControllerBootTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    private val startDate: Instant =
+    private val formatter = DateTimeFormatter.ofPattern(DateParseUtils.DEFAULT_FORMAT)
+    private val startDate =
         LocalDate.now().withDayOfMonth(1)
-            .atStartOfDay().toInstant(ZoneOffset.UTC)
-    private val endDate: Instant =
+            .atStartOfDay().toInstant(ZoneOffset.UTC).atZone(ZoneId.systemDefault()).format(formatter)
+    private val endDate =
         LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth())
             .atStartOfDay().plusHours(23).plusMinutes(59).plusSeconds(59).toInstant(ZoneOffset.UTC)
+            .atZone(ZoneId.systemDefault()).format(formatter)
     private val requestUserId = 642
     private val fitGroupId = 1634L
 
@@ -87,7 +92,6 @@ class FitPenaltyFilterControllerBootTest {
             .queryParam("pageNumber", request.pageNumber)
             .queryParam("pageSize", request.pageSize)
             .build()
-            .encode()
             .toUriString()
         //when
         val resultActions = mockMvc.perform(
@@ -136,14 +140,13 @@ class FitPenaltyFilterControllerBootTest {
         }
 
         val queryString = UriComponentsBuilder.newInstance()
-            .queryParam("startDate", request.startDate)
-            .queryParam("endDate", request.endDate)
+            .queryParam("startDate", DateParseUtils.instantToString(request.startDateInstant))
+            .queryParam("endDate", DateParseUtils.instantToString(request.endDateInstant))
             .queryParam("onlyPaid", request.onlyPaid)
             .queryParam("onlyNotPaid", request.onlyNotPaid)
             .queryParam("pageNumber", request.pageNumber)
             .queryParam("pageSize", request.pageSize)
             .build()
-            .encode()
             .toUriString()
         //when
         val resultActions = mockMvc.perform(

@@ -14,8 +14,8 @@ class FitPenaltyFilterDtoMapper {
             FitPenaltyFilterByUserCommand(
                 userId,
                 request.fitGroupId,
-                request.startDate,
-                request.endDate,
+                request.startDateInstant,
+                request.endDateInstant,
                 request.onlyPaid,
                 request.onlyNotPaid,
                 request.pageNumber,
@@ -29,8 +29,8 @@ class FitPenaltyFilterDtoMapper {
             FitPenaltyFilterByFitGroupCommand(
                 request.fitMateUserId,
                 fitGroupId,
-                request.startDate,
-                request.endDate,
+                request.startDateInstant,
+                request.endDateInstant,
                 request.onlyPaid,
                 request.onlyNotPaid,
                 request.pageNumber,

@@ -1,5 +1,6 @@
 package com.fitmate.myfit.application.port.`in`.fit.penalty.response
 
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import java.time.Instant
 
 data class FitPenaltyFilteredResponseDto(
@@ -10,5 +11,7 @@ data class FitPenaltyFilteredResponseDto(
     val amount: Int,
     val paid: Boolean,
     val noNeedPay: Boolean,
-    val createdAt: Instant
-)
+    private val createdAtInstant: Instant
+) {
+    val createdAt = DateParseUtils.instantToString(createdAtInstant)
+}

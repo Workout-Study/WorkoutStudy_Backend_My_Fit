@@ -5,6 +5,7 @@ import com.fitmate.myfit.adapter.`in`.web.common.GlobalURI
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.DeleteFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.RegisterFitRecordRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.record.request.UpdateFitRecordMultiMediaEndPointRequest
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.adapter.out.persistence.entity.FitRecordEntity
 import com.fitmate.myfit.adapter.out.persistence.repository.FitRecordRepository
 import org.junit.jupiter.api.DisplayName
@@ -22,6 +23,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,8 +42,9 @@ class FitRecordControllerBootTest {
     private lateinit var fitRecordRepository: FitRecordRepository;
 
     private val requestUserId = 642
-    private val recordStartDate = Instant.now()
-    private val recordEndDate = recordStartDate.plusSeconds(100000)
+    private val formatter = DateTimeFormatter.ofPattern(DateParseUtils.DEFAULT_FORMAT)
+    private val recordStartDate = Instant.now().atZone(ZoneId.systemDefault()).format(formatter)
+    private val recordEndDate = Instant.now().plusSeconds(100000).atZone(ZoneId.systemDefault()).format(formatter)
     private val multiMediaEndPoint: List<String> = listOf("https://avatars.githubusercontent.com/u/105261146?v=4")
 
     @Test

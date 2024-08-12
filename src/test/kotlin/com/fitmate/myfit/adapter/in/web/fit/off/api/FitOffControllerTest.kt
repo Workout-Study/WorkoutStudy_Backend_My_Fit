@@ -7,6 +7,7 @@ import com.fitmate.myfit.adapter.`in`.web.fit.off.request.RegisterFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.request.UpdateFitOffRequest
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.FitOffDetail
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.ProceedingFitOffResponse
+import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.adapter.out.api.SenderUtils
 import com.fitmate.myfit.application.port.`in`.fit.off.command.DeleteFitOffCommand
 import com.fitmate.myfit.application.port.`in`.fit.off.command.GetProceedingFitOffCommand
@@ -39,6 +40,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @WebMvcTest(FitOffController::class)
 @AutoConfigureRestDocs
@@ -66,8 +68,11 @@ class FitOffControllerTest {
     private lateinit var senderUtils: SenderUtils
 
     private val requestUserId = 642
-    private val fitOffStartDate = LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
-    private val fitOffEndDate = LocalDate.now().plusDays(5).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+    private val formatter = DateTimeFormatter.ofPattern(DateParseUtils.DEFAULT_FORMAT)
+    private val fitOffStartDate =
+        LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).format(formatter)
+    private val fitOffEndDate =
+        LocalDate.now().plusDays(5).atStartOfDay().atZone(ZoneId.systemDefault()).format(formatter)
     private val fitOffReason = "발목 부상"
     private val fitOffId = 63L
 
@@ -206,7 +211,7 @@ class FitOffControllerTest {
     @Throws(Exception::class)
     fun `get proceeding fit off controller success test`() {
         //given
-        val responseDto = listOf<FitOffDetail>(FitOffDetail(51L, 16, Instant.MIN, Instant.now(), "test"))
+        val responseDto = listOf<FitOffDetail>(FitOffDetail(51L, 16, Instant.now(), Instant.now(), "test"))
         val response = ProceedingFitOffResponse(responseDto)
 
         whenever(readFitOffUseCase.getProceedingFitOffByGroupId(any<GetProceedingFitOffCommand>()))

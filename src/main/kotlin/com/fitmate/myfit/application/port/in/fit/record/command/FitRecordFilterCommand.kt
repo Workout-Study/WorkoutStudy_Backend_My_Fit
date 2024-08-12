@@ -5,8 +5,8 @@ import java.time.Instant
 
 data class FitRecordFilterCommand(
     val userId: Int,
-    val recordEndStartDate: Instant,
-    val recordEndEndDate: Instant
+    val recordEndStartDate: Instant?,
+    val recordEndEndDate: Instant?
 ) : SelfValidating<FitRecordFilterCommand>() {
 
     init {

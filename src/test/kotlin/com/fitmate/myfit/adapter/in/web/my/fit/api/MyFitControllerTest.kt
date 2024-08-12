@@ -189,7 +189,6 @@ class MyFitControllerTest {
             .queryParam("requestUserId", request.requestUserId)
             .queryParam("fitGroupId", request.requestUserId)
             .build()
-            .encode()
             .toUriString()
 
         whenever(readNeedVoteCertificationUseCase.filterNeedVoteCertification(any<NeedVoteCertificationFilterCommand>()))
