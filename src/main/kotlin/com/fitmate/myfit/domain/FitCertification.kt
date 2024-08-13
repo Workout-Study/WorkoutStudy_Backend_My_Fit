@@ -16,7 +16,7 @@ class FitCertification private constructor(
 
     fun updateResult(fitCertificationResult: FitCertificationResultResponseDto) {
         this.certificationStatus = fitCertificationResult.certificationStatus
-        this.updatedAt = fitCertificationResult.createdAt
+        this.updatedAt = fitCertificationResult.createdAtInstant
         this.updateUser = "BATCH"
     }
 
