@@ -22,4 +22,11 @@ interface FitOffRepository : JpaRepository<FitOffEntity, Long> {
         startDate: Instant,
         endDate: Instant
     ): List<FitOffEntity>
+
+    fun findByUserIdAndStateAndFitOffStartDateLessThanEqualAndFitOffEndDateGreaterThanEqual(
+        userId: Int,
+        state: Boolean,
+        fitOffStartDate: Instant,
+        fitOffEndDate: Instant
+    ): List<FitOffEntity>
 }

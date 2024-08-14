@@ -9,4 +9,5 @@ interface ReadFitOffPort {
     fun countByUserIdAndFitOffDate(userId: Int, fitOffStartDate: Instant, fitOffEndDate: Instant): Int
     fun findById(fitOffId: Long): Optional<FitOff>
     fun findProceedingFitOffByUserIds(userIdList: List<Int>): List<FitOff>
+    fun findProceedingFitOffByUserId(userId: Int): List<FitOff>
 }

@@ -678,10 +678,6 @@ http-request
 
 include::{snippets}/get-proceeding-fit-off-by-group-id/http-request.adoc[]
 
-request-fields
-
-include::{snippets}/get-proceeding-fit-off-by-group-id/request-fields.adoc[]
-
 request-body
 
 include::{snippets}/get-proceeding-fit-off-by-group-id/request-body.adoc[]
@@ -701,3 +697,33 @@ include::{snippets}/get-proceeding-fit-off-by-group-id/response-body.adoc[]
 http-response
 
 include::{snippets}/get-proceeding-fit-off-by-group-id/http-response.adoc[]
+
+=== Get Proceeding Fit Off List by user id ( user id로 현재 진행중인 fit off 조회 )
+
+path-parameters
+
+include::{snippets}/get-proceeding-fit-off-by-user-id/path-parameters.adoc[]
+
+http-request
+
+include::{snippets}/get-proceeding-fit-off-by-user-id/http-request.adoc[]
+
+request-body
+
+include::{snippets}/get-proceeding-fit-off-by-user-id/request-body.adoc[]
+
+curl-request
+
+include::{snippets}/get-proceeding-fit-off-by-user-id/curl-request.adoc[]
+
+response-fields
+
+include::{snippets}/get-proceeding-fit-off-by-user-id/response-fields.adoc[]
+
+response-body
+
+include::{snippets}/get-proceeding-fit-off-by-user-id/response-body.adoc[]
+
+http-response
+
+include::{snippets}/get-proceeding-fit-off-by-user-id/http-response.adoc[]

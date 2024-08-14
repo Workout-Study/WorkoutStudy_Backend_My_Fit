@@ -47,6 +47,7 @@ class GlobalURI {
         const val PATH_VARIABLE_FIT_PENALTY_ID_WITH_BRACE = "/{$PATH_VARIABLE_FIT_PENALTY_ID}"
 
         const val FIT_OFF_ROOT = "$ROOT_URI/fit-offs"
+        const val FIT_OFF_USER = "$FIT_OFF_ROOT/users"
 
         const val PATH_VARIABLE_FIT_OFF_ID = "fit-off-id"
         const val PATH_VARIABLE_FIT_OFF_ID_WITH_BRACE = "/{$PATH_VARIABLE_FIT_OFF_ID}"

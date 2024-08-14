@@ -81,4 +81,10 @@ class FitOffController(
         val command = FitOffDtoMapper.proceedingFitOffRequestToCommand(fitGroupId)
         return ResponseEntity.ok().body(readFitOffUseCase.getProceedingFitOffByGroupId(command))
     }
+
+    @GetMapping(GlobalURI.FIT_OFF_USER + GlobalURI.PATH_VARIABLE_USER_ID_WITH_BRACE)
+    fun getProceedingFitOffByUser(@PathVariable(GlobalURI.PATH_VARIABLE_USER_ID) userId: Int): ResponseEntity<ProceedingFitOffResponse> {
+        val command = FitOffDtoMapper.proceedingFitOffRequestUserToCommand(userId)
+        return ResponseEntity.ok().body(readFitOffUseCase.getProceedingFitOffByUser(command))
+    }
 }
