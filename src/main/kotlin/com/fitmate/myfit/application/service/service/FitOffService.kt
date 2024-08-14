@@ -2,10 +2,7 @@ package com.fitmate.myfit.application.service.service
 
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.FitOffDetail
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.ProceedingFitOffResponse
-import com.fitmate.myfit.application.port.`in`.fit.off.command.DeleteFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.GetProceedingFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.RegisterFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.UpdateFitOffCommand
+import com.fitmate.myfit.application.port.`in`.fit.off.command.*
 import com.fitmate.myfit.application.port.`in`.fit.off.response.DeleteFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.RegisterFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.UpdateFitOffResponseDto
@@ -131,6 +128,15 @@ class FitOffService(
             .map { it.fitMateUserId }.toList()
 
         val fitOffDetailList = readFitOffPort.findProceedingFitOffByUserIds(fitMateUserIdList)
+            .map { FitOffDetail(it.id!!, it.userId, it.fitOffStartDate, it.fitOffEndDate, it.fitOffReason) }
+            .toList()
+
+        return ProceedingFitOffResponse(fitOffDetailList)
+    }
+
+    @Transactional(readOnly = true)
+    override fun getProceedingFitOffByUser(command: GetProceedingFitOffUserCommand): ProceedingFitOffResponse {
+        val fitOffDetailList = readFitOffPort.findProceedingFitOffByUserId(command.userId)
             .map { FitOffDetail(it.id!!, it.userId, it.fitOffStartDate, it.fitOffEndDate, it.fitOffReason) }
             .toList()
 

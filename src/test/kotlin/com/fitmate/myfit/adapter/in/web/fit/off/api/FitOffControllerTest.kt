@@ -9,10 +9,7 @@ import com.fitmate.myfit.adapter.`in`.web.fit.off.response.FitOffDetail
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.ProceedingFitOffResponse
 import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import com.fitmate.myfit.adapter.out.api.SenderUtils
-import com.fitmate.myfit.application.port.`in`.fit.off.command.DeleteFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.GetProceedingFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.RegisterFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.UpdateFitOffCommand
+import com.fitmate.myfit.application.port.`in`.fit.off.command.*
 import com.fitmate.myfit.application.port.`in`.fit.off.response.DeleteFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.RegisterFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.UpdateFitOffResponseDto
@@ -232,6 +229,49 @@ class FitOffControllerTest {
                     pathParameters(
                         parameterWithName(GlobalURI.PATH_VARIABLE_FIT_GROUP_ID)
                             .description("조회할 fit group id")
+                    ),
+                    responseFields(
+                        fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("현재 진행중인 fit off 목록"),
+                        fieldWithPath("content[].fitOffId").type(JsonFieldType.NUMBER).description("fit off id"),
+                        fieldWithPath("content[].userId").type(JsonFieldType.NUMBER)
+                            .description("fit off를 등록한 user id"),
+                        fieldWithPath("content[].fitOffStartDate").type(JsonFieldType.STRING)
+                            .description("fit off 시작일"),
+                        fieldWithPath("content[].fitOffEndDate").type(JsonFieldType.STRING)
+                            .description("fit off 종료일"),
+                        fieldWithPath("content[].fitOffReason").type(JsonFieldType.STRING)
+                            .description("fit off 사유")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("[단위][Web Adapter] 진행중인 Fit off user id로 조회 - 성공 테스트")
+    @Throws(Exception::class)
+    fun `get proceeding fit off by user id controller success test`() {
+        //given
+        val responseDto = listOf<FitOffDetail>(FitOffDetail(51L, 16, Instant.now(), Instant.now(), "test"))
+        val response = ProceedingFitOffResponse(responseDto)
+
+        whenever(readFitOffUseCase.getProceedingFitOffByUser(any<GetProceedingFitOffUserCommand>()))
+            .thenReturn(response)
+        //when
+        val resultActions = mockMvc.perform(
+            get(
+                GlobalURI.FIT_OFF_USER + GlobalURI.PATH_VARIABLE_USER_ID_WITH_BRACE, requestUserId
+            ).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+        //then
+        resultActions.andExpect(status().isOk())
+            .andDo(print())
+            .andDo(
+                document(
+                    "get-proceeding-fit-off-by-user-id",
+                    pathParameters(
+                        parameterWithName(GlobalURI.PATH_VARIABLE_USER_ID)
+                            .description("조회할 fit user id")
                     ),
                     responseFields(
                         fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("현재 진행중인 fit off 목록"),

@@ -50,6 +50,21 @@ class FitOffPersistenceAdapter(
         return fitOffEntityList.map { FitOff.entityToDomain(it) }.toList()
     }
 
+    @Transactional(readOnly = true)
+    override fun findProceedingFitOffByUserId(userId: Int): List<FitOff> {
+        val now = Instant.now()
+
+        val fitOffEntityList =
+            fitOffRepository.findByUserIdAndStateAndFitOffStartDateLessThanEqualAndFitOffEndDateGreaterThanEqual(
+                userId,
+                GlobalStatus.PERSISTENCE_NOT_DELETED,
+                now,
+                now
+            )
+
+        return fitOffEntityList.map { FitOff.entityToDomain(it) }.toList()
+    }
+
     @Transactional
     override fun updateFitOff(fitOff: FitOff) {
         val fitOffEntity = FitOffEntity.domainToEntity(fitOff)

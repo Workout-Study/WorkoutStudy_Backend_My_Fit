@@ -16,7 +16,7 @@ data class FitRecordFilterRequest(
         else LocalDate.now().withDayOfMonth(1).atStartOfDay().toInstant(ZoneOffset.UTC)
 
     val recordEndEndDateInstant: Instant =
-        if (StringUtils.hasText(recordEndEndDate)) DateParseUtils.stringToInstant(recordEndStartDate!!)
+        if (StringUtils.hasText(recordEndEndDate)) DateParseUtils.stringToInstant(recordEndEndDate!!)
         else LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth())
             .atStartOfDay().plusHours(23).plusMinutes(59).plusSeconds(59).toInstant(ZoneOffset.UTC)
 }
