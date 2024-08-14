@@ -7,10 +7,7 @@ import com.fitmate.myfit.adapter.`in`.web.fit.off.response.DeleteFitOffResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.RegisterFitOffResponse
 import com.fitmate.myfit.adapter.`in`.web.fit.off.response.UpdateFitOffResponse
 import com.fitmate.myfit.adapter.out.api.DateParseUtils
-import com.fitmate.myfit.application.port.`in`.fit.off.command.DeleteFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.GetProceedingFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.RegisterFitOffCommand
-import com.fitmate.myfit.application.port.`in`.fit.off.command.UpdateFitOffCommand
+import com.fitmate.myfit.application.port.`in`.fit.off.command.*
 import com.fitmate.myfit.application.port.`in`.fit.off.response.DeleteFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.RegisterFitOffResponseDto
 import com.fitmate.myfit.application.port.`in`.fit.off.response.UpdateFitOffResponseDto
@@ -58,6 +55,10 @@ class FitOffDtoMapper {
 
         fun proceedingFitOffRequestToCommand(fitGroupId: Long): GetProceedingFitOffCommand {
             return GetProceedingFitOffCommand(fitGroupId)
+        }
+
+        fun proceedingFitOffRequestUserToCommand(userId: Int): GetProceedingFitOffUserCommand {
+            return GetProceedingFitOffUserCommand(userId)
         }
     }
 }
