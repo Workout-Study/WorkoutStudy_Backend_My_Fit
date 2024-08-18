@@ -7,6 +7,7 @@ data class CreateUserForReadCommand(
     val userId: Int,
     val nickname: String,
     val state: Boolean,
+    val imageUrl: String,
     @field:NotEmpty val eventPublisher: String
 ) : SelfValidating<CreateUserForReadCommand>() {
 }
