@@ -11,6 +11,7 @@ class UserForRead(
     val id: Long?,
     val userId: Int,
     var nickname: String,
+    var imageUrl: String,
     createUser: String
 ) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId.toString()) {
     fun updateByUserInfo(userInfo: UserInfoResponseDto, saveUserForReadCommand: SaveUserForReadCommand) {
@@ -23,6 +24,7 @@ class UserForRead(
     fun updateByUserCommand(createUserForReadCommand: CreateUserForReadCommand) {
         this.nickname = createUserForReadCommand.nickname
         this.state = createUserForReadCommand.state
+        this.imageUrl = createUserForReadCommand.imageUrl
         this.updatedAt = Instant.now()
         this.updateUser = createUserForReadCommand.eventPublisher
     }
@@ -34,6 +36,7 @@ class UserForRead(
                 entity.id,
                 entity.userId,
                 entity.nickname,
+                entity.imageUrl,
                 entity.createUser
             )
 
@@ -50,6 +53,7 @@ class UserForRead(
                 null,
                 userInfo.userId,
                 userInfo.nickname,
+                userInfo.imageUrl,
                 saveUserForReadCommand.eventPublisher
             )
 
@@ -63,6 +67,7 @@ class UserForRead(
                 null,
                 command.userId,
                 command.nickname,
+                command.imageUrl,
                 command.eventPublisher
             )
 

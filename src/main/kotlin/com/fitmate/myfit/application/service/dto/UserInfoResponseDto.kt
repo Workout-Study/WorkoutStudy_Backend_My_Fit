@@ -6,6 +6,7 @@ data class UserInfoResponseDto(
     val userId: Int,
     val nickname: String,
     val state: Boolean,
+    val imageUrl: String,
     val createdAt: Instant,
     val updatedAt: Instant
 )

@@ -54,6 +54,7 @@ class UserForReadMapper {
                 userCreateMessageDto.userId,
                 userCreateMessageDto.nickname,
                 userCreateMessageDto.state,
+                userCreateMessageDto.imageUrl,
                 eventPublisher
             )
 
