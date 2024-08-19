@@ -11,7 +11,7 @@ class UserForRead(
     val id: Long?,
     val userId: Int,
     var nickname: String,
-    var imageUrl: String,
+    var imageUrl: String?,
     createUser: String
 ) : BaseDomain(GlobalStatus.PERSISTENCE_NOT_DELETED, createdAt = Instant.now(), createUser = userId.toString()) {
     fun updateByUserInfo(userInfo: UserInfoResponseDto, saveUserForReadCommand: SaveUserForReadCommand) {
