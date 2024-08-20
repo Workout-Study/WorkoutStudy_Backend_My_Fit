@@ -4,7 +4,7 @@ import com.fitmate.myfit.adapter.out.api.DateParseUtils
 import org.springframework.util.StringUtils
 import java.time.Instant
 
-data class UserInfoResponse(
+data class UserInfoResponseDto(
     val userId: Int,
     val nickname: String,
     val state: Boolean,
